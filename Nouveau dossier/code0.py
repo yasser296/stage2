@@ -59,9 +59,13 @@ def ecrire_rapport(sourceA, sourceB ,output_dir):
         f.write(f"Nombre total des elements dans B: {len(sourceB)} \n")
         f.write(f"Elements dans A et absents dans B: {Absant_ds_B} \n")
         f.write(f"Nombre d'absents: {len(Absant_ds_B)} \n")
-
-
-        
+        d1 , elmts_repeter1 = detect_repetition(sourceA)
+        f.write(f"Elements repetes: ")
+        for i ,e in enumerate(elmts_repeter1) : 
+            if i != len(elmts_repeter1) - 1 :
+                f.write(f"{e} ,")
+            else :
+                f.write(f"{e}")
 
 
 def lire_fichier(source):

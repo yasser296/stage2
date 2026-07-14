@@ -38,7 +38,7 @@ def extraire_datablock(message, message_identifier):
     blocs = matches + text_matches + external_files_matches
     blocs_trouves = matches + text_matches 
     blocs_norm = [normalize_bloc(bloc) for bloc in blocs]
-    category_S, rp_S = detect_category_S(message)
+    category_S, _ = detect_category_S(message)
     if len(blocs_trouves) == 0:
         if (blocs) == 0:
             anomalies.append({
