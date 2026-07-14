@@ -1,0 +1,99 @@
+====================================================================================================
+CATEGORY          | ROUTING POINT             | NB | TYPES
+====================================================================================================
+
+_SI_from_SWIFT    | _SI_from_SWIFT            | 31 | fin.752, fin.759, fin.790, fin.791, fin.799, fin.900, fin.910, fin.940, fin.942, fin.950, fin.999
+                                                     apc.081, fin.011, fin.081, fin.082, fin.094, fin.101, fin.191, fin.192, fin.195, fin.196, 
+                                                     fin.199, fin.210, fin.299, fin.300, fin.320, fin.399, fin.420, fin.499, fin.543, fin.730,
+
+_SI_from_SWIFTNet | _SI_from_SWIFTNet         | 16 | pacs.008.001.08, pacs.009.001.08, pacs.010.001.03, pain.xxx.mt101.delta
+                                                     camt.019.001.07, camt.025.001.05, camt.029.001.09, camt.052.001.08, camt.053.001.08, camt.054.001.08,
+                                                     camt.056.001.08, camt.057.001.06, camt.058.001.08, camt.105.001.02, pacs.002.001.10, pacs.004.001.09,
+
+
+IMP               | IMP_08_PRINT_MT           | 18 | fin.420, fin.499, fin.543, fin.730, fin.752, fin.759, fin.790, fin.791, fin.799, fin.999
+                                                     fin.191, fin.192, fin.195, fin.196, fin.199, fin.210, fin.299, fin.399,
+
+IMP               | IMP_08_PRINT_MX           | 4  | camt.029.001.09, pacs.004.001.09, pacs.008.001.08, pacs.009.001.08
+IMP               | IMP_09_PRINT_MX           | 1  | pacs.008.001.08
+
+FTI               | FTI_EP                    | 18 | fin.730, fin.752, fin.759, fin.790, fin.791, fin.799, fin.900, fin.910, fin.940, fin.999
+                                                     fin.191, fin.192, fin.195, fin.196, fin.199, fin.299, fin.420, fin.499,
+
+PRINTINC          | PRINTINC_EP               | 27 | fin.752, fin.759, fin.790, fin.791, fin.900, fin.910,
+                                                     camt.029.001.09, camt.056.001.08, camt.057.001.06, camt.058.001.08, camt.105.001.02,
+                                                     fin.191, fin.192, fin.195, fin.196, fin.199, fin.210, fin.299, fin.399,
+                                                     fin.420, fin.499, fin.730, fin.799,
+                                                     fin.940, fin.999, pacs.004.001.09, pacs.009.001.08
+
+PRINTMT           | PRINTMT101EXPMAD_EP       | 1  | fin.101
+
+PRINTMT           | PRINTMT101EXPDEV_EP       | 1  | fin.101
+
+openPay           | SGMB_OPENPAY_EP           | 10 | pacs.002.001.10, pacs.004.001.09, pacs.008.001.08, pacs.009.001.08, pacs.010.001.03,
+                                                     camt.019.001.07, camt.025.001.05, camt.052.001.08, camt.053.001.08, camt.054.001.08
+
+openPay           | SGMB_OPENPAY_CONV_MX      | 2  | pacs.008.001.08, pacs.009.001.08
+openPay           | SGTG_OPENPAY_CONV_MX      | 1  | pacs.008.001.08
+
+DELTA             | MATGTOPRINT_MX_EP         | 4  | camt.105.001.02, pacs.004.001.09, pacs.008.001.08, pacs.009.001.08
+DELTA             | MATGTOPRINT_EP            | 3  | fin.101, fin.199, fin.999
+OCPfaDeltaEP      | OCPfaDeltaEP              | 1  | pain.xxx.mt101.delta
+
+KTP               | SGMB_KONDOR_EP            | 3  | fin.300, fin.320, fin.399
+KTP               | KTP_MX_EP                 | 1  | camt.054.001.08
+
+AGI               | SGMB_CARTHAGO_EP          | 2  | fin.210, fin.543
+SmartCash         | SGMB_SMARTCASH_EP         | 2  | fin.940, fin.950
+NOSTRO            | NOSTRO_MX_EP              | 1  | camt.053.001.08
+SGTG              | SGTG101RECUEP             | 1  | fin.101
+PRTRACK           | PRTACK_EP                 | 1  | fin.210
+
+
+====================================================================================================
+CATEGORY          | NB | TYPES
+====================================================================================================
+
+_SI_from_SWIFT    | 31 | apc.081, fin.011, fin.081, fin.082, fin.094, fin.101, fin.191, fin.192,
+                       | fin.195, fin.196, fin.199, fin.210, fin.299, fin.300, fin.320, fin.399,
+                       | fin.420, fin.499, fin.543, fin.730, fin.752, fin.759, fin.790, fin.791,
+                       | fin.799, fin.900, fin.910, fin.940, fin.942, fin.950, fin.999
+
+_SI_from_SWIFTNet | 16 | camt.019.001.07, camt.025.001.05, camt.029.001.09, camt.052.001.08,
+                       | camt.053.001.08, camt.054.001.08, camt.056.001.08, camt.057.001.06,
+                       | camt.058.001.08, camt.105.001.02, pacs.002.001.10, pacs.004.001.09,
+                       | pacs.008.001.08, pacs.009.001.08, pacs.010.001.03, pain.xxx.mt101.delta
+
+IMP               | 22 | camt.029.001.09, fin.191, fin.192, fin.195, fin.196, fin.199, fin.210,
+                       | fin.299, fin.399, fin.420, fin.499, fin.543, fin.730, fin.752, fin.759,
+                       | fin.790, fin.791, fin.799, fin.999, pacs.004.001.09, pacs.008.001.08,
+                       | pacs.009.001.08
+
+FTI               | 18 | fin.191, fin.192, fin.195, fin.196, fin.199, fin.299, fin.420, fin.499,
+                       | fin.730, fin.752, fin.759, fin.790, fin.791, fin.799, fin.900, fin.910,
+                       | fin.940, fin.999
+
+PRINTINC          | 27 | camt.029.001.09, camt.056.001.08, camt.057.001.06, camt.058.001.08,
+                       | camt.105.001.02, fin.191, fin.192, fin.195, fin.196, fin.199, fin.210,
+                       | fin.299, fin.399, fin.420, fin.499, fin.730, fin.752, fin.759, fin.790,
+                       | fin.791, fin.799, fin.900, fin.910, fin.940, fin.999, pacs.004.001.09,
+                       | pacs.009.001.08
+
+PRINTMT           | 1  | fin.101
+
+openPay           | 10 | camt.019.001.07, camt.025.001.05, camt.052.001.08, camt.053.001.08,
+                       | camt.054.001.08, pacs.002.001.10, pacs.004.001.09, pacs.008.001.08,
+                       | pacs.009.001.08, pacs.010.001.03
+
+DELTA             | 7  | camt.105.001.02, fin.101, fin.199, fin.999, pacs.004.001.09,
+                       | pacs.008.001.08, pacs.009.001.08
+
+OCPfaDeltaEP      | 1  | pain.xxx.mt101.delta
+
+KTP               | 4  | camt.054.001.08, fin.300, fin.320, fin.399
+
+AGI               | 2  | fin.210, fin.543
+SmartCash         | 2  | fin.940, fin.950
+NOSTRO            | 1  | camt.053.001.08
+PRTRACK           | 1  | fin.210
+SGTG              | 1  | fin.101

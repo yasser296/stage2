@@ -1,0 +1,147 @@
+KTP :  KONDOR <CreatingRoutingPoint>SGMB_KONDOR_EP</CreatingRoutingPoint>
+
+AGI : <CreatingRoutingPoint>SGMB_CARTHAGO_EP</CreatingRoutingPoint> <SessionHolder>SAHAMCartMPout</SessionHolder> 
+
+
+{'PRINTOUT_MX_EP', 'FTI_EP', '_SI_to_SWIFT', 'IMP_08_PRINT_MX', 'SGMB_SMARTCASH_EP', 'MATGTOPRINT_MX_EP', 'IMP_08_PRINT_MT', 'SGMB_OPENPAY_CONV_MX', 'IMP_09_PRINT_MX', 'SGTG_OPENPAY_CONV_MX', '_SI_to_SWIFTNet', 'KTP_MX_EP', '_AI_from_APPLI', 'PRINTMT101EXPDEV_EP', 'OCPfaDeltaEP', '_SI_from_SWIFTNet', 'GIACK_EP', 'SGMB_CARTHAGO_EP', 'MATGTOPRINT_EP', 'PRTACK_EP', 'PRINTINC_EP', 'PRINTOUT_EP', 'PRINTMT101EXPMAD_EP', 'SGMB_KONDOR_EP', 'SGMB_KONDOR_MX_EP', 'SGTG101RECUEP', 'SMARCHE_EP', 'FileActAcks', 'SGMB_OPENPAY_EP', 'NOSTRO_MX_EP', '_SI_from_SWIFT'}
+
+
+================================================================================
+VALEURS TROUVEES DANS <CreatingRoutingPoint>
+================================================================================   
+
+_AI_from_APPLI  x         _SI_from_SWIFT x             _SI_from_SWIFTNet x
+_SI_to_SWIFT      x          _SI_to_SWIFTNet x            FileActAcks 
+FTI_EP                      GIACK_EP                    IMP_08_PRINT_MT
+IMP_08_PRINT_MX             IMP_09_PRINT_MX             KTP_MX_EP -
+MATGTOPRINT_EP              MATGTOPRINT_MX_EP           NOSTRO_MX_EP
+OCPfaDeltaEP                PRINTINC_EP                 PRINTMT101EXPDEV_EP
+PRINTMT101EXPMAD_EP         PRINTOUT_EP                 PRINTOUT_MX_EP
+PRTACK_EP                   SGMB_CARTHAGO_EP --          SGMB_KONDOR_EP --
+SGMB_KONDOR_MX_EP           SGMB_OPENPAY_CONV_MX  -      SGMB_OPENPAY_EP -
+SGMB_SMARTCASH_EP  -         SGTG_OPENPAY_CONV_MX        SGTG101RECUEP
+SMARCHE_EP
+
+
+================================================================================
+VALEURS TROUVEES DANS <CreatingRoutingPoint> DES MESSAGES OUTPUT
+================================================================================
+
+FTI_EP -                                IMP_08_PRINT_MT  - X                IMP_08_PRINT_MX -X
+IMP_09_PRINT_MX -X                      KTP_MX_EP   -                       MATGTOPRINT_EP (deltA v9)-
+MATGTOPRINT_MX_EP (deltA v9)-           NOSTRO_MX_EP  -                     OCPfaDeltaEP -X
+PRINTINC_EP (210)  - A verifier         PRINTMT101EXPDEV_EP (101) -         PRINTMT101EXPMAD_EP (101)-
+PRTACK_EP  -                            SGMB_CARTHAGO_EP -                  SGMB_KONDOR_EP -
+SGMB_OPENPAY_CONV_MX -                  SGMB_OPENPAY_EP -                   SGMB_SMARTCASH_EP -
+SGTG_OPENPAY_CONV_MX -                  SGTG101RECUEP -             
+
+
+KTP : SGMB_KONDOR_EP - KTP_MX_EP -
+AGI : SGMB_CARTHAGO_EP - 
+DELTA : MATGTOPRINT_EP - MATGTOPRINT_MX_EP - SGMB_OPENPAY_CONV_MX - SGTG_OPENPAY_CONV_MX
+SmartCash : SGMB_SMARTCASH_EP - NOSTRO_MX_EP
+FTI : FTI_EP
+
+openPay  : SGMB_OPENPAY_EP 
+PRINTMT : PRINTMT101EXPDEV_EP - PRINTMT101EXPMAD_EPqf                                                                                        
+PRINTINC : PRINTINC_EP
+PRTACK : PRTACK_EP
+
+
+
+non consideres : 
+IMP : IMP_08_PRINT_MT - IMP_08_PRINT_MX - IMP_09_PRINT_MX
+OCPfaDeltaEP
+_AI_from_APPLI        _SI_from_SWIFT            _SI_from_SWIFTNet 
+_SI_to_SWIFT          _SI_to_SWIFTNet 
+
+                                                    Types Trouves :
+================================================================================
+TABLEAU RESUME
+================================================================================
+
+Routing Point              Category        Types
+--------------------------------------------------------------------------------
+_SI_from_SWIFT             Unknown         apc.081, fin.011, fin.081, fin.082,
+                                           fin.094, fin.199, fin.299, fin.940,
+                                           fin.942, fin.950
+
+_SI_from_SWIFTNet          Unknown         pacs.008.001.08, pain.xxx.mt101.delta
+
+FTI_EP                     FTI             fin.191, fin.192, fin.195, fin.196,
+                                           fin.199, fin.299, fin.420, fin.499,
+                                           fin.730, fin.752, fin.759, fin.790,
+                                           fin.791, fin.799, fin.900, fin.910,
+                                           fin.940, fin.999
+
+PRINTINC_EP                PRINTINC        camt.029.001.09, camt.056.001.08,
+                                           camt.057.001.06, camt.058.001.08,
+                                           camt.105.001.02, fin.199, fin.210,
+                                           fin.399, fin.910, fin.999,
+                                           pacs.004.001.09, pacs.009.001.08
+
+SGMB_SMARTCASH_EP          SmartCash       fin.940, fin.950
+
+PRINTMT101EXPMAD_EP        PRINTMT         fin.101
+
+PRINTMT101EXPDEV_EP        PRINTMT         fin.101
+
+SGMB_OPENPAY_CONV_MX       openPay         pacs.008.001.08, pacs.009.001.08
+
+MATGTOPRINT_MX_EP          Delta v9        camt.105.001.02, pacs.004.001.09,
+                                           pacs.008.001.08, pacs.009.001.08
+
+SGMB_KONDOR_EP             KTP             fin.300, fin.320, fin.399
+
+SGMB_OPENPAY_EP            openPay         camt.019.001.07, camt.025.001.05,
+                                           camt.052.001.08, camt.053.001.08,
+                                           camt.054.001.08, pacs.002.001.10,
+                                           pacs.004.001.09, pacs.008.001.08,
+                                           pacs.009.001.08, pacs.010.001.03
+
+SGTG101RECUEP              SGTG            fin.101
+
+SGMB_CARTHAGO_EP           AGI             fin.543
+
+
+
+================================================================================
+TYPES DE MESSAGES TROUVES
+================================================================================
+
+FIN / MT
+--------------------------------------------------------------------------------
+fin.011                 fin.081                 fin.082
+fin.094                 fin.101                 fin.191
+fin.192                 fin.195                 fin.196
+fin.199                 fin.210                 fin.299
+fin.300                 fin.320                 fin.399
+fin.420                 fin.499                 fin.543
+fin.730                 fin.752                 fin.759
+fin.790                 fin.791                 fin.799
+fin.900                 fin.910                 fin.940
+fin.942                 fin.950                 fin.999
+
+
+CAMT
+--------------------------------------------------------------------------------
+camt.019.001.07         camt.025.001.05         camt.029.001.09
+camt.052.001.08         camt.053.001.08         camt.054.001.08
+camt.056.001.08         camt.057.001.06         camt.058.001.08
+camt.105.001.02
+
+
+PACS
+--------------------------------------------------------------------------------
+pacs.002.001.10         pacs.004.001.09         pacs.008.001.08
+pacs.009.001.08         pacs.010.001.03
+
+
+PAIN / DELTA
+--------------------------------------------------------------------------------
+pain.xxx.mt101.delta
+
+
+AUTRES
+--------------------------------------------------------------------------------
+apc.081

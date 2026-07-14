@@ -1,0 +1,4 @@
+<message>Commande 123 validée</message>
+<message>Commande 456 en attente</message>
+<message>Commande 789 annulée</message>
+<message>Commande 999 validée</message>
