@@ -378,12 +378,19 @@ def CreateRapport(dataBlockList, message):
     cles = list(typesInCategorie.keys())
     type = extract_Type(message)
     for (rp, cat) in cles:
-        path = rf"C:\Users\msi\Desktop\stage2\Nouveau dossier\data\Output\rapport\{cat}-{rp}.txt"
-        os.makedirs(os.path.dirname(path), exist_ok=True)
+        # Ignorer les catégories "NON PRIS EN CHARGE"
+        if cat.startswith("NON PRIS EN CHARGE"):
+            continue
+        path = rf"C:\Users\msi\Desktop\stage2\Nouveau dossier\data\Output\rapport\{cat}"
+        if not os.path.isdir(path):
+            os.makedirs(path)
+        filePath = os.path.join(path, f"{rp}.txt")
+        # filePath = rf"C:\Users\msi\Desktop\stage2\Nouveau dossier\data\Output\rapport\{cat}\{rp}.txt"
+        os.makedirs(os.path.dirname(filePath), exist_ok=True)
         # Si le rapport existe déjà, on ajoute ; sinon on crée et écrit l'en-tête
-        file_exists = os.path.exists(path)
+        file_exists = os.path.exists(filePath)
         mode = "a" if file_exists else "w"
-        with open(path, mode, encoding="utf-8") as f:
+        with open(filePath, mode, encoding="utf-8") as f:
             if not file_exists:
                 f.write(f"=== Rapport {cat} , Routing Point: {rp} === \n\n\n")
             # f.write("\n" + "=" * 80 + "\n\n\n")
