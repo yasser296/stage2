@@ -79,6 +79,8 @@ def lookingCategories3(message):
         #     print(f"rp : {rp} | category : {cat} | types : {sorted(set(types))}")
         return TypesInCategories
 
+CATEGORIES = ["KTP","AGI","Delta v9","openPay","SmartCash","FTI","PRINTMT","SGTG","PRTRACK"]
+
 # Mapping CreatingRoutingPoint -> Catégorie
 ROUTING_POINT_TO_CATEGORY = {
     "SGMB_KONDOR_EP":        "KTP",
@@ -166,6 +168,9 @@ def parse_messages_S(ZIP_file):
         raise FileNotFoundError(f"Archive S introuvable : {ZIP_file}")
 
     temp_dir = tempfile.mkdtemp()
+
+    shutil.rmtree(r"C:\Users\msi\Desktop\stage2\Nouveau dossier\data\Output\rapport")
+    os.makedirs(r"C:\Users\msi\Desktop\stage2\Nouveau dossier\data\Output\rapport")
 
     try:
         with zipfile.ZipFile(ZIP_file, "r") as zip_file:
@@ -331,10 +336,24 @@ def ecrire_exemples(exemples_par_identificateur, output_dir):
             else:
                 type_str = ""
 
+
+            SUmid_match = re.search(
+                r"<SUmid\b[^>]*>(.*?)</SUmid>",
+                html.unescape(message),
+                re.I | re.S
+            )
+            # <SUmid>{sumid_recherche}</SUmid>
+            if SUmid_match:
+                SUmid = SUmid_match.group(1).strip()
+                MessageId = f" | SUmid : {SUmid}"
+            else:
+                MessageId = ""
+
             blocs_trouves, _ = extraire_datablock(message , message_identifier)
             
             f.write("=" * 80 + "\n")
             f.write(f"CATÉGORIE : {categorie}{type_str} | IDENTIFICATEUR : {identificateur}\n")
+            f.write(f"MessageId : {MessageId}\n")
             f.write("=" * 80 + "\n\n")
             for bloc in blocs_trouves :
                 f.write(html.unescape(f"{bloc} + \n"))           

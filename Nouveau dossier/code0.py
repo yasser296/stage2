@@ -36,8 +36,8 @@ def extract_messages_from_2files(sourceA , sourceB):
         normalize_bloc(message)
         resultB.append((message, sourceB))
 
-    Absant_ds_A = set(resultA) - set(resultB)
-    return Absant_ds_A
+    Absant_ds_B = set(resultA) - set(resultB)
+    return Absant_ds_B
 
 def detect_repetition(file):
     D = {}
@@ -53,11 +53,12 @@ def detect_repetition(file):
     return D , repetition
 
 def ecrire_rapport(sourceA, sourceB ,output_dir):
-    Absant_ds_A = extract_messages_from_2files(sourceA , sourceB)
-    totalA = len(sourceA)
-    totalB = len(sourceB)
+    Absant_ds_B = extract_messages_from_2files(sourceA , sourceB)
     with open(output_dir, "w", encoding="utf-8") as f:
-        pass
+        f.write(f"Nombre total des elements dans A: {len(sourceA)} \n")
+        f.write(f"Nombre total des elements dans B: {len(sourceB)} \n")
+        f.write(f"Elements dans A et absents dans B: {Absant_ds_B} \n")
+        f.write(f"Nombre d'absents: {len(Absant_ds_B)} \n")
 
 
         
