@@ -10,19 +10,32 @@ import shutil
 
 
 def normalize_bloc(text):
+
     """Nettoie et normalise un bloc pour comparaison."""
+
     text = text.replace("&#xD;", "\n")
+
     text = text.replace("&lt;", "<")
+
     text = text.replace("&gt;", ">")
+
     text = re.sub(r"\s+", " ", text.strip())
+
     return text
 
-
 def Affiche_bloc(text):
-    """Nettoie et normalise un bloc Swift pour comparaison champ par champ."""
+
+    """Nettoie et normalise un bloc Swift ou XML pour comparaison champ par champ."""
+    # Remplace les retours chariot encodés
     text = text.replace("&#xD;", "\n")
-    text = re.sub(r"\s+", " ", text.strip())
+    # Ajoute un retour à la ligne après chaque balise complète <...>...</...>
+
+    text = re.sub(r"(</[^>]+>)", r"\1\n", text)
+
+    # Découpage des champs SWIFT
+
     parts = re.split(r"(?=:\d{2}[A-Z]?:)", text)
+
     return "\n".join(p.strip() for p in parts if p.strip())
 
 def extraire_datablock(message, message_identifier):
@@ -75,17 +88,17 @@ ROUTING_POINT_TO_CATEGORY = {
     "SGMB_KONDOR_EP":        "KTP",
     "KTP_MX_EP":             "KTP",
     "SGMB_CARTHAGO_EP":      "AGI",
-    "SGMB_OPENPAY_CONV_MX":  "Delta", # convertisseur
-    "SGTG_OPENPAY_CONV_MX":  "Delta", # convertisseur
+    "SGMB_OPENPAY_CONV_MX":  "delta v10", # convertisseur
+    "SGTG_OPENPAY_CONV_MX":  "delta v9", # convertisseur
     "SGMB_OPENPAY_EP":       "openPay RTGS",
     "SGMB_SMARTCASH_EP":     "SmartCash",
-    "MATGTOPRINT_EP":        "Delta",
-    "MATGTOPRINT_MX_EP":     "Delta",
-    "PRINTMT101EXPDEV_EP":   "PRINTMT",
-    "PRINTMT101EXPMAD_EP":   "PRINTMT",
+    # "MATGTOPRINT_EP":        "Delta",
+    # "MATGTOPRINT_MX_EP":     "Delta",
+    "PRINTMT101EXPDEV_EP":   "gateway",
+    "PRINTMT101EXPMAD_EP":   "delta v10",
     "SGTG101RECUEP":         "delta v9",
-    "PRINTINC_EP":           "PRINTINC",
-    "PRTACK_EP":             "PRTRACK",
+    # "PRINTINC_EP":           "PRINTINC",
+    # "PRTACK_EP":             "PRTRACK",
     "FTI_EP":                "FTI",
     "NOSTRO_MX_EP":          "SmartCash",
 }
@@ -398,6 +411,8 @@ def CreateRapport(dataBlockList, message):
             f.write(f"Type: {type} \n")
             nbr = 1
             for i, block in enumerate(dataBlockList):
+                block = normalize_bloc(block)
+                block = Affiche_bloc(block)
                 f.write(f" DataBlock: {nbr} \n")
                 nbr += 1
                 f.write(block)

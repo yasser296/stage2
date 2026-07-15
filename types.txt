@@ -86,7 +86,7 @@ openPay           | 10 | camt.019.001.07, camt.025.001.05, camt.052.001.08, camt
                        | pacs.009.001.08, pacs.010.001.03
 
 DELTA             | 7  | camt.105.001.02, fin.101, fin.199, fin.999, pacs.004.001.09,
-                       | pacs.008.001.08, pacs.009.001.08
+                       | pacs.008.001.08 -> mt 103, pacs.009.001.08 -> mt 200 ou mt 202
 
 OCPfaDeltaEP      | 1  | pain.xxx.mt101.delta
 
