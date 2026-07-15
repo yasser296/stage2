@@ -33,7 +33,7 @@ MATGTOPRINT_MX_EP (deltA v9)-           NOSTRO_MX_EP  -                     OCPf
 PRINTINC_EP (210)  - A verifier         PRINTMT101EXPDEV_EP (101) -         PRINTMT101EXPMAD_EP (101)-
 PRTACK_EP  -                            SGMB_CARTHAGO_EP -                  SGMB_KONDOR_EP -
 SGMB_OPENPAY_CONV_MX -                  SGMB_OPENPAY_EP -                   SGMB_SMARTCASH_EP -
-SGTG_OPENPAY_CONV_MX -                  SGTG101RECUEP -             
+SGTG_OPENPAY_CONV_MX -                  SGTG101RECUEP -   x         
 
 
 CATEGORIES = ["KTP","AGI","Delta v9","openPay","SmartCash","FTI","PRINTMT","SGTG","PRTRACK"]
@@ -44,11 +44,11 @@ DELTA : MATGTOPRINT_EP - MATGTOPRINT_MX_EP - SGMB_OPENPAY_CONV_MX - SGTG_OPENPAY
 SmartCash : SGMB_SMARTCASH_EP - NOSTRO_MX_EP
 FTI : FTI_EP
 
-openPay  : SGMB_OPENPAY_EP 
+openPay  : SGMB_OPENPAY_EP (<BizSvc>swift.iap.tia.02</BizSvc> : RTGS)
 PRINTMT : PRINTMT101EXPDEV_EP - PRINTMT101EXPMAD_EPqf                                                                                        
 PRINTINC : PRINTINC_EP
 PRTACK : PRTACK_EP
-
+--   : SGTG101RECUEP
 
 
 non consideres : 

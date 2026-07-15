@@ -38,12 +38,12 @@ def extraire_datablock(message, message_identifier):
     blocs = matches + text_matches + external_files_matches
     blocs_trouves = matches + text_matches 
     blocs_norm = [normalize_bloc(bloc) for bloc in blocs]
-    category_S, _ = detect_category_S(message)
+    categories_S = detect_categories_S(message)
     if len(blocs_trouves) == 0:
         if (blocs) == 0:
             anomalies.append({
             "type": "OUTPUT_SANS_DATABLOCK",
-            "category_S": category_S,
+            "categories_S": categories_S.values,
             "message": message,
             "message_identifier": message_identifier
                         })
@@ -51,7 +51,7 @@ def extraire_datablock(message, message_identifier):
     if len(blocs_trouves) > 1:
         anomalies.append({
             "type": "OUTPUT_PLUSIEURS_DATABLOCK",
-            "category_S": category_S,
+            "categories_S": categories_S.values,
             "nombre_blocs": len(blocs_trouves),
             "message": message,
             "message_identifier": message_identifier
@@ -94,7 +94,7 @@ ROUTING_POINT_TO_CATEGORY = {
     "MATGTOPRINT_MX_EP":     "Delta v9",
     "PRINTMT101EXPDEV_EP":   "PRINTMT",
     "PRINTMT101EXPMAD_EP":   "PRINTMT",
-    "SGTG101RECUEP":         "SGTG",
+    # "SGTG101RECUEP":         "SGTG",
     "PRINTINC_EP":           "PRINTINC",
     "PRTACK_EP":             "PRTRACK",
     "FTI_EP":                "FTI",
@@ -102,7 +102,7 @@ ROUTING_POINT_TO_CATEGORY = {
 }
 
 
-def detect_category_S(message):
+def detect_categories_S(message):
     """
     Détecte la catégorie d'un message OUTPUT
     via les balises <CreatingRoutingPoint>.
@@ -118,14 +118,20 @@ def detect_category_S(message):
 
     if not all_rp:
         return "SANS_ROUTING_POINT", "AUCUN"
+    
+    categories = {}
 
     # Chercher le premier routing point qui correspond à une catégorie connue
     for rp in all_rp:
         if rp in ROUTING_POINT_TO_CATEGORY:
-            return ROUTING_POINT_TO_CATEGORY[rp], rp
+            categories[rp] = ROUTING_POINT_TO_CATEGORY[rp]
+            # return ROUTING_POINT_TO_CATEGORY[rp], rp
+        else :
+            categories[rp] = "Non prise en charge"
+    return categories 
 
     # Aucun routing point connu trouvé
-    return "INCONNU:" + all_rp[0], all_rp[0]
+    # return "INCONNU:" + all_rp[0], all_rp[0]
 
 
 def parse_messages_D(directory):
@@ -201,11 +207,13 @@ def parse_messages_S(ZIP_file):
                     if not re.search(r"<SubFormat>\s*OUTPUT\s*</SubFormat>", message, re.I):
                         continue
 
-                    category_S, rp_S = detect_category_S(message)
+                    categories_S = detect_categories_S(message)
 
                     # Collecter un exemple par identificateur
-                    if rp_S not in exemples_par_identificateur:
-                        exemples_par_identificateur[rp_S] = (category_S, message)
+                    for rp_S in categories_S.keys :
+                        if rp_S not in exemples_par_identificateur:
+                            exemples_par_identificateur[rp_S] = (categories_S[rp_S], message)
+                    
 
                     message_identifier = extract_Type(message)
                     blocs_trouves, anomalies_list = extraire_datablock(message , message_identifier)
@@ -217,7 +225,7 @@ def parse_messages_S(ZIP_file):
                         messages_sans_datablock += 1
 
                         all_messages.append({
-                            "category_S": category_S,
+                            "categories_S": categories_S,
                             "blocs": [],
                             "nombre_blocs": 0,
                             "message_identifier": message_identifier,
@@ -229,7 +237,7 @@ def parse_messages_S(ZIP_file):
                         surplus_datablock += len(blocs_trouves) - 1
 
                     all_messages.append({
-                        "category_S": category_S,
+                        "categories_S": categories_S,
                         "blocs": blocs_trouves,
                         "nombre_blocs": len(blocs_trouves),
                         "message_identifier": message_identifier,
@@ -250,7 +258,8 @@ def parse_messages_S(ZIP_file):
 
             for a in anomalies:
                 f.write(f"Type : {a['type']}\n")
-                f.write(f"Catégorie : {a['category_S']}\n")
+                for rp, cat in a["categories_S"].items():
+                    f.write(f"{rp} -> {cat}\n")
                 f.write(f"message_identifier : {a['message_identifier']}\n")
 
                 if "nombre_blocs" in a:
@@ -417,7 +426,12 @@ if __name__ == "__main__":
     S_msgs, exemples = parse_messages_S(chemin_fichier_S)
 
     # Résumé console
-    print("Catégories SAA :", Counter(msg["category_S"] for msg in S_msgs))
+    cat_counts = Counter(
+        cat
+        for msg in S_msgs
+        for cat in msg["categories_S"].values()
+    )
+    print("Catégories SAA :", cat_counts)
     print("Messages D trouvés :", len(D_msgs))
     print("Messages SAA extraits :", len(S_msgs))
 
