@@ -38,6 +38,7 @@ def extraire_datablock(message, message_identifier):
     blocs = matches + text_matches + external_files_matches
     blocs_trouves = matches + text_matches 
     blocs_norm = [normalize_bloc(bloc) for bloc in blocs]
+    blocs_norm = [Affiche_bloc(bloc) for bloc in blocs]
     categories_S = detect_categories_S(message)
     if len(blocs_trouves) == 0:
         if (len(blocs)) == 0:

@@ -28,8 +28,8 @@ VALEURS TROUVEES DANS <CreatingRoutingPoint> DES MESSAGES OUTPUT
 ================================================================================
 
 FTI_EP -                                IMP_08_PRINT_MT  - X                IMP_08_PRINT_MX -X
-IMP_09_PRINT_MX -X                      KTP_MX_EP   -                       MATGTOPRINT_EP (deltA v9)-
-MATGTOPRINT_MX_EP (deltA v9)-           NOSTRO_MX_EP  -                     OCPfaDeltaEP -X
+IMP_09_PRINT_MX -X                      KTP_MX_EP   -                       MATGTOPRINT_EP x (deltA v9)-
+MATGTOPRINT_MX_EP x (deltA v9)-           NOSTRO_MX_EP  -                     OCPfaDeltaEP -X
 PRINTINC_EP (210)  - A verifier         PRINTMT101EXPDEV_EP (101) -         PRINTMT101EXPMAD_EP (101)-
 PRTACK_EP  -                            SGMB_CARTHAGO_EP -                  SGMB_KONDOR_EP -
 SGMB_OPENPAY_CONV_MX -                  SGMB_OPENPAY_EP -                   SGMB_SMARTCASH_EP -
@@ -40,17 +40,19 @@ CATEGORIES = ["KTP","AGI","Delta v9","openPay","SmartCash","FTI","PRINTMT","SGTG
 
 KTP : SGMB_KONDOR_EP - KTP_MX_EP -
 AGI : SGMB_CARTHAGO_EP - 
-DELTA : MATGTOPRINT_EP - MATGTOPRINT_MX_EP - SGMB_OPENPAY_CONV_MX - SGTG_OPENPAY_CONV_MX
-delta v9 : SGTG101RECUEP
-delta v10 :
+DELTA :
+    delta v9 : SGTG101RECUEP - SGTG_OPENPAY_CONV_MX
+    delta v10 : PRINTMT101EXPMAD_EP - SGMB_OPENPAY_CONV_MX 
+gateway : PRINTMT101EXPDEV_EP a verifier
 SmartCash : SGMB_SMARTCASH_EP - NOSTRO_MX_EP
 FTI : FTI_EP
-
 openPay  : SGMB_OPENPAY_EP (<BizSvc>swift.iap.tia.02</BizSvc> : RTGS)
-PRINTMT : PRINTMT101EXPDEV_EP - PRINTMT101EXPMAD_EPqf                                                                                        
-PRINTINC : PRINTINC_EP
-PRTACK : PRTACK_EP
---   : 
+
+PRINTMT :                                                                                        
+PRINTINC : PRINTINC_EP x 
+PRTACK : PRTACK_EP x a verifier
+
+MATGTOPRINT_EP x - MATGTOPRINT_MX_EP x
 
 
 non consideres : 
