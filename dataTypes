@@ -41,6 +41,8 @@ CATEGORIES = ["KTP","AGI","Delta v9","openPay","SmartCash","FTI","PRINTMT","SGTG
 KTP : SGMB_KONDOR_EP - KTP_MX_EP -
 AGI : SGMB_CARTHAGO_EP - 
 DELTA : MATGTOPRINT_EP - MATGTOPRINT_MX_EP - SGMB_OPENPAY_CONV_MX - SGTG_OPENPAY_CONV_MX
+delta v9 : SGTG101RECUEP
+delta v10 :
 SmartCash : SGMB_SMARTCASH_EP - NOSTRO_MX_EP
 FTI : FTI_EP
 
@@ -48,7 +50,7 @@ openPay  : SGMB_OPENPAY_EP (<BizSvc>swift.iap.tia.02</BizSvc> : RTGS)
 PRINTMT : PRINTMT101EXPDEV_EP - PRINTMT101EXPMAD_EPqf                                                                                        
 PRINTINC : PRINTINC_EP
 PRTACK : PRTACK_EP
---   : SGTG101RECUEP
+--   : 
 
 
 non consideres : 
