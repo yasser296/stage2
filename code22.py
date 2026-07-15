@@ -74,15 +74,15 @@ ROUTING_POINT_TO_CATEGORY = {
     "SGMB_KONDOR_EP":        "KTP",
     "KTP_MX_EP":             "KTP",
     "SGMB_CARTHAGO_EP":      "AGI",
-    "SGMB_OPENPAY_CONV_MX":  "Delta v9", # convertisseur
-    "SGTG_OPENPAY_CONV_MX":  "Delta v9", # convertisseur
-    "SGMB_OPENPAY_EP":       "openPay",
+    "SGMB_OPENPAY_CONV_MX":  "Delta", # convertisseur
+    "SGTG_OPENPAY_CONV_MX":  "Delta", # convertisseur
+    "SGMB_OPENPAY_EP":       "openPay RTGS",
     "SGMB_SMARTCASH_EP":     "SmartCash",
-    "MATGTOPRINT_EP":        "Delta v9",
-    "MATGTOPRINT_MX_EP":     "Delta v9",
+    "MATGTOPRINT_EP":        "Delta",
+    "MATGTOPRINT_MX_EP":     "Delta",
     "PRINTMT101EXPDEV_EP":   "PRINTMT",
     "PRINTMT101EXPMAD_EP":   "PRINTMT",
-    # "SGTG101RECUEP":         "SGTG",
+    "SGTG101RECUEP":         "delta v9",
     "PRINTINC_EP":           "PRINTINC",
     "PRTACK_EP":             "PRTRACK",
     "FTI_EP":                "FTI",
