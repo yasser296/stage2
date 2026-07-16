@@ -142,7 +142,8 @@ def extraire_datablocks(message, message_identifier):
 
     blocs_inline = matches + text_matches
     blocs_tous = blocs_inline + external_files
-    blocs_formates = [Affiche_bloc(bloc) for bloc in blocs_tous]
+    blocs_normalise = [normalize_bloc(bloc) for bloc in blocs_tous] 
+    blocs_formates = [Affiche_bloc(bloc) for bloc in blocs_normalise]
 
     # Détection des anomalies
     anomalies = []
@@ -306,8 +307,8 @@ def write_category_reports(s_messages, rapport_dir):
     os.makedirs(rapport_dir)
 
     for msg in s_messages:
-        if not msg["blocs"]:
-            continue
+        # if not msg["blocs"]:
+        #     continue
 
         for rp, cat in msg["categories_S"].items():
             if cat.upper().startswith("NON PRIS EN CHARGE") or cat == "SANS_ROUTING_POINT":
