@@ -326,7 +326,6 @@ def write_category_reports(s_messages, rapport_dir):
                     f.write(f"=== Rapport {cat} , Routing Point: {rp} === \n\n\n")
                 f.write(f"Type: {msg['message_identifier']} \n")
                 for i, block in enumerate(msg["blocs"]):
-                    block = Affiche_bloc(block)
                     f.write(f" DataBlock: {i + 1} \n")
                     f.write(block)
                     if i < len(msg["blocs"]) - 1:
@@ -367,7 +366,7 @@ def write_reconciliation_report(d_messages, s_messages, output_dir):
                 for rp, cat in info["categories_S"].items():
                     f.write(f"{rp} -> {cat}\n")
                 f.write("Text:\n")
-                f.write(f"{Affiche_bloc(bloc)}\n\n")
+                f.write(f"{bloc}\n\n")
 
     return len(s_messages), len(d_messages), len(missing_in_d)
 
