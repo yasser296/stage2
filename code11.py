@@ -163,11 +163,11 @@ def compare_and_save(D_messages, S_messages, msgids, output_dir, chemin_fichier_
         global_source_map[(bloc2, bloc4)].append(path)
     global_duplicates = [bloc for bloc, paths in global_source_map.items() if len(paths) > 1]
 
-    bloc_only = []
+    blocs_i_only = []
     source_map = defaultdict(list)
     for bloc4, bloc2, path in D_messages:
         if bloc2.startswith(("I103", "I202", "I200", "I700")):
-            bloc_only.append(bloc4)
+            blocs_i_only.append(bloc4)
             source_map[(bloc2, bloc4)].append(path)
 
     duplicates = [bloc for bloc, paths in source_map.items() if len(paths) > 1]
@@ -277,7 +277,7 @@ def compare_and_save(D_messages, S_messages, msgids, output_dir, chemin_fichier_
     #    for line in rapprochements:
     #        f.write(line + "\n")
 
-    return (len(bloc_only), len(D_messages), len(S_messages),
+    return (len(blocs_i_only), len(D_messages), len(S_messages),
             len(duplicates), len(global_duplicates),
             len(missing_in_S), len(rapprochements))
 

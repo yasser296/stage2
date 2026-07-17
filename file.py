@@ -115,11 +115,11 @@ def compare_and_save(D_messages, S_messages, msgids, output_dir, chemin_fichier_
         global_source_map[(bloc2, bloc4)].append(path)
     global_duplicates = [bloc for bloc, paths in global_source_map.items() if len(paths) > 1]
 
-    bloc_only = []
+    blocs_i_only = []
     source_map = defaultdict(list)
     for bloc4, bloc2, path in D_messages:
         if bloc2.startswith(("I103", "I202", "I200", "I700")):
-            bloc_only.append(bloc4)
+            blocs_i_only.append(bloc4)
             source_map[(bloc2, bloc4)].append(path)
 
     duplicates = [bloc for bloc, paths in source_map.items() if len(paths) > 1]
@@ -195,7 +195,7 @@ def compare_and_save(D_messages, S_messages, msgids, output_dir, chemin_fichier_
             for (bloc2, bloc4), paths in global_source_map.items():
                 if bloc4 == bloc:
                     f.write(f"Header: {bloc2}\nText:\n{bloc4}\n\n")
-    return (len(bloc_only), len(D_messages), len(S_messages),
+    return (len(blocs_i_only), len(D_messages), len(S_messages),
             len(duplicates), len(global_duplicates),
             len(missing_in_S), len(rapprochements))
 
@@ -204,23 +204,25 @@ chemin_fichier_S = r"C:\Users\msi\Desktop\stage2\Nouveau dossier\data\EXTRACTION
 repertoire_D = r"C:\Users\msi\Desktop\stage2\Nouveau dossier\data\SGMB-GI"
 output_dir = r"C:\Users\msi\Desktop\stage2\Nouveau dossier\data\Output"
 
-# Parsing des messages
-messages_D = parse_messages_D(repertoire_D)
-messages_S = parse_messages_S(chemin_fichier_S)
-msgids = extract_pacs_msgid_from_file(chemin_fichier_S)
+if __name__ == "__main__":
 
-# Comparaison et génération des rapports
-total_D_filtre, total_D_brut, total_S, nb_duplicates_filtres, nb_duplicates_globaux, nb_missing, nb_rapprochements = compare_and_save(
-    messages_D, messages_S, msgids, output_dir, chemin_fichier_S
-)
+    # Parsing des messages
+    messages_D = parse_messages_D(repertoire_D)
+    messages_S = parse_messages_S(chemin_fichier_S)
+    msgids = extract_pacs_msgid_from_file(chemin_fichier_S)
 
-# Affichage des résultats
-print("Nombre total de messages émis par Delta :", total_D_brut)
-print("Nombre total de messages sur SAA :", total_S)
-print("Nombre de rapprochements (champ20 + champ32A) :", nb_rapprochements)
-print("Nombre de doublons globaux (tous D) :", nb_duplicates_globaux)
-print("Nombre de messages absents :", nb_missing)
-print("Chemin du rapport complet :", os.path.join(output_dir, "rapport_complet.txt"))
-print("Chemin du rapprochement MT103-202-200 (champ20+32A) :", os.path.join(output_dir, "rapprochement_msgid_field20_32A.txt"))
-print("Chemin du fichier doublons :", os.path.join(output_dir, "doublons.txt"))
-print("Chemin du fichier absents :", os.path.join(output_dir, "absents.txt"))
+    # Comparaison et génération des rapports
+    total_D_filtre, total_D_brut, total_S, nb_duplicates_filtres, nb_duplicates_globaux, nb_missing, nb_rapprochements = compare_and_save(
+        messages_D, messages_S, msgids, output_dir, chemin_fichier_S
+    )
+
+    # Affichage des résultats
+    print("Nombre total de messages émis par Delta :", total_D_brut)
+    print("Nombre total de messages sur SAA :", total_S)
+    print("Nombre de rapprochements (champ20 + champ32A) :", nb_rapprochements)
+    print("Nombre de doublons globaux (tous D) :", nb_duplicates_globaux)
+    print("Nombre de messages absents :", nb_missing)
+    print("Chemin du rapport complet :", os.path.join(output_dir, "rapport_complet.txt"))
+    print("Chemin du rapprochement MT103-202-200 (champ20+32A) :", os.path.join(output_dir, "rapprochement_msgid_field20_32A.txt"))
+    print("Chemin du fichier doublons :", os.path.join(output_dir, "doublons.txt"))
+    print("Chemin du fichier absents :", os.path.join(output_dir, "absents.txt"))
