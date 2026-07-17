@@ -231,11 +231,11 @@ def compare_and_save(D_messages, S_messages, output_dir):
 
 if __name__ == "__main__":
 
-    chemin_fichier_S = r"C:/Users/BOURJAS/Documents/Documentation/Rapprochement/Extraction_SAA/EXTRACTION0306.zip"
+    chemin_fichier_S = r"C:/Users/Documents/Documentation/Rapprochement/Extraction_SAA/EXTRACTION0306.zip"
 
-    repertoire_D = r"C:/Users/BOURJAS/Documents/Documentation/Rapprochement/SO/SGMB-GI"
+    repertoire_D = r"C:/Users/Documents/Documentation/Rapprochement/SO/SGMB-GI"
 
-    output_dir = r"C:/Users/BOURJAS/Documents/Documentation/Rapprochement"
+    output_dir = r"C:/Users/Documents/Documentation/Rapprochement"
 
  
 
