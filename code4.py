@@ -474,7 +474,7 @@ def compare_mt700_fields(d_block, s_blocks):
 
 def compare_delta_to_saa(d_messages, zip_path):
     """
-    Compare D vers SAA.
+    Compare SAA vers d.
 
     Les blocs D exactement presents dans SAA sont OK.
     Les O103/O202/O200 peuvent matcher via champ 20 + champ 32A.
