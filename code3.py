@@ -200,9 +200,9 @@ def parse_messages_s(zip_path):
     Décompresse l'archive SAA et extrait les messages OUTPUT.
 
     Retourne :
-        all_messages    – liste de dicts {categories_S, blocs, nombre_blocs, message_identifier}
-        exemples_par_rp – dict {routing_point: (catégorie, message_xml)}
-        anomalies_info  – dict {compteurs, anomalies} pour le rapport
+        all_messages    - liste de dicts {categories_S, blocs, nombre_blocs, message_identifier}
+        exemples_par_rp - dict {routing_point: (catégorie, message_xml)}
+        anomalies_info  - dict {compteurs, anomalies} pour le rapport
     """
     if not os.path.exists(zip_path):
         raise FileNotFoundError(f"Archive S introuvable : {zip_path}")

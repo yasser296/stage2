@@ -12,7 +12,7 @@ def normalize_bloc(text):
     parts = re.split(r"(?=:\d{2}[A-Z]?:)", text)
     return "\n".join(p.strip() for p in parts if p.strip())
 
-def extract_Files(path):
+def extract_files(path):
     if not os.path.exists(path):
         raise FileNotFoundError(f"Chemin introuvable : {path}")
 
@@ -40,7 +40,7 @@ def extract_Files(path):
 
 def extract_pacs_msgid_from_file(zip_file):
     all_msgids = []
-    for content, _ , _ in extract_Files(zip_file):
+    for content, _ , _ in extract_files(zip_file):
         msgids = re.findall(
             r"&lt;pacs:MsgId&gt;(.*?)&lt;/pacs:MsgId&gt;",
             content
@@ -52,7 +52,7 @@ def extract_pacs_msgid_from_file(zip_file):
 def extract_pacs_triplets(zip_file):
     """Extrait les triplets (date, currency, amount) bloc par bloc."""
     triplets = set()
-    for content, _ , _ in extract_Files(zip_file) :
+    for content, _ , _ in extract_files(zip_file) :
         blocks = re.findall(r"<DataBlock>(.*?)</DataBlock>", content, re.S)
         for bloc in blocks:
             dates = re.findall(r"&lt;pacs:IntrBkSttlmDt&gt;(.*?)&lt;/pacs:IntrBkSttlmDt&gt;", bloc)
@@ -65,7 +65,7 @@ def extract_pacs_triplets(zip_file):
 def parse_messages_D(directory):
     """Extrait tous les couples bloc2/bloc4 de tous les fichiers D."""
     all_messages = []
-    for content, fname, full_path in extract_Files(directory):
+    for content, fname, full_path in extract_files(directory):
         if fname.endswith(".Z"):
             continue
         bloc2_match = re.search(r"\{2:(.*?)\}", content)
@@ -82,7 +82,7 @@ def parse_messages_D(directory):
 def parse_messages_S(zip_file):
     """Extrait tous les couples bloc2/bloc4 de tous les fichiers D."""
     all_messages = []
-    for content, fname, full_path in extract_Files(zip_file):
+    for content, fname, full_path in extract_files(zip_file):
         matches = re.findall(r"<DataBlock>(.*?)</DataBlock>", content, re.S)
         text_matches = re.findall(r"<Text>\s*Modified data\s*Message text\s*:(.*?)</Text>", content, re.S)
         for bloc in  matches + text_matches:

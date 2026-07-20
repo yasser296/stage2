@@ -214,21 +214,17 @@ def parse_messages_d(directory):
 
     all_messages = []
 
-    for root, _, files in os.walk(directory):
-        for fname in files:
-            if fname.endswith(".Z"):
+    for content, fname, full_path in extract_files(directory):
+        if fname.endswith(".Z"):
+            continue
+        for bloc2, bloc4 in re.findall(r"\{2:(.*?)\}.*?\{4:(.*?)\-}", content, re.S):
+            bloc2 = bloc2.strip()
+            if not bloc2.startswith("O"):
                 continue
-            full_path = os.path.join(root, fname)
-            with open(full_path, encoding="utf-8") as f:
-                content = f.read()
-            for bloc2, bloc4 in re.findall(r"\{2:(.*?)\}.*?\{4:(.*?)\-}", content, re.S):
-                bloc2 = bloc2.strip()
-                if not bloc2.startswith("O"):
-                    continue
-                all_messages.append((normalize_bloc(bloc4), bloc2, full_path))
+            all_messages.append((normalize_bloc(bloc4), bloc2, full_path))
 
-            for body in re.findall(r"<Body>(.*?)</Body>", content, re.S):
-                all_messages.append((normalize_bloc(body), "BODY", full_path))
+        for body in re.findall(r"<Body>(.*?)</Body>", content, re.S):
+            all_messages.append((normalize_bloc(body), "BODY", full_path))
 
     return all_messages
 
@@ -245,71 +241,58 @@ def parse_messages_s(zip_path):
     if not os.path.exists(zip_path):
         raise FileNotFoundError(f"Archive S introuvable : {zip_path}")
 
-    temp_dir = tempfile.mkdtemp()
+    all_messages = []
+    anomalies = []
+    exemples_par_rp = {}
+    compteurs = {
+        "sans_datablock": 0,
+        "plusieurs_datablocks": 0,
+        "surplus_datablocks": 0,
+    }
 
-    try:
-        with zipfile.ZipFile(zip_path, "r") as zf:
-            zf.extractall(temp_dir)
+    for content, fname, full_path in extract_files(zip_path):
+            messages = re.findall(r"<Message\b.*?</Message>", content, re.S)
+            if not messages:
+                messages = [content]
 
-        all_messages = []
-        anomalies = []
-        exemples_par_rp = {}
-        compteurs = {
-            "sans_datablock": 0,
-            "plusieurs_datablocks": 0,
-            "surplus_datablocks": 0,
-        }
+            for message in messages:
+                if not is_output_message(message):
+                    continue
 
-        for root, _, files in os.walk(temp_dir):
-            for fname in files:
-                full_path = os.path.join(root, fname)
-                with open(full_path, encoding="utf-8") as f:
-                    content = f.read()
+                categories = detect_categories(message)
+                msg_id = extract_message_identifier(message)
+                blocs, anomalies_msg = extraire_datablocks(message, msg_id)
+                anomalies.extend(anomalies_msg)
 
-                messages = re.findall(r"<Message\b.*?</Message>", content, re.S)
-                if not messages:
-                    messages = [content]
+                # Un exemple par routing point
+                for rp, cat in categories.items():
+                    if rp not in exemples_par_rp:
+                        exemples_par_rp[rp] = (cat, message)
 
-                for message in messages:
-                    if not is_output_message(message):
-                        continue
-
-                    categories = detect_categories(message)
-                    msg_id = extract_message_identifier(message)
-                    blocs, anomalies_msg = extraire_datablocks(message, msg_id)
-                    anomalies.extend(anomalies_msg)
-
-                    # Un exemple par routing point
-                    for rp, cat in categories.items():
-                        if rp not in exemples_par_rp:
-                            exemples_par_rp[rp] = (cat, message)
-
-                    if not blocs:
-                        compteurs["sans_datablock"] += 1
-                        all_messages.append({
-                            "categories_S": categories,
-                            "blocs": [],
-                            "nombre_blocs": 0,
-                            "message_identifier": msg_id,
-                        })
-                        continue
-
-                    if len(blocs) > 1:
-                        compteurs["plusieurs_datablocks"] += 1
-                        compteurs["surplus_datablocks"] += len(blocs) - 1
-
+                if not blocs:
+                    compteurs["sans_datablock"] += 1
                     all_messages.append({
                         "categories_S": categories,
-                        "blocs": blocs,
-                        "nombre_blocs": len(blocs),
+                        "blocs": [],
+                        "nombre_blocs": 0,
                         "message_identifier": msg_id,
                     })
+                    continue
 
-        anomalies_info = {"compteurs": compteurs, "anomalies": anomalies}
-        return all_messages, exemples_par_rp, anomalies_info
+                if len(blocs) > 1:
+                    compteurs["plusieurs_datablocks"] += 1
+                    compteurs["surplus_datablocks"] += len(blocs) - 1
 
-    finally:
-        shutil.rmtree(temp_dir)
+                all_messages.append({
+                    "categories_S": categories,
+                    "blocs": blocs,
+                    "nombre_blocs": len(blocs),
+                    "message_identifier": msg_id,
+                })
+
+    anomalies_info = {"compteurs": compteurs, "anomalies": anomalies}
+    return all_messages, exemples_par_rp, anomalies_info
+
 
 def extract_pacs_msgid_from_file(zip_file):
     all_msgids = []
@@ -574,15 +557,15 @@ def write_summary(f, stats):
     f.write(f"SAA present mais absent dans D : {stats['missing_saa_in_d_count']}\n\n")
 
 
-def write_missing_saa_section(f, missing_saa_blocks, s_index):
+def write_missing_saa_section(f, missing_blocks, s_index):
     f.write("SECTION 1 - BLOCS SAA PRESENTS MAIS ABSENTS DANS D\n")
     f.write("=" * 80 + "\n\n")
 
-    if not missing_saa_blocks:
+    if not missing_blocks:
         f.write("Aucun bloc SAA absent dans D.\n\n")
         return
 
-    for index, bloc in enumerate(sorted(missing_saa_blocks), start=1):
+    for index, bloc in enumerate(sorted(missing_blocks), start=1):
         for info in s_index[bloc]:
             f.write(f"[{index}] Statut : ABSENT_DANS_D\n")
             f.write(f"Type SAA : {info['message_identifier']}\n")
@@ -638,9 +621,9 @@ def write_reconciliation_report(d_messages, s_messages, output_dir):
     set_d = {bloc4 for bloc4, _, _ in d_messages}
     set_s = set(s_blocks)
 
-    missing_saa_blocks = set_s - set_d
-    advanced = compare_delta_to_saa(d_messages, CHEMIN_FICHIER_S)
-    missing_delta_blocks = advanced["missing_delta_blocks"]
+    missing_blocks = set_s - set_d
+    compare = compare_delta_to_saa(d_messages, CHEMIN_FICHIER_S)
+    missing_delta_blocks = compare["missing_delta_blocks"]
 
     global_source_map = defaultdict(list)
     filtered_source_map = defaultdict(list)
@@ -665,26 +648,26 @@ def write_reconciliation_report(d_messages, s_messages, output_dir):
         "d_unique_blocks_count": len(set_d),
         "global_duplicates_count": len(global_duplicates),
         "filtered_duplicates_count": len(filtered_duplicates),
-        "msgids_count": advanced["msgids_count"],
-        "triplets_count": advanced["triplets_count"],
-        "s_delta_blocks_count": advanced["s_delta_blocks_count"],
-        "advanced_checks_count": len(advanced["rapprochements"]),
-        "advanced_matches_count": sum(
-            1 for item in advanced["rapprochements"]
+        "msgids_count": compare["msgids_count"],
+        "triplets_count": compare["triplets_count"],
+        "s_delta_blocks_count": compare["s_delta_blocks_count"],
+        "compare_checks_count": len(compare["rapprochements"]),
+        "compare_matches_count": sum(
+            1 for item in compare["rapprochements"]
             if item["status"] == "MATCH"
         ),
-        "missing_saa_in_d_count": len(missing_saa_blocks),
+        "missing_saa_in_d_count": len(missing_blocks),
         "missing_delta_in_saa_count": len(missing_delta_blocks),
     }
 
     report_path = os.path.join(output_dir, "Rapprochement_SAA_vs_D.txt")
     with open(report_path, "w", encoding="utf-8") as f:
         write_summary(f, stats)
-        write_missing_saa_section(f, missing_saa_blocks, build_s_block_index(s_messages))
+        write_missing_saa_section(f, missing_blocks, build_s_block_index(s_messages))
         if missing_delta_blocks:
             write_missing_delta_section(f, missing_delta_blocks, build_d_delta_block_index(d_messages))
-        if advanced["rapprochements"]:
-            write_delta_reconciliation_section(f, advanced["rapprochements"])
+        if compare["rapprochements"]:
+            write_delta_reconciliation_section(f, compare["rapprochements"])
 
     stats["report_path"] = report_path
     return stats
