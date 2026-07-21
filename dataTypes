@@ -152,5 +152,5 @@ AUTRES
 --------------------------------------------------------------------------------
 apc.081
 
-code1 -> code 2 -> code2_clean ?-> code22 -> code3 V 
-code11 -> file -> code4 V
+<| code1 -> code 2 -> code2_clean ?-> code22 -> code3 |> 
+<| code11 -> file -> code4 |>

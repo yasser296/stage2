@@ -71,20 +71,14 @@ def is_output_message(message):
 def extract_message_identifier(message):
     """Extrait le contenu de <MessageIdentifier> d'un message XML."""
     match = re.search(
-        r"<MessageIdentifier\b[^>]*>(.*?)</MessageIdentifier>",
-        html.unescape(message),
-        re.I | re.S,
+        r"<MessageIdentifier\b[^>]*>(.*?)</MessageIdentifier>", html.unescape(message), re.I | re.S,
     )
     return match.group(1).strip() if match else None
 
 
 def extract_sumid(message):
     """Extrait le contenu de <SUmid> d'un message XML."""
-    match = re.search(
-        r"<SUmid\b[^>]*>(.*?)</SUmid>",
-        html.unescape(message),
-        re.I | re.S,
-    )
+    match = re.search(r"<SUmid\b[^>]*>(.*?)</SUmid>", html.unescape(message), re.I | re.S,)
     return match.group(1).strip() if match else None
 
 
@@ -115,29 +109,30 @@ def detect_categories(message):
 
 def extraire_datablocks(message, message_identifier):
     """
-    Extrait et formate les blocs de données d'un message.
-    Retourne (blocs_formatés, anomalies).
+    Extrait seulement les DataBlock des messages SAA OUTPUT.
+    Retourne :
+    - blocs normalisés pour comparaison
+    - anomalies
     """
-    matches = re.findall(r"<DataBlock>(.*?)</DataBlock>", message, re.S)
-    text_matches = re.findall(
-        r"<Text>\s*Modified data\s*Message text\s*:(.*?)</Text>",
-        message, re.S,
-    )
-    external_files = re.findall(
-        r"<PayloadPhysicalFileName>(.*?)</PayloadPhysicalFileName>",
-        message, re.S,
+
+    message = html.unescape(message)
+
+    datablocks = re.findall(
+        r"<DataBlock\b[^>]*>(.*?)</DataBlock>",
+        message,
+        re.S | re.I
     )
 
-    blocs_inline = matches + text_matches
-    blocs_tous = blocs_inline + external_files
-    # blocs_normalise = [normalize_bloc(bloc) for bloc in blocs_tous] 
-    blocs_formates = [Affiche_bloc(bloc) for bloc in blocs_tous]
+    blocs = []
 
-    # Détection des anomalies
+    for bloc in datablocks:
+        bloc_normalise = normalize_delta_bloc(bloc)
+        blocs.append(bloc_normalise)
+
     anomalies = []
     categories = detect_categories(message)
 
-    if not blocs_inline and not blocs_tous:
+    if not datablocks:
         anomalies.append({
             "type": "OUTPUT_SANS_DATABLOCK",
             "categories_S": categories,
@@ -145,16 +140,16 @@ def extraire_datablocks(message, message_identifier):
             "message_identifier": message_identifier,
         })
 
-    if len(blocs_inline) > 1:
+    if len(datablocks) > 1:
         anomalies.append({
             "type": "OUTPUT_PLUSIEURS_DATABLOCK",
             "categories_S": categories,
-            "nombre_blocs": len(blocs_inline),
+            "nombre_blocs": len(datablocks),
             "message": message,
             "message_identifier": message_identifier,
         })
 
-    return blocs_formates, anomalies
+    return blocs, anomalies
 
 
 
@@ -201,7 +196,7 @@ def parse_messages_D(directory):
         for bloc2, bloc4 in matches:
             bloc4_norm = normalize_delta_bloc(bloc4)
             all_messages.append((bloc4_norm, bloc2.strip(), full_path))
-
+        # PAS ENCORE TRAITER 
         for body in re.findall(r"<Body>(.*?)</Body>", content, re.S):
                 all_messages.append((normalize_bloc(body), "BODY", full_path))
     return all_messages
@@ -306,9 +301,6 @@ def convert_date_32A(date_raw):
     """Convertit YYMMDD en YYYY-MM-DD (ex: 260505 -> 2026-05-05)."""
     return f"20{date_raw[:2]}-{date_raw[2:4]}-{date_raw[4:]}"
 
-
-
-
 # ============================================================
 # RAPPORTS
 # ============================================================
@@ -362,7 +354,7 @@ def write_category_reports(s_messages, rapport_dir):
                 f.write(f"Type: {msg['message_identifier']} \n")
                 for i, block in enumerate(msg["blocs"]):
                     f.write(f" DataBlock: {i + 1} \n")
-                    f.write(block)
+                    f.write(Affiche_bloc(block))
                     if i < len(msg["blocs"]) - 1:
                         f.write("\n" + "-" * 100 + "\n")
                 f.write("\n\n\n" + "=" * 80 + "\n\n\n")
@@ -383,66 +375,24 @@ def write_examples_report(exemples_par_rp, output_dir):
             type_str = f" | MESSAGE IDENTIFIER : {msg_id}" if msg_id else ""
 
             sumid = extract_sumid(message)
-            sumid_str = f" | SUmid : {sumid}" if sumid else ""
 
             blocs, _ = extraire_datablocks(message, msg_id)
 
             f.write("=" * 80 + "\n")
             f.write(f"CATÉGORIE : {categorie}{type_str} | IDENTIFICATEUR : {rp}\n")
-            f.write(f"MessageId : {sumid_str}\n")
+            f.write(f"SUmid : {sumid or 'AUCUN'}\n")
             f.write("=" * 80 + "\n\n")
             for bloc in blocs:
-                f.write(html.unescape(f"{bloc} + \n"))
+                f.write(html.unescape(Affiche_bloc(bloc)))
+                f.write("\n")
             f.write("\n\n")
 
     print(f"Fichier d'exemples généré : {chemin}")
 
-
-def write_reconciliation_report(d_messages, s_messages, output_dir):
-    """Compare les messages SAA vs D et écrit le rapport de rapprochement."""
-    os.makedirs(output_dir, exist_ok=True)
-
-    set_d = {bloc4 for bloc4, _, _ in d_messages}
-    set_s = {bloc for msg in s_messages for bloc in msg["blocs"]}
-
-    missing_in_d = set_s - set_d
-
-    # Index pour retrouver les infos d'un bloc SAA absent
-    s_index = defaultdict(list)
-    for msg in s_messages:
-        for bloc in msg["blocs"]:
-            s_index[bloc].append(msg)
-
-    nombre_blocs_saa = sum(len(msg["blocs"]) for msg in s_messages)
-
-    with open(os.path.join(output_dir, "Rapprochement_SAA_vs_D.txt"), "w", encoding="utf-8") as f:
-        f.write("=== Rapport de rapprochement SAA vs D ===\n\n")
-        f.write(f"Nombre de messages SAA OUTPUT = {len(s_messages)}\n")
-        f.write(f"Nombre de blocs SAA extraits = {nombre_blocs_saa}\n")
-        f.write(f"Nombre de messages dans D = {len(d_messages)}\n\n")
-        f.write(f"Nombre de blocs SAA absents dans D = {len(missing_in_d)}\n")
-        f.write("---- Messages présents dans SAA mais absents dans D ----\n\n")
-
-        for bloc in missing_in_d:
-            for info in s_index[bloc]:
-                f.write("Statut: ABSENT_DANS_D\n")
-                f.write(f"Type: {info['message_identifier']}\n")
-                f.write("Catégories SAA:\n")
-                for rp, cat in info["categories_S"].items():
-                    f.write(f"{rp} -> {cat}\n")
-                f.write("Text:\n")
-                f.write(f"{bloc}\n\n")
-
-    return len(s_messages), len(d_messages), len(missing_in_d)
-
-
-
-
-
-def compare_and_save(D_messages, S_messages, msgids, output_dir, chemin_fichier_S):
-    """Compare blocs D/S :
-       - rapproche MsgId + champ32A pour bloc2 = I103/I202/I200
-       - rapproche champ par champ pour bloc2 = I700
+def compare_and_save(D_messages, S_messages, output_dir):
+    """Compare les blocs SAA avec D :
+    - rapproche MsgId + champ 32A pour O103/O202/O200
+    - rapproche champ par champ pour O700
     """
 
     global_source_map = defaultdict(list)
@@ -450,11 +400,12 @@ def compare_and_save(D_messages, S_messages, msgids, output_dir, chemin_fichier_
         global_source_map[(bloc2, bloc4)].append(path)
     global_duplicates = [bloc for bloc, paths in global_source_map.items() if len(paths) > 1]
 
-    blocs_i_only = []
+    blocs_o_only = []
     source_map = defaultdict(list)
+
     for bloc4, bloc2, path in D_messages:
-        if bloc2.startswith(("I103", "I202", "I200", "I700")):
-            blocs_i_only.append(bloc4)
+        if bloc2.startswith(("O103", "O202", "O200", "O700")):
+            blocs_o_only.append(bloc4)
             source_map[(bloc2, bloc4)].append(path)
 
     duplicates = [bloc for bloc, paths in source_map.items() if len(paths) > 1]
@@ -471,79 +422,236 @@ def compare_and_save(D_messages, S_messages, msgids, output_dir, chemin_fichier_
 
     nombre_blocs_saa = sum(len(msg["blocs"]) for msg in S_messages)
 
-    triplets_S = extract_pacs_triplets(chemin_fichier_S)
+    # ============================================================
+    # COMPARAISONS ADAPTÉES SELON LE FORMAT DU MESSAGE
+    # ============================================================
 
-    rapprochements = []
-    matched_blocs = set()
+    correspondances_par_champs = []
+
+    # matched_blocs doit contenir des blocs SAA,
+    # car missing_in_D contient des blocs SAA.
+    blocs_trouves_par_champs = set()
+
+    # ------------------------------------------------------------
+    # 1. Préparer les données D pour O103 / O202 / O200
+    # ------------------------------------------------------------
+
+    # Clé :
+    # (champ20, date, devise, montant)
+    #
+    # Valeur :
+    # liste des messages D qui possèdent cette clé
+    index_D_pacs = defaultdict(list)
+
     for bloc4, bloc2, filepath in D_messages:
-        # --- Cas MT103 / MT202 / MT200 ---
-        if bloc2.startswith(("I103", "I202", "I200")):
-            champs20 = re.findall(r":20:(.+)", bloc4)
-            champs32A = re.findall(r":32A:(\d{6})([A-Z]{3})([\d,]+)", bloc4)
-            for c20 in champs20:
-                val20 = c20.strip()
-                for date_raw, currency, amount_raw in champs32A:
-                    date_iso = convert_date_32A(date_raw)
-                    amount = normalize_amount(amount_raw)
-                    if (val20 in msgids and (date_iso, currency, amount) in triplets_S):
-                        rapprochements.append(f"{filepath} -> MT103/202/200 MATCH Champ20: {val20}, Champ32A: {date_iso} {currency} {amount}")
-                        matched_blocs.add(bloc4)
-                    else:
-                        rapprochements.append(f"{filepath} -> MT103/202/200 NE CORRESPOND PAS Champ20: {val20}, Champ32A: {date_iso} {currency} {amount}")
+        if not bloc2.startswith(("O103", "O202", "O200")):
+            continue
+        champs20 = re.findall(r":20:(.+)", bloc4)
+        champs32A = re.findall(r":32A:(\d{6})([A-Z]{3})([\d,]+)", bloc4)
 
-        # --- Cas MT700 ---
-        elif bloc2.startswith("I700"):
-            champs27  = re.findall(r":27:(.+)", bloc4)
-            champs40A = re.findall(r":40A:(.+)", bloc4)
-            champs20  = re.findall(r":20:(.+)", bloc4)
-            champs31C = re.findall(r":31C:(.+)", bloc4)
-            champs40E = re.findall(r":40E:(.+)", bloc4)
-            champs31D = re.findall(r":31D:(.+)", bloc4)
-            champs50  = re.findall(r":50:(.+)", bloc4)
+        for champ20 in champs20:
+            valeur20 = champ20.strip()
 
-            match_found = False
-            for blocS in S_messages:
-                s27  = re.findall(r":27:(.+)", blocS)
-                s40A = re.findall(r":40A:(.+)", blocS)
-                s20  = re.findall(r":20:(.+)", blocS)
-                s31C = re.findall(r":31C:(.+)", blocS)
-                s40E = re.findall(r":40E:(.+)", blocS)
-                s31D = re.findall(r":31D:(.+)", blocS)
-                s50  = re.findall(r":50:(.+)", blocS)
+            for date_raw, currency, amount_raw in champs32A:
+                date_iso = convert_date_32A(date_raw)
+                amount = normalize_amount(amount_raw)
+                cle_D = (valeur20, date_iso, currency.strip(), amount)
+                index_D_pacs[cle_D].append({"bloc4": bloc4, "bloc2": bloc2, "fichier": filepath})
 
-                if (champs27 == s27 and champs40A == s40A and champs20 == s20 and
-                    champs31C == s31C and champs40E == s40E and champs31D == s31D and champs50 == s50):
-                    match_found = True
+    # ------------------------------------------------------------
+    # 2. Préparer les données D pour O700
+    # ------------------------------------------------------------
+
+    index_D_700 = defaultdict(list)
+
+    for bloc4, bloc2, filepath in D_messages:
+        if not bloc2.startswith("O700"):
+            continue
+
+        cle_D_700 = (
+            tuple(re.findall(r":27:(.+)", bloc4)),
+            tuple(re.findall(r":40A:(.+)", bloc4)),
+            tuple(re.findall(r":20:(.+)", bloc4)),
+            tuple(re.findall(r":31C:(.+)", bloc4)),
+            tuple(re.findall(r":40E:(.+)", bloc4)),
+            tuple(re.findall(r":31D:(.+)", bloc4)),
+            tuple(re.findall(r":50:(.+)", bloc4)),
+        )
+
+        index_D_700[cle_D_700].append({
+            "bloc4": bloc4,
+            "bloc2": bloc2,
+            "fichier": filepath
+        })
+
+    # ------------------------------------------------------------
+    # 3. Parcourir les blocs SAA
+    # ------------------------------------------------------------
+
+    for message_S in S_messages:
+        for bloc_S in message_S["blocs"]:
+            # Le bloc correspond déjà directement à un bloc D
+            if bloc_S not in missing_in_D:
+                continue
+            bloc_S_unesc = html.unescape(bloc_S)
+
+            # ====================================================
+            # Cas PACS correspondant à O103 / O202 / O200
+            # ====================================================
+
+            msgids_S = re.findall(
+                r"<pacs:MsgId>\s*(.*?)\s*</pacs:MsgId>", bloc_S_unesc, re.S | re.I)
+            dates_S = re.findall(
+                r"<pacs:IntrBkSttlmDt>\s*(.*?)\s*</pacs:IntrBkSttlmDt>", bloc_S_unesc, re.S | re.I)
+            montants_S = re.findall(
+                r"<pacs:IntrBkSttlmAmt\b[^>]*Ccy=[\"']([A-Z]{3})[\"'][^>]*>\s*(.*?)\s*</pacs:IntrBkSttlmAmt>",bloc_S_unesc, re.S | re.I)
+            correspondance_pacs = None
+
+            for msgid_S in msgids_S:
+                msgid_S = msgid_S.strip()
+                for date_S in dates_S:
+                    date_S = date_S.strip()
+                    for currency_S, amount_S in montants_S:
+                        # le montant SAA est seulement nettoyé avec strip().
+                        cle_S = (msgid_S, date_S, currency_S.strip(), amount_S.strip())
+                        if cle_S in index_D_pacs and index_D_pacs[cle_S]:
+                            correspondance_pacs = index_D_pacs[cle_S].pop(0)
+                            break
+                    if correspondance_pacs is not None:
+                        break
+                if correspondance_pacs is not None:
                     break
+            if correspondance_pacs is not None:
+                # Important : on ajoute le bloc SAA,
+                # pas le bloc D.
+                blocs_trouves_par_champs.add(bloc_S)
 
-            if match_found:
-                rapprochements.append(
-                    f"{filepath} -> MT700 MATCH Champs 27:{champs27}, 40A:{champs40A}, 20:{champs20}, 31C:{champs31C}, 40E:{champs40E}, 31D:{champs31D}, 50:{champs50}"
+                correspondances_par_champs.append(
+                    f"SAA -> D MATCH MT103/202/200 "
+                    f"| Type SAA : {message_S['message_identifier']} "
+                    f"| Fichier D : {correspondance_pacs['fichier']} "
+                    f"| Clé : {cle_S}"
                 )
-                matched_blocs.add(bloc4)
-            else:
-                rapprochements.append(
-                    f"{filepath} -> MT700 NE CORRESPOND PAS Champs 27:{champs27}, 40A:{champs40A}, 20:{champs20}, 31C:{champs31C}, 40E:{champs40E}, 31D:{champs31D}, 50:{champs50}"
+                # Le bloc SAA a déjà été rapproché.
+                # Il n'est pas nécessaire de tester ensuite le cas MT700.
+                continue
+
+            # ====================================================
+            # Cas FIN 700
+            # ====================================================
+
+            cle_S_700 = (
+                tuple(re.findall(r":27:(.+)", bloc_S)),
+                tuple(re.findall(r":40A:(.+)", bloc_S)),
+                tuple(re.findall(r":20:(.+)", bloc_S)),
+                tuple(re.findall(r":31C:(.+)", bloc_S)),
+                tuple(re.findall(r":40E:(.+)", bloc_S)),
+                tuple(re.findall(r":31D:(.+)", bloc_S)),
+                tuple(re.findall(r":50:(.+)", bloc_S)),
+            )
+
+            # Évite de considérer deux blocs sans aucun champ 700
+            # comme identiques.
+            contient_champ_700 = any(cle_S_700)
+
+            if (
+                contient_champ_700
+                and cle_S_700 in index_D_700
+                and index_D_700[cle_S_700]
+            ):
+                correspondance_700 = index_D_700[cle_S_700].pop(0)
+
+                blocs_trouves_par_champs.add(bloc_S)
+
+                correspondances_par_champs.append(
+                    f"SAA -> D MATCH MT700 "
+                    f"| Type SAA : {message_S['message_identifier']} "
+                    f"| Fichier D : {correspondance_700['fichier']}"
                 )
 
-    # Exclure les blocs matchés des absents
-    missing_in_D = missing_in_D - matched_blocs
+    blocs_trouves_directement = set_S & set_D
 
-    with open(os.path.join(output_dir, "Rapprochement_SAA_vs_D.txt"), "a", encoding="utf-8") as f:
-        f.write("===Section : rapprochement des messages DELTA vs SAA ===\n\n")
-        f.write(f"Nombre de messages émis  = {len(D_messages)}\n")
-        f.write(f"Nombre de messages Absents dans le systeme operant = {len(missing_in_D)}\n\n")
-        f.write(f"----------- Ces messages ont été envoyés par SAA mais ne figurent pas dans le système opérant : -----------\n\n\n")
+    # Tous les blocs trouvés, quelle que soit la méthode de comparaison
+    blocs_trouves = (blocs_trouves_directement | blocs_trouves_par_champs)
+    # Blocs SAA qui n'ont aucune correspondance dans D
+    missing_in_D = set_S - blocs_trouves
+
+    # ============================================================
+    # STATISTIQUES FINALES
+    # ============================================================
+
+    # Tous les blocs trouvés ont le même statut final.
+    blocs_trouves_directement = set_S & set_D
+
+    blocs_trouves = (blocs_trouves_directement | blocs_trouves_par_champs)
+    missing_in_D = set_S - blocs_trouves
+    nombre_messages_saa_avec_absence = 0
+
+    for message_S in S_messages:
+        message_possede_bloc_absent = False
+        for bloc in message_S["blocs"]:
+            if bloc in missing_in_D:
+                message_possede_bloc_absent = True
+                break
+
+        if message_possede_bloc_absent:
+            nombre_messages_saa_avec_absence += 1
+
+    rapport_path = os.path.join(output_dir, "Rapprochement_SAA_vs_D.txt")
+
+    os.makedirs(output_dir, exist_ok=True)
+
+    with open(rapport_path, "w", encoding="utf-8") as f:
+
+        # ========================================================
+        # RÉSUMÉ
+        # ========================================================
+
+        f.write("=== RAPPORT DE RAPPROCHEMENT SAA OUTPUT VS D ===\n\n")
+        f.write("=== Résumé ===\n\n")
+        f.write(f"Nombre de messages SAA OUTPUT : {len(S_messages)}\n")
+        f.write(f"Nombre total de DataBlocks SAA : {nombre_blocs_saa}\n")
+        f.write(f"Nombre de blocs SAA uniques : {len(set_S)}\n")
+        f.write(f"Nombre de messages D : {len(D_messages)}\n")
+        f.write(f"Nombre de blocs SAA trouvés dans D : {len(blocs_trouves)}\n")
+        f.write(f"Nombre de blocs SAA uniques absents dans D : {len(missing_in_D)}\n")
+        f.write(f"Nombre de messages SAA ayant au moins un bloc absent : {nombre_messages_saa_avec_absence}\n")
+        f.write(f"Nombre de doublons globaux dans D : {len(global_duplicates)}\n")
+
+        # ========================================================
+        # BLOCS ABSENTS
+        # ========================================================
+
+        f.write("\n\n")
+        f.write("=" * 100 + "\n")
+        f.write("BLOCS SAA ABSENTS DANS D\n")
+        f.write("=" * 100 + "\n\n")
+
+        if not missing_in_D:
+            f.write("Aucun bloc SAA absent dans D.\n")
+
         for bloc in missing_in_D:
-            for (bloc2, bloc4), paths in global_source_map.items():
-                if bloc4 == bloc:
-                    f.write(f"Header: {bloc2}\nText:\n{bloc4}\n\n")
-        # f.write(f"Details de rapprochements : \n\n")
-        # for r in rapprochements :
-        #     f.write(f"{r}\n")
-    return (len(blocs_i_only), len(D_messages), len(S_messages),
-            len(duplicates), len(global_duplicates),
-            len(missing_in_D), len(rapprochements))
+            for info in s_index[bloc]:
+                f.write("Statut : ABSENT_DANS_D\n")
+                f.write(f"Type SAA : " f"{info['message_identifier']}\n")
+                f.write("Catégories SAA :\n")
+                for rp, categorie in info["categories_S"].items():
+                    f.write(f"  {rp} -> {categorie}\n")
+                f.write("DataBlock SAA :\n")
+                f.write(Affiche_bloc(bloc))
+                f.write("\n\n")
+                f.write("-" * 100)
+                f.write("\n\n")
+
+    return (
+        len(D_messages),
+        len(S_messages),
+        nombre_blocs_saa,
+        len(blocs_trouves),
+        len(missing_in_D),
+        nombre_messages_saa_avec_absence,
+        len(global_duplicates)
+    )
 
 # === Exemple d’utilisation ===
 chemin_fichier_S = r"C:\Users\msi\Desktop\stage2\Nouveau dossier\data\EXTRACTION0306.zip"
@@ -552,23 +660,48 @@ output_dir = r"C:\Users\msi\Desktop\stage2\Nouveau dossier\data\Output"
 
 if __name__ == "__main__":
 
-    # Parsing des messages
+    # ============================================================
+    # 1. Parsing
+    # ============================================================
+
     messages_D = parse_messages_D(repertoire_D)
-    messages_S = parse_messages_s(chemin_fichier_S)
-    msgids = extract_pacs_msgid_from_file(chemin_fichier_S)
+    messages_S, exemples_par_rp, anomalies_info = parse_messages_s(chemin_fichier_S)
 
-    # Comparaison et génération des rapports
-    total_D_filtre, total_D_brut, total_S, nb_duplicates_filtres, nb_duplicates_globaux, nb_missing, nb_rapprochements = compare_and_save(
-        messages_D, messages_S, msgids, output_dir, chemin_fichier_S
-    )
+    # ============================================================
+    # 2. Comparaison SAA vs D
+    # ============================================================
 
-    # Affichage des résultats
-    print("Nombre total de messages émis par Delta :", total_D_brut)
-    print("Nombre total de messages sur SAA :", total_S)
-    print("Nombre de rapprochements (champ20 + champ32A) :", nb_rapprochements)
-    print("Nombre de doublons globaux (tous D) :", nb_duplicates_globaux)
-    print("Nombre de messages absents :", nb_missing)
-    print("Chemin du rapport complet :", os.path.join(output_dir, "rapport_complet.txt"))
-    print("Chemin du rapprochement MT103-202-200 (champ20+32A) :", os.path.join(output_dir, "rapprochement_msgid_field20_32A.txt"))
-    print("Chemin du fichier doublons :", os.path.join(output_dir, "doublons.txt"))
-    print("Chemin du fichier absents :", os.path.join(output_dir, "absents.txt"))
+    (
+        total_D,
+        total_S,
+        total_blocs_SAA,
+        nb_blocs_trouves,
+        nb_blocs_absents,
+        nb_messages_avec_absence,
+        nb_duplicates_globaux
+    ) = compare_and_save(messages_D, messages_S, output_dir)
+
+    # ============================================================
+    # 3. Création des autres rapports
+    # ============================================================
+
+    chemin_anomalies = os.path.join(output_dir, "Anomalies_SAA.txt")
+    write_anomalies_report(anomalies_info, chemin_anomalies)
+    write_category_reports(messages_S, RAPPORT_DIR)
+    write_examples_report(exemples_par_rp,output_dir)
+
+    # ============================================================
+    # 4. Affichage
+    # ============================================================
+
+    print("Nombre total de messages D :", total_D)
+    print("Nombre total de messages SAA OUTPUT :", total_S)
+    print("Nombre total de DataBlocks SAA :", total_blocs_SAA)
+    print("Nombre de blocs SAA trouvés dans D :", nb_blocs_trouves)
+    print("Nombre de blocs SAA absents dans D :", nb_blocs_absents)
+    print("Nombre de messages SAA ayant au moins un bloc absent :", nb_messages_avec_absence)
+    print("Nombre de doublons globaux dans D :", nb_duplicates_globaux)
+    print("Rapport de rapprochement :", os.path.join(output_dir, "Rapprochement_SAA_vs_D.txt"))
+    print("Rapport des anomalies :", chemin_anomalies)
+    print("Rapports par catégorie :", RAPPORT_DIR)
+    print("Exemples par routing point :", os.path.join(output_dir, "exemples-messages.txt"))

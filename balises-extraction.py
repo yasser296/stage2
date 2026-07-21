@@ -225,7 +225,7 @@ def main():
     # Mets ici un SUmid si tu veux analyser un message précis.
     # Exemple :
     # sumid_recherche = "15DFB505FFF2D690"
-    sumid_recherche = "15DFAB88FFF2D5A8"
+    sumid_recherche = "15DF7EF4FFF2D2C3"
 
     message_xml = extraire_message_depuis_fichier(chemin_fichier, sumid_recherche)
 

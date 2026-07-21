@@ -3,151 +3,143 @@ HIERARCHIE DU MESSAGE SAA
 ====================================================================================================
 Message
 ├── Identifier
-│   ├── SUmid : 15DFAB88FFF2D5A8
-│   ├── PassiveLockToken : odaL9eW3TCcT6JGjTEbiMS1wf+RHesYr7y4g0GqNiQQ=
+│   ├── SUmid : 15DF7EF4FFF2D2C3
+│   ├── PassiveLockToken : d9Qwf7q/V8kPT6zxaJ+OpiQiYx0XG6P4ijC/H/GYNvQ=
 │   └── TableId : 20260603
-├── ValidationRequested : NONE
-├── ValidationPassed : NONE
+├── ValidationRequested : MINIMUM
+├── ValidationPassed : MINIMUM
 ├── Class : NORMAL
 ├── TextReadonly : false
 ├── DeleteInhibited : false
 ├── TextModified : false
 ├── Partial : false
 ├── Status : COMPLETED
-├── CreationApplication : Applic. Interface
-├── CreationMpfnName : AI_from_APPLI
-├── CreationRoutingPoint : _AI_from_APPLI
+├── CreationApplication : SWIFTNet Interface
+├── CreationMpfnName : _SI_from_SWIFTNet
+├── CreationRoutingPoint : _SI_from_SWIFTNet
 ├── CreationOperator : SYSTEM
-├── CreationDate : 2026-06-03T17:16:56.000+01:00
+├── CreationDate : 2026-06-03T20:27:08.000+01:00
 ├── ModificationOperator : SYSTEM
-├── ModificationDate : 2026-06-03T17:16:56.000+01:00
-├── CasSenderReference : QU1RIFFNU1dJRlQgICAgIJfIh2kB8j5L
-├── RecoveryAcceptInfo : true
-├── Uumid : ISOGEFRPPXXX199SGMAD-260602-024
-├── UumidSuffix : 862807
-├── SenderCorrespondentType : CORR_TYPE_INSTITUTION
-├── SenderCorrespondentInstitutionName : SGMBMAMCXXX
-├── FormatName : Swift
-├── SubFormat : INPUT
-├── SyntaxTableVersion : 2505
+├── ModificationDate : 2026-06-03T20:27:08.000+01:00
+├── Uumid : OCHASUS33XXX008260603PIAPN112985362
+├── UumidSuffix : 863548
+├── SenderCorrespondentType : CORR_TYPE_DEPARTMENT
+├── SenderCorrespondentInstitutionName : CHASUS33XXX
+├── SenderCorrespondentDepartment : fxr
+├── FormatName : MX
+├── SubFormat : OUTPUT
+├── SyntaxTableVersion
 ├── Nature : FINANCIAL
-├── NetworkApplicationIndication : FIN
-├── Type : 199
+├── Type : 008
 ├── Live : true
 ├── NetworkPriority : NORMAL
 ├── DeliveryOverdueWarningRequired : false
-├── NetworkDeliveryNotificationRequired : false
-├── UserIssuedAsPde : true
-├── TransactionReference : SGMAD-260602-024
-├── PossibleDuplicate : true
-├── MessageIdentifier : fin.199
-├── SenderSwiftAddress : SGMBMAMCAXXX
-├── ReceiverSwiftAddress : SOGEFRPPXXXX
-├── Service : swift.fin
-├── ExpiryDateTime : 2026-06-23T17:16:56.000+01:00
-├── HasVerifiableField : false
-├── TransactionNumber : 1084045
-├── MessageUuid : 1625d197-ed5d-497f-ab83-eb791c086398
+├── UserReferenceText : 260603PIAPN112985362
+├── FinValueDate : 260604
+├── FinCurrencyAmount : MAD 22320,
+├── MessageUserGroup : pacs
+├── PossibleDuplicate : false
+├── MessageIdentifier : pacs.008.001.08
+├── RequestorDn : ou=fxr,o=chasus33,o=swift
+├── Service : swift.finplus
+├── RequestType : pacs.008.001.08
+├── RequestSubtype : swift.cbprplus.03
+├── UsageIdentifier : swift.cbprplus.03
+├── XmlQueryReference1 : E212209080393544
+├── XmlQueryReference3 : 2026-06-03T19:26:15.095+00:00
+├── ExpiryDateTime : 2026-06-23T20:27:08.000+01:00
+├── HasVerifiableField : true
+├── TransactionNumber : 1084786
+├── E2ETransactionReference : 21220908-0317-4104-a154-000002025444
+├── TransactionManagerResult : TDOK
+├── MessageUuid : 22bb61fc-392a-4616-86ed-90da0f536f8b
+├── HeaderIdentifier : head.001.001.02
 ├── Instance
 │   ├── Identifier
-│   │   ├── SUmid : 15DFAB88FFF2D5A8
+│   │   ├── SUmid : 15DF7EF4FFF2D2C3
 │   │   ├── Number : 0
-│   │   └── PassiveLockToken : 0sFanVerpPc0QcThaP9kxdaHz9gTjqqKDibysy+VBEM=
+│   │   └── PassiveLockToken : uBJpWoGbfDPcrmV3N6fHZKh8O1hLNzsRQnYFgvpGZ6w=
 │   ├── Type : ORIGINAL
 │   ├── NotificationType : NONE
 │   ├── Status : COMPLETED
 │   ├── RelatedNumber : 0
 │   ├── AppendixSequenceNumber : 0
 │   ├── UnitName : SGMBMAMC
-│   ├── MpfnName : _SI_to_SWIFT
+│   ├── MpfnName : FLTS_mpf_Suspect
 │   ├── ProcessState : 0
 │   ├── LastMpfnResult : SUCCESS
 │   ├── RelativeReference : 0
-│   ├── Priority : 6
-│   ├── DeferredTime : 2038-01-19T03:09:52Z
-│   ├── CreationApplication : Applic. Interface
-│   ├── CreationMpfnName : AI_from_APPLI
-│   ├── CreationRoutingPoint : _AI_from_APPLI
-│   ├── CreationDate : 2026-06-03T17:16:56.000+01:00
+│   ├── Priority : 7
+│   ├── CreationApplication : SWIFTNet Interface
+│   ├── CreationMpfnName : _SI_from_SWIFTNet
+│   ├── CreationRoutingPoint : _SI_from_SWIFTNet
+│   ├── CreationDate : 2026-06-03T20:27:08.000+01:00
 │   ├── InitialTargetRoutingPoint : DDASINTMD
 │   ├── LastOperator : SYSTEM
-│   ├── ReceiverCorrespondentType : CORR_TYPE_INSTITUTION
-│   ├── ReceiverCorrespondentInstitutionName : SOGEFRPPXXX
-│   ├── RoutingCode : IACCEPT
+│   ├── ReceiverCorrespondentType : CORR_TYPE_DEPARTMENT
+│   ├── ReceiverCorrespondentInstitutionName : SGMBMAMCXXX
+│   ├── ReceiverCorrespondentDepartment : xxx
+│   ├── RoutingCode : OUNIQUE
+│   ├── ResponderDn : ou=xxx,o=sgmbmamc,o=swift
+│   ├── DeliveryMode : STORE_AND_FORWARD
 │   ├── MessagePreparationStatus : MESG_PREP_NONE
 │   ├── Intervention
 │   │   ├── Identifier
-│   │   │   ├── SUmid : 15DFAB88FFF2D5A8
+│   │   │   ├── SUmid : 15DF7EF4FFF2D2C3
 │   │   │   ├── InstanceNumber : 0
-│   │   │   ├── DateTime : 2026-06-03T17:16:56.000+01:00
-│   │   │   ├── InternalSequenceNumber : 18861313
+│   │   │   ├── DateTime : 2026-06-03T20:27:08.000+01:00
+│   │   │   ├── InternalSequenceNumber : 18874876
 │   │   │   └── PassiveLockToken : yF+7gSz8cGQEvsZPltcAhP8NjSUthqr1alNmjckQHxI=
 │   │   ├── Number : 2000
 │   │   ├── Name : Instance created
 │   │   ├── Category : ROUTING
 │   │   ├── Operator : SYSTEM
-│   │   ├── Application : Applic. Interface
-│   │   ├── MpfnName : AI_from_APPLI
+│   │   ├── Application : SWIFTNet Interface
+│   │   ├── MpfnName : _SI_from_SWIFTNet
 │   │   ├── AppendixSequenceNumber : 0
-│   │   ├── Length : 73
-│   │   ├── Text : Created at rp [_AI_from_APPLI] and assigned to unit [None], priority [6]
+│   │   ├── Length : 76
+│   │   ├── Text : Created at rp [_SI_from_SWIFTNet] and assigned to unit [None], priority [7]
 │   │   └── SignatureWeight : 0
 │   ├── Intervention
 │   │   ├── Identifier
-│   │   │   ├── SUmid : 15DFAB88FFF2D5A8
+│   │   │   ├── SUmid : 15DF7EF4FFF2D2C3
 │   │   │   ├── InstanceNumber : 0
-│   │   │   ├── DateTime : 2026-06-03T17:16:56.000+01:00
-│   │   │   ├── InternalSequenceNumber : 18861315
-│   │   │   └── PassiveLockToken : yF+7gSz8cGQEvsZPltcAhP8NjSUthqr1alNmjckQHxI=
-│   │   ├── Number : 2010
-│   │   ├── Name : Possible Duplicate Message
-│   │   ├── Category : MESG_MODIFIED
-│   │   ├── Operator : SYSTEM
-│   │   ├── MpfnName
-│   │   ├── AppendixSequenceNumber : 0
-│   │   ├── Length : 114
-│   │   ├── Text : Duplicate of message with UMID [ ISOGEFRPPXXX199SGMAD-260602-024260602850337 ] created on [ 2026-06-02T16:54:45 ]
-│   │   └── SignatureWeight : 0
-│   ├── Intervention
-│   │   ├── Identifier
-│   │   │   ├── SUmid : 15DFAB88FFF2D5A8
-│   │   │   ├── InstanceNumber : 0
-│   │   │   ├── DateTime : 2026-06-03T17:16:56.000+01:00
-│   │   │   ├── InternalSequenceNumber : 18861316
+│   │   │   ├── DateTime : 2026-06-03T20:27:08.000+01:00
+│   │   │   ├── InternalSequenceNumber : 18874879
 │   │   │   └── PassiveLockToken : yF+7gSz8cGQEvsZPltcAhP8NjSUthqr1alNmjckQHxI=
 │   │   ├── Number : 2002
 │   │   ├── Name : Rule rule_text
 │   │   ├── Category : ROUTING
 │   │   ├── Operator : SYSTEM
-│   │   ├── Application : Applic. Interface
-│   │   ├── MpfnName : AI_from_APPLI
+│   │   ├── Application : SWIFTNet Interface
+│   │   ├── MpfnName : _SI_from_SWIFTNet
 │   │   ├── AppendixSequenceNumber : 0
 │   │   ├── Length : 60
 │   │   ├── Text : Unit assignment change from [None] to [SGMBMAMC] on routing
 │   │   └── SignatureWeight : 0
 │   ├── Intervention
 │   │   ├── Identifier
-│   │   │   ├── SUmid : 15DFAB88FFF2D5A8
+│   │   │   ├── SUmid : 15DF7EF4FFF2D2C3
 │   │   │   ├── InstanceNumber : 0
-│   │   │   ├── DateTime : 2026-06-03T17:16:56.000+01:00
-│   │   │   ├── InternalSequenceNumber : 18861318
+│   │   │   ├── DateTime : 2026-06-03T20:27:08.000+01:00
+│   │   │   ├── InternalSequenceNumber : 18874880
 │   │   │   └── PassiveLockToken : yF+7gSz8cGQEvsZPltcAhP8NjSUthqr1alNmjckQHxI=
 │   │   ├── Number : 2001
 │   │   ├── Name : Instance routed
 │   │   ├── Category : ROUTING
 │   │   ├── Operator : SYSTEM
-│   │   ├── Application : Applic. Interface
-│   │   ├── MpfnName : AI_from_APPLI
+│   │   ├── Application : SWIFTNet Interface
+│   │   ├── MpfnName : _SI_from_SWIFTNet
 │   │   ├── AppendixSequenceNumber : 0
-│   │   ├── Length : 193
-│   │   ├── Text : Routed from rp [_AI_from_APPLI] to rp [DDASINTMD]; 1 instance(s) created at [REPSINPUT] (Rule:USER,200) respectively;On Processing by Function AI_from_APPLI with result Success;(Rule:USER,400)
+│   │   ├── Length : 198
+│   │   ├── Text : Routed from rp [_SI_from_SWIFTNet] to rp [DDASINTMD]; 1 instance(s) created at [REPSINPUT] (Rule:USER,10) respectively;On Processing by Function _SI_from_SWIFTNet with result Success;(Rule:USER,30)
 │   │   └── SignatureWeight : 0
 │   ├── Intervention
 │   │   ├── Identifier
-│   │   │   ├── SUmid : 15DFAB88FFF2D5A8
+│   │   │   ├── SUmid : 15DF7EF4FFF2D2C3
 │   │   │   ├── InstanceNumber : 0
-│   │   │   ├── DateTime : 2026-06-03T17:16:59.000+01:00
-│   │   │   ├── InternalSequenceNumber : 18861330
+│   │   │   ├── DateTime : 2026-06-03T20:27:11.000+01:00
+│   │   │   ├── InternalSequenceNumber : 18874885
 │   │   │   └── PassiveLockToken : yF+7gSz8cGQEvsZPltcAhP8NjSUthqr1alNmjckQHxI=
 │   │   ├── Number : 2999
 │   │   ├── Name : Toolkit intervention type
@@ -156,14 +148,14 @@ Message
 │   │   ├── MpfnName : DDASFUNCa
 │   │   ├── AppendixSequenceNumber : 0
 │   │   ├── Length : 91
-│   │   ├── Text : RouteWaitingInstances: Message with sumid 15DFAB88FFF2D5A8 Routing code changed to DECISIN
+│   │   ├── Text : RouteWaitingInstances: Message with sumid 15DF7EF4FFF2D2C3 Routing code changed to OUNIQUE
 │   │   └── SignatureWeight : 0
 │   ├── Intervention
 │   │   ├── Identifier
-│   │   │   ├── SUmid : 15DFAB88FFF2D5A8
+│   │   │   ├── SUmid : 15DF7EF4FFF2D2C3
 │   │   │   ├── InstanceNumber : 0
-│   │   │   ├── DateTime : 2026-06-03T17:16:59.000+01:00
-│   │   │   ├── InternalSequenceNumber : 18861331
+│   │   │   ├── DateTime : 2026-06-03T20:27:11.000+01:00
+│   │   │   ├── InternalSequenceNumber : 18874886
 │   │   │   └── PassiveLockToken : yF+7gSz8cGQEvsZPltcAhP8NjSUthqr1alNmjckQHxI=
 │   │   ├── Number : 2999
 │   │   ├── Name : Toolkit intervention type
@@ -172,14 +164,14 @@ Message
 │   │   ├── MpfnName : DDASFUNCa
 │   │   ├── AppendixSequenceNumber : 0
 │   │   ├── Length : 87
-│   │   ├── Text : RouteWaitingInstances: Message with sumid 15DFAB88FFF2D5A8 User Comments (If Exist!):
+│   │   ├── Text : RouteWaitingInstances: Message with sumid 15DF7EF4FFF2D2C3 User Comments (If Exist!):
 │   │   └── SignatureWeight : 0
 │   ├── Intervention
 │   │   ├── Identifier
-│   │   │   ├── SUmid : 15DFAB88FFF2D5A8
+│   │   │   ├── SUmid : 15DF7EF4FFF2D2C3
 │   │   │   ├── InstanceNumber : 0
-│   │   │   ├── DateTime : 2026-06-03T17:16:59.000+01:00
-│   │   │   ├── InternalSequenceNumber : 18861333
+│   │   │   ├── DateTime : 2026-06-03T20:27:11.000+01:00
+│   │   │   ├── InternalSequenceNumber : 18874888
 │   │   │   └── PassiveLockToken : yF+7gSz8cGQEvsZPltcAhP8NjSUthqr1alNmjckQHxI=
 │   │   ├── Number : 2001
 │   │   ├── Name : Instance routed
@@ -187,177 +179,171 @@ Message
 │   │   ├── Operator : SYSTEM
 │   │   ├── MpfnName : DDASFUNCa
 │   │   ├── AppendixSequenceNumber : 0
-│   │   ├── Length : 183
-│   │   ├── Text : Routed from rp [DDASINTMD] to rp [DDASSEND]; 1 instance(s) created at [REPSINPUT] (Rule:USER,10) respectively;On Processing by Function DDASFUNCa with result Success;(Rule:USER,2700)
+│   │   ├── Length : 184
+│   │   ├── Text : Routed from rp [DDASINTMD] to rp [FLTS_RP_TO]; 1 instance(s) created at [REPSINPUT] (Rule:USER,30) respectively;On Processing by Function DDASFUNCa with result Success;(Rule:USER,500)
 │   │   └── SignatureWeight : 0
 │   ├── Intervention
 │   │   ├── Identifier
-│   │   │   ├── SUmid : 15DFAB88FFF2D5A8
+│   │   │   ├── SUmid : 15DF7EF4FFF2D2C3
 │   │   │   ├── InstanceNumber : 0
-│   │   │   ├── DateTime : 2026-06-04T08:54:41.000+01:00
-│   │   │   ├── InternalSequenceNumber : 18942283
+│   │   │   ├── DateTime : 2026-06-03T20:27:11.000+01:00
+│   │   │   ├── InternalSequenceNumber : 18874889
 │   │   │   └── PassiveLockToken : yF+7gSz8cGQEvsZPltcAhP8NjSUthqr1alNmjckQHxI=
-│   │   ├── Number : 2999
-│   │   ├── Name : Toolkit intervention type
-│   │   ├── Category : OTHER
+│   │   ├── Number : 2002
+│   │   ├── Name : Rule rule_text
+│   │   ├── Category : ROUTING
 │   │   ├── Operator : SYSTEM
-│   │   ├── MpfnName : DDASFUNCa
+│   │   ├── Application : FLTS_to_appl
+│   │   ├── MpfnName : FLTS_mpf_To
 │   │   ├── AppendixSequenceNumber : 0
-│   │   ├── Length : 91
-│   │   ├── Text : RouteWaitingInstances: Message with sumid 15DFAB88FFF2D5A8 Routing code changed to IACCEPT
+│   │   ├── Length : 79
+│   │   ├── Text : Message sent to on-line name matching and routed to FLTS_RP_WAIT successfully.
 │   │   └── SignatureWeight : 0
 │   ├── Intervention
 │   │   ├── Identifier
-│   │   │   ├── SUmid : 15DFAB88FFF2D5A8
+│   │   │   ├── SUmid : 15DF7EF4FFF2D2C3
 │   │   │   ├── InstanceNumber : 0
-│   │   │   ├── DateTime : 2026-06-04T08:54:41.000+01:00
-│   │   │   ├── InternalSequenceNumber : 18942284
-│   │   │   └── PassiveLockToken : yF+7gSz8cGQEvsZPltcAhP8NjSUthqr1alNmjckQHxI=
-│   │   ├── Number : 2999
-│   │   ├── Name : Toolkit intervention type
-│   │   ├── Category : OTHER
-│   │   ├── Operator : SYSTEM
-│   │   ├── MpfnName : DDASFUNCa
-│   │   ├── AppendixSequenceNumber : 0
-│   │   ├── Length : 105
-│   │   ├── Text : RouteWaitingInstances: Message with sumid 15DFAB88FFF2D5A8 User Comments (If Exist!): Accepted by LOUZES
-│   │   └── SignatureWeight : 0
-│   ├── Intervention
-│   │   ├── Identifier
-│   │   │   ├── SUmid : 15DFAB88FFF2D5A8
-│   │   │   ├── InstanceNumber : 0
-│   │   │   ├── DateTime : 2026-06-04T08:54:41.000+01:00
-│   │   │   ├── InternalSequenceNumber : 18942285
+│   │   │   ├── DateTime : 2026-06-03T20:27:11.000+01:00
+│   │   │   ├── InternalSequenceNumber : 18874890
 │   │   │   └── PassiveLockToken : yF+7gSz8cGQEvsZPltcAhP8NjSUthqr1alNmjckQHxI=
 │   │   ├── Number : 2001
 │   │   ├── Name : Instance routed
 │   │   ├── Category : ROUTING
 │   │   ├── Operator : SYSTEM
-│   │   ├── MpfnName : DDASFUNCa
+│   │   ├── Application : FLTS_to_appl
+│   │   ├── MpfnName : FLTS_mpf_To
 │   │   ├── AppendixSequenceNumber : 0
-│   │   ├── Length : 121
-│   │   ├── Text : Routed from rp [DDASSEND] to rp [_SI_to_SWIFT]; On Processing by Function DDASFUNCa with result Success;(Rule:USER,1700)
+│   │   ├── Length : 123
+│   │   ├── Text : Routed from rp [FLTS_RP_TO] to rp [FLTS_RP_WAIT]; On Processing by Function FLTS_mpf_To with result Success;(Rule:USER,10)
 │   │   └── SignatureWeight : 0
 │   ├── Intervention
 │   │   ├── Identifier
-│   │   │   ├── SUmid : 15DFAB88FFF2D5A8
+│   │   │   ├── SUmid : 15DF7EF4FFF2D2C3
 │   │   │   ├── InstanceNumber : 0
-│   │   │   ├── DateTime : 2026-06-04T08:54:55.000+01:00
-│   │   │   ├── InternalSequenceNumber : 18942300
+│   │   │   ├── DateTime : 2026-06-03T20:27:12.000+01:00
+│   │   │   ├── InternalSequenceNumber : 18874899
+│   │   │   └── PassiveLockToken : yF+7gSz8cGQEvsZPltcAhP8NjSUthqr1alNmjckQHxI=
+│   │   ├── Number : 2002
+│   │   ├── Name : Rule rule_text
+│   │   ├── Category : ROUTING
+│   │   ├── Operator : SYSTEM
+│   │   ├── Application : FLTS_appl_wait_rp
+│   │   ├── MpfnName : FLTS_mpf_Wait
+│   │   ├── AppendixSequenceNumber : 0
+│   │   ├── Length : 94
+│   │   ├── Text : Received result HIT for message. Message routed to FLTS_RP_SUSPECT to wait for final result.
+│   │   └── SignatureWeight : 0
+│   ├── Intervention
+│   │   ├── Identifier
+│   │   │   ├── SUmid : 15DF7EF4FFF2D2C3
+│   │   │   ├── InstanceNumber : 0
+│   │   │   ├── DateTime : 2026-06-03T20:27:12.000+01:00
+│   │   │   ├── InternalSequenceNumber : 18874900
+│   │   │   └── PassiveLockToken : yF+7gSz8cGQEvsZPltcAhP8NjSUthqr1alNmjckQHxI=
+│   │   ├── Number : 2001
+│   │   ├── Name : Instance routed
+│   │   ├── Category : ROUTING
+│   │   ├── Operator : SYSTEM
+│   │   ├── Application : FLTS_appl_wait_rp
+│   │   ├── MpfnName : FLTS_mpf_Wait
+│   │   ├── AppendixSequenceNumber : 0
+│   │   ├── Length : 209
+│   │   ├── Text : Routed from rp [FLTS_RP_WAIT] to rp [FLTS_RP_SUSPECT]; 2 instance(s) created at [REPSINPUT,REPSINPUT] (Rule:USER,3;USER,5) respectively;On Processing by Function FLTS_mpf_Wait with result Hit;(Rule:USER,2000)
+│   │   └── SignatureWeight : 0
+│   ├── Intervention
+│   │   ├── Identifier
+│   │   │   ├── SUmid : 15DF7EF4FFF2D2C3
+│   │   │   ├── InstanceNumber : 0
+│   │   │   ├── DateTime : 2026-06-04T08:31:10.000+01:00
+│   │   │   ├── InternalSequenceNumber : 18939270
+│   │   │   └── PassiveLockToken : yF+7gSz8cGQEvsZPltcAhP8NjSUthqr1alNmjckQHxI=
+│   │   ├── Number : 2001
+│   │   ├── Name : Instance routed
+│   │   ├── Category : ROUTING
+│   │   ├── Operator : SYSTEM
+│   │   ├── Application : FLTS_appl_suspect_rp
+│   │   ├── MpfnName : FLTS_mpf_Suspect
+│   │   ├── AppendixSequenceNumber : 0
+│   │   ├── Length : 224
+│   │   ├── Text : Routed from rp [FLTS_RP_SUSPECT] to rp [OutMesgMXFromDDA]; 2 instance(s) created at [REPSINPUT,REPSINPUT] (Rule:USER,3;USER,5) respectively;On Processing by Function FLTS_mpf_Suspect with result DisApproved;(Rule:USER,1600)
+│   │   └── SignatureWeight : 0
+│   ├── Intervention
+│   │   ├── Identifier
+│   │   │   ├── SUmid : 15DF7EF4FFF2D2C3
+│   │   │   ├── InstanceNumber : 0
+│   │   │   ├── DateTime : 2026-06-04T08:31:10.000+01:00
+│   │   │   ├── InternalSequenceNumber : 18939272
 │   │   │   └── PassiveLockToken : yF+7gSz8cGQEvsZPltcAhP8NjSUthqr1alNmjckQHxI=
 │   │   ├── Number : 2004
 │   │   ├── Name : Instance completed
 │   │   ├── Category : ROUTING
 │   │   ├── Operator : SYSTEM
-│   │   ├── Application : SWIFT Interface
-│   │   ├── MpfnName : _SI_to_SWIFT
+│   │   ├── Application : FLTS_appl_suspect_rp
+│   │   ├── MpfnName : FLTS_mpf_Suspect
 │   │   ├── AppendixSequenceNumber : 0
-│   │   ├── Length : 193
-│   │   ├── Text : Completed in rp [_SI_to_SWIFT]; 2 instance(s) created at [REPSINPUT,PRINTOUT_EP] (Rule:USER,10;USER,60) respectively;On Processing by Function _SI_to_SWIFT with result Success;(Rule:USER,3000)
+│   │   ├── Length : 178
+│   │   ├── Text : Completed in rp [OutMesgMXFromDDA]; 1 instance(s) created at [IMP_08_PRINT_MX] (Rule:USER,12) respectively;On Processing by Function FLTS_mpf_Suspect with result ;(Rule:USER,12)
 │   │   └── SignatureWeight : 0
 │   ├── Appendix
 │   │   ├── Identifier
-│   │   │   ├── SUmid : 15DFAB88FFF2D5A8
+│   │   │   ├── SUmid : 15DF7EF4FFF2D2C3
 │   │   │   ├── InstanceNumber : 0
-│   │   │   ├── DateTime : 2026-06-03T17:16:56.000+01:00
-│   │   │   ├── InternalSequenceNumber : 18861314
+│   │   │   ├── DateTime : 2026-06-03T20:27:08.000+01:00
+│   │   │   ├── InternalSequenceNumber : 18874877
 │   │   │   └── PassiveLockToken : 4kah8rl/BVdMRiT3f8JsCcd1PHm5pM5cZc97o/ZAW4c=
-│   │   ├── IntegratedApplication : APPLI
+│   │   ├── IntegratedApplication : SWIFTNet
 │   │   ├── Type : RECEPTION
-│   │   ├── SessionHolder : SAHAMV10MPin
-│   │   ├── SessionNumber : 2121
-│   │   ├── SequenceNumber : 458256
-│   │   ├── TransmissionNumber : 18861314
-│   │   ├── CreatingApplication : Applic. Interface
-│   │   ├── CreatingMpfn : AI_from_APPLI
-│   │   ├── CreatingRoutingPoint : _AI_from_APPLI
-│   │   ├── ConnectionResponseCode : QUEUE_READY
-│   │   ├── LauResult : NONE
-│   │   ├── NetworkDeliveryStatus : ACKED
-│   │   └── RemoteInputTime : 2026-06-03T16:16:56
-│   ├── Appendix
-│   │   ├── Identifier
-│   │   │   ├── SUmid : 15DFAB88FFF2D5A8
-│   │   │   ├── InstanceNumber : 0
-│   │   │   ├── DateTime : 2026-06-04T08:54:47.000+01:00
-│   │   │   ├── InternalSequenceNumber : 18942291
-│   │   │   └── PassiveLockToken : 1iHk2JxthZvmOzQb73sJRW4RE3b5/M0Fs5Dk5aLUL0Q=
-│   │   ├── IntegratedApplication : SWIFT
-│   │   ├── Type : EMISSION
-│   │   ├── SessionHolder : SGMBMAMCAXXXF
-│   │   ├── SessionNumber : 2016
-│   │   ├── SequenceNumber : 309100
-│   │   ├── TransmissionNumber : 18942291
-│   │   ├── CreatingApplication : SWIFT Interface
-│   │   ├── CreatingMpfn : _SI_to_SWIFT
-│   │   ├── CreatingRoutingPoint : _SI_to_SWIFT
-│   │   ├── ChecksumResult : SUCCESS
-│   │   ├── ChecksumValue : 19C9DBB190AA
+│   │   ├── SessionHolder : sgmbmamc_finplus
+│   │   ├── SessionNumber : 000091
+│   │   ├── SequenceNumber : 000067721
+│   │   ├── TransmissionNumber : 18874877
+│   │   ├── CreatingApplication : SWIFTNet Interface
+│   │   ├── CreatingMpfn : _SI_from_SWIFTNet
+│   │   ├── CreatingRoutingPoint : _SI_from_SWIFTNet
+│   │   ├── AuthenticationResult : SUCCESS
+│   │   ├── AuthenticationValue : <SwSec:Signature><SwSec:SignedInfo><Sw:Reference><Sw:DigestValue>tL/Ds+Ou/Dz9me7JJQqw0Bw4PTMpuEzjdf+2hom+lRo=</Sw:DigestValue></Sw:Reference></SwSec:SignedInfo><SwSec:SignatureValue>PEMF@Proc-Type: 4,MIC-ONLY Content-Domain: RFC822 EntrustFile-Version: 2.0 Originator-DN: cn=%1,cn=live,ou=transaction-signing,ou=transactionmanager,o=swift,o=swift Orig-SN: 1740290302 MIC-Info: SHA256, RSA, uswaH/WBNmL/xystHgcgFDt6tTHFht8Pl389+vvkJZ525t67TUCfKIUxVIyEly+Y P8kB3QN53718J12C5N4IYr/tKY5tuayHwJr0JzrK1RvXHp9NC+l/ipRFHXpIF/Ye gnw8+Aj+2rbP5E6ECm3Zv+QtGu5zgJ8O/S3aJ5e1KDbuyZRdulO1aEQP8k+xrA53 NTN77ASuKihsQuI9UN1dPALcP5uAFCH4JyLJmne7rGTXEgPpYU7XxksCyjC3IuvX SNJ56ZdxZGAFyVzNWljgJeC7z4zPOJ+AKjzQ6nQCsYM4TjquzebUpv/2sZpqglWS kIPobQr7Y9SS/qWlDLh+ig== </SwSec:SignatureValue><SwSec:KeyInfo><SwSec:SignDN>cn=%1,cn=live,ou=transaction-signing,ou=transactionmanager,o=swift,o=swift</SwSec:SignDN><SwSec:CertPolicyId>1.3.21.6.3.10.200.4</SwSec:CertPolicyId></SwSec:KeyInfo><SwSec:Manifest><Sw:Reference><Sw:DigestRef>TRD</Sw:DigestRef><Sw:DigestValue>DWH/7ilKAtPS9bspbpgbdJQF8OrXzDFnp/eD3XBDiVQ=</Sw:DigestValue></Sw:Reference><Sw:Reference><Sw:DigestRef>Sw.IARequestHeader</Sw:DigestRef><Sw:DigestValue>hejB85MebGeJzzoI5TeNJkpPN5Chqn/BtaGGHmlNbLY=</Sw:DigestValue></Sw:Reference><Sw:Reference><Sw:DigestRef>Sw.RequestPayload and RND</Sw:DigestRef><Sw:DigestValue>hFRm5ppoKXOjhX+KKUmZnuSW86h2p6r2oRqMHrTZdh8=</Sw:DigestValue></Sw:Reference></SwSec:Manifest><Sw:Object><Sw:RND>Tkc/THN0SismXnI0aF15VTpOMzQ=</Sw:RND></Sw:Object></SwSec:Signature>
 │   │   ├── LauResult : SUCCESS
-│   │   ├── AckNackLauResult : SUCCESS
-│   │   ├── ReceiverDeliveryStatus : N_A
-│   │   ├── NetworkDeliveryStatus : ACKED
-│   │   ├── AckNackText : {1:F21SGMBMAMCAXXX2016309100}{4:{177:2606040854}{451:0}}
-│   │   ├── PkiAuthenticationValue : <SwSec:Signature><SwSec:SignedInfo><Sw:Reference><Sw:DigestValue>Ls0UOYB8BI1DbMrPugZoaSbKfQbjGoXnGE/jKIxnDvo=</Sw:DigestValue></Sw:Reference></SwSec:SignedInfo><SwSec:SignatureValue>PEMF@Proc-Type: 4,MIC-ONLY Content-Domain: RFC822 EntrustFile-Version: 2.0 Originator-DN: cn=sgmbmamc-fin-prd,o=sgmbmamc,o=swift Orig-SN: 1768079163 MIC-Info: SHA256, RSA, Xu5SAL20hV4Re4/bBem6nuoXbS4gmpXrOKYKg4ID1JNPIXRbq+3JPRnRc3QoWT4A jSa3bjOXZCrqU0JBvW8HYa6NVdOWZCuKXxB/KCzRPr2taz+5s5FkPPyKYxj4WKWW dCY2zBvwQgJ4xxt7kb/jipOj4lRkZjhTAz8kTvFhz2LMohgFqSHqR9ihnGwcMfhV eZ9J/bK9q5bv8OzasIZpDAzrijpNYlS1Xw9CA7AdgNE8bcwXC4wGLXyxBdNxxPQG Z4JVqS5gsHbJ/xlPndiUVabu7gWjtJKNvGyNE9ORXWYHMPcd/B1jptvoiy9FT5rU y+fknRX4wcpYK+NuANA+WQ== </SwSec:SignatureValue><SwSec:KeyInfo><SwSec:SignDN>cn=sgmbmamc-fin-prd,o=sgmbmamc,o=swift</SwSec:SignDN><SwSec:CertPolicyId>1.3.21.6.2</SwSec:CertPolicyId></SwSec:KeyInfo><SwSec:Manifest><Sw:Reference><Sw:DigestRef>M</Sw:DigestRef><Sw:DigestValue>/Dz8/ZpGx0Se9rt1qcLPs8tm2+hs1r2af7cdu0s/v6c=</Sw:DigestValue></Sw:Reference><Sw:Reference><Sw:DigestRef>Sw.E2S</Sw:DigestRef><Sw:DigestValue>Q70GTBf/dvakAymL406zaMLVg1YD7Hq64n6iFmb8GjY=</Sw:DigestValue></Sw:Reference></SwSec:Manifest></SwSec:Signature>
-│   │   ├── PkiCombinedAuthenticationResult : SUCCESS
+│   │   ├── ReceiverDeliveryStatus : DELIVERED
 │   │   ├── PkiAuthorisationResult : N_A
-│   │   ├── PkiAuthenticationResult : SUCCESS
 │   │   ├── CombinedAuthenticationResult : SUCCESS
 │   │   ├── RmaCheckResult : N_A
-│   │   ├── SenderSwiftAddress : SGMBMAMCAXXX
-│   │   └── CorrelationId : SIS-34ec469a-5c38-402e-b6fd-d5fc304044f4
+│   │   ├── SwiftReference : swi99998-2026-06-03T19:27:06.1664.373529Z
+│   │   ├── SwiftRequestReference : SNL99998-2026-06-03T19:27:07.1712.297940Z
+│   │   ├── SnlEndpoint : sni_sgmbmamc
+│   │   ├── SnfQueueName : sgmbmamc_finplus
+│   │   ├── SignerDn : cn=%1,cn=live,ou=transaction-signing,ou=transactionmanager,o=swift,o=swift
+│   │   ├── StoreAndForwardInputTime : 0402:2026-06-03T19:27:07
+│   │   ├── MvalResult : <SwInt:ValResult>Success</SwInt:ValResult>
+│   │   ├── UsePkiSignature : true
+│   │   ├── DeliveryTime : 2026-06-03T19:27:07Z
+│   │   ├── CreationTime : 2026-06-03T19:27:05Z
+│   │   ├── CorrelationId : snna_server-11296-11476-1780514827-1-24120
+│   │   └── TransactionDataSecurityResult : SUCCESS
 │   ├── Property
 │   │   ├── Identifier
 │   │   │   ├── TableId : 20260603
-│   │   │   ├── SUmid : 15DFAB88FFF2D5A8
+│   │   │   ├── SUmid : 15DF7EF4FFF2D2C3
 │   │   │   ├── InstanceNumber : 0
-│   │   │   ├── PropertyName : actualQueue
-│   │   │   ├── PropertySource : OTHER
+│   │   │   ├── PropertyName : SGMB_CNSS_CNSAND_BizMsgId
+│   │   │   ├── PropertySource : USER_KEYWORD
 │   │   │   └── PassiveLockToken : QJjjd58E+0rs7MhrSdF6dPF5/7xJnMIPfSv1UjHmTmk=
-│   │   └── PropertyValue : AMPLITUDEV10.QUEUE.IN
-│   ├── Property
-│   │   ├── Identifier
-│   │   │   ├── TableId : 20260603
-│   │   │   ├── SUmid : 15DFAB88FFF2D5A8
-│   │   │   ├── InstanceNumber : 0
-│   │   │   ├── PropertyName : jms.Dlv
-│   │   │   ├── PropertySource : OTHER
-│   │   │   └── PassiveLockToken : QJjjd58E+0rs7MhrSdF6dPF5/7xJnMIPfSv1UjHmTmk=
-│   │   └── PropertyValue : 2
-│   ├── Property
-│   │   ├── Identifier
-│   │   │   ├── TableId : 20260603
-│   │   │   ├── SUmid : 15DFAB88FFF2D5A8
-│   │   │   ├── InstanceNumber : 0
-│   │   │   ├── PropertyName : jms.Dst
-│   │   │   ├── PropertySource : OTHER
-│   │   │   └── PassiveLockToken : QJjjd58E+0rs7MhrSdF6dPF5/7xJnMIPfSv1UjHmTmk=
-│   │   └── PropertyValue : queue:///AMPLITUDEV10.QUEUE.IN
-│   ├── Property
-│   │   ├── Identifier
-│   │   │   ├── TableId : 20260603
-│   │   │   ├── SUmid : 15DFAB88FFF2D5A8
-│   │   │   ├── InstanceNumber : 0
-│   │   │   ├── PropertyName : jms.Tms
-│   │   │   ├── PropertySource : OTHER
-│   │   │   └── PassiveLockToken : QJjjd58E+0rs7MhrSdF6dPF5/7xJnMIPfSv1UjHmTmk=
-│   │   └── PropertyValue : 1780503408865
+│   │   └── PropertyValue : E212209080393544
 │   └── Property
 │       ├── Identifier
 │       │   ├── TableId : 20260603
-│       │   ├── SUmid : 15DFAB88FFF2D5A8
+│       │   ├── SUmid : 15DF7EF4FFF2D2C3
 │       │   ├── InstanceNumber : 0
-│       │   ├── PropertyName : mcd.Msd
-│       │   ├── PropertySource : OTHER
+│       │   ├── PropertyName : SGMB_MX_InstrId
+│       │   ├── PropertySource : USER_KEYWORD
 │       │   └── PassiveLockToken : QJjjd58E+0rs7MhrSdF6dPF5/7xJnMIPfSv1UjHmTmk=
-│       └── PropertyValue : jms_text
+│       └── PropertyValue : E212209080393544
 ├── Instance
 │   ├── Identifier
-│   │   ├── SUmid : 15DFAB88FFF2D5A8
+│   │   ├── SUmid : 15DF7EF4FFF2D2C3
 │   │   ├── Number : 1
-│   │   └── PassiveLockToken : bIjvEYkw3lPuIMbxp2XJD07/zBHLuWWkiKhlQF5tmWU=
-│   ├── Type : NOTIFICATION
-│   ├── NotificationType : TRANSMISSION
+│   │   └── PassiveLockToken : QH5ERNvxBEzPlK3+F1S2iOjiBalh1fnIWDhNm/8XolA=
+│   ├── Type : COPY
+│   ├── NotificationType : NONE
 │   ├── Status : COMPLETED
 │   ├── RelatedNumber : 0
 │   ├── AppendixSequenceNumber : 0
@@ -366,41 +352,43 @@ Message
 │   ├── ProcessState : 0
 │   ├── LastMpfnResult : SUCCESS
 │   ├── RelativeReference : 0
-│   ├── Priority : 6
-│   ├── DeferredTime : 2038-01-19T03:09:52Z
-│   ├── CreationApplication : Applic. Interface
-│   ├── CreationMpfnName : AI_from_APPLI
+│   ├── Priority : 7
+│   ├── CreationApplication : SWIFTNet Interface
+│   ├── CreationMpfnName : _SI_from_SWIFTNet
 │   ├── CreationRoutingPoint : REPSINPUT
-│   ├── CreationDate : 2026-06-03T17:16:56.000+01:00
+│   ├── CreationDate : 2026-06-03T20:27:08.000+01:00
 │   ├── InitialTargetRoutingPoint : _SM2_rp_completed
 │   ├── LastOperator : SYSTEM
-│   ├── ReceiverCorrespondentType : CORR_TYPE_INSTITUTION
-│   ├── ReceiverCorrespondentInstitutionName : SOGEFRPPXXX
+│   ├── ReceiverCorrespondentType : CORR_TYPE_DEPARTMENT
+│   ├── ReceiverCorrespondentInstitutionName : SGMBMAMCXXX
+│   ├── ReceiverCorrespondentDepartment : xxx
 │   ├── RoutingCode : SUCCESS
+│   ├── ResponderDn : ou=xxx,o=sgmbmamc,o=swift
+│   ├── DeliveryMode : STORE_AND_FORWARD
 │   ├── MessagePreparationStatus : MESG_PREP_NONE
 │   ├── Intervention
 │   │   ├── Identifier
-│   │   │   ├── SUmid : 15DFAB88FFF2D5A8
+│   │   │   ├── SUmid : 15DF7EF4FFF2D2C3
 │   │   │   ├── InstanceNumber : 1
-│   │   │   ├── DateTime : 2026-06-03T17:16:56.000+01:00
-│   │   │   ├── InternalSequenceNumber : 18861317
+│   │   │   ├── DateTime : 2026-06-03T20:27:08.000+01:00
+│   │   │   ├── InternalSequenceNumber : 18874878
 │   │   │   └── PassiveLockToken : yF+7gSz8cGQEvsZPltcAhP8NjSUthqr1alNmjckQHxI=
 │   │   ├── Number : 2000
 │   │   ├── Name : Instance created
 │   │   ├── Category : ROUTING
 │   │   ├── Operator : SYSTEM
-│   │   ├── Application : Applic. Interface
-│   │   ├── MpfnName : AI_from_APPLI
+│   │   ├── Application : SWIFTNet Interface
+│   │   ├── MpfnName : _SI_from_SWIFTNet
 │   │   ├── AppendixSequenceNumber : 0
-│   │   ├── Length : 68
-│   │   ├── Text : Created at rp [REPSINPUT] and assigned to unit [None], priority [6]
+│   │   ├── Length : 72
+│   │   ├── Text : Created at rp [REPSINPUT] and assigned to unit [SGMBMAMC], priority [7]
 │   │   └── SignatureWeight : 0
 │   ├── Intervention
 │   │   ├── Identifier
-│   │   │   ├── SUmid : 15DFAB88FFF2D5A8
+│   │   │   ├── SUmid : 15DF7EF4FFF2D2C3
 │   │   │   ├── InstanceNumber : 1
-│   │   │   ├── DateTime : 2026-06-03T17:25:11.000+01:00
-│   │   │   ├── InternalSequenceNumber : 18862922
+│   │   │   ├── DateTime : 2026-06-03T20:27:28.000+01:00
+│   │   │   ├── InternalSequenceNumber : 18874921
 │   │   │   └── PassiveLockToken : yF+7gSz8cGQEvsZPltcAhP8NjSUthqr1alNmjckQHxI=
 │   │   ├── Number : 2999
 │   │   ├── Name : Toolkit intervention type
@@ -409,15 +397,15 @@ Message
 │   │   ├── Application : PCMS Interface
 │   │   ├── MpfnName : REPSTESTa
 │   │   ├── AppendixSequenceNumber : 0
-│   │   ├── Length : 230
-│   │   ├── Text : ProcessInst: Message has been processed by REPS ADK Component from REPSINPUT queue and it has been inserted into Database with routing code SUCCESS for Message Sumid: 15DFAB88FFF2D5A8 Message UMID: ISOGEFRPPXXX199SGMAD-260602-024
+│   │   ├── Length : 234
+│   │   ├── Text : ProcessInst: Message has been processed by REPS ADK Component from REPSINPUT queue and it has been inserted into Database with routing code SUCCESS for Message Sumid: 15DF7EF4FFF2D2C3 Message UMID: OCHASUS33XXX008260603PIAPN112985362
 │   │   └── SignatureWeight : 0
 │   └── Intervention
 │       ├── Identifier
-│       │   ├── SUmid : 15DFAB88FFF2D5A8
+│       │   ├── SUmid : 15DF7EF4FFF2D2C3
 │       │   ├── InstanceNumber : 1
-│       │   ├── DateTime : 2026-06-03T17:25:11.000+01:00
-│       │   ├── InternalSequenceNumber : 18862923
+│       │   ├── DateTime : 2026-06-03T20:27:28.000+01:00
+│       │   ├── InternalSequenceNumber : 18874922
 │       │   └── PassiveLockToken : yF+7gSz8cGQEvsZPltcAhP8NjSUthqr1alNmjckQHxI=
 │       ├── Number : 2004
 │       ├── Name : Instance completed
@@ -430,7 +418,7 @@ Message
 │       └── SignatureWeight : 0
 ├── Instance
 │   ├── Identifier
-│   │   ├── SUmid : 15DFAB88FFF2D5A8
+│   │   ├── SUmid : 15DF7EF4FFF2D2C3
 │   │   ├── Number : 2
 │   │   └── PassiveLockToken : QH5ERNvxBEzPlK3+F1S2iOjiBalh1fnIWDhNm/8XolA=
 │   ├── Type : COPY
@@ -443,23 +431,25 @@ Message
 │   ├── ProcessState : 0
 │   ├── LastMpfnResult : SUCCESS
 │   ├── RelativeReference : 0
-│   ├── Priority : 6
-│   ├── DeferredTime : 2038-01-19T03:09:52Z
+│   ├── Priority : 7
 │   ├── CreationMpfnName : DDASFUNCa
 │   ├── CreationRoutingPoint : REPSINPUT
-│   ├── CreationDate : 2026-06-03T17:16:59.000+01:00
+│   ├── CreationDate : 2026-06-03T20:27:11.000+01:00
 │   ├── InitialTargetRoutingPoint : DDASINTMD
 │   ├── LastOperator : SYSTEM
-│   ├── ReceiverCorrespondentType : CORR_TYPE_INSTITUTION
-│   ├── ReceiverCorrespondentInstitutionName : SOGEFRPPXXX
+│   ├── ReceiverCorrespondentType : CORR_TYPE_DEPARTMENT
+│   ├── ReceiverCorrespondentInstitutionName : SGMBMAMCXXX
+│   ├── ReceiverCorrespondentDepartment : xxx
 │   ├── RoutingCode : SUCCESS
+│   ├── ResponderDn : ou=xxx,o=sgmbmamc,o=swift
+│   ├── DeliveryMode : STORE_AND_FORWARD
 │   ├── MessagePreparationStatus : MESG_PREP_NONE
 │   ├── Intervention
 │   │   ├── Identifier
-│   │   │   ├── SUmid : 15DFAB88FFF2D5A8
+│   │   │   ├── SUmid : 15DF7EF4FFF2D2C3
 │   │   │   ├── InstanceNumber : 2
-│   │   │   ├── DateTime : 2026-06-03T17:16:59.000+01:00
-│   │   │   ├── InternalSequenceNumber : 18861332
+│   │   │   ├── DateTime : 2026-06-03T20:27:11.000+01:00
+│   │   │   ├── InternalSequenceNumber : 18874887
 │   │   │   └── PassiveLockToken : yF+7gSz8cGQEvsZPltcAhP8NjSUthqr1alNmjckQHxI=
 │   │   ├── Number : 2000
 │   │   ├── Name : Instance created
@@ -468,14 +458,14 @@ Message
 │   │   ├── MpfnName : DDASFUNCa
 │   │   ├── AppendixSequenceNumber : 0
 │   │   ├── Length : 72
-│   │   ├── Text : Created at rp [REPSINPUT] and assigned to unit [SGMBMAMC], priority [6]
+│   │   ├── Text : Created at rp [REPSINPUT] and assigned to unit [SGMBMAMC], priority [7]
 │   │   └── SignatureWeight : 0
 │   ├── Intervention
 │   │   ├── Identifier
-│   │   │   ├── SUmid : 15DFAB88FFF2D5A8
+│   │   │   ├── SUmid : 15DF7EF4FFF2D2C3
 │   │   │   ├── InstanceNumber : 2
-│   │   │   ├── DateTime : 2026-06-03T17:25:11.000+01:00
-│   │   │   ├── InternalSequenceNumber : 18862932
+│   │   │   ├── DateTime : 2026-06-03T20:27:30.000+01:00
+│   │   │   ├── InternalSequenceNumber : 18874923
 │   │   │   └── PassiveLockToken : yF+7gSz8cGQEvsZPltcAhP8NjSUthqr1alNmjckQHxI=
 │   │   ├── Number : 2999
 │   │   ├── Name : Toolkit intervention type
@@ -484,15 +474,15 @@ Message
 │   │   ├── Application : PCMS Interface
 │   │   ├── MpfnName : REPSTESTa
 │   │   ├── AppendixSequenceNumber : 0
-│   │   ├── Length : 230
-│   │   ├── Text : ProcessInst: Message has been processed by REPS ADK Component from REPSINPUT queue and it has been inserted into Database with routing code SUCCESS for Message Sumid: 15DFAB88FFF2D5A8 Message UMID: ISOGEFRPPXXX199SGMAD-260602-024
+│   │   ├── Length : 234
+│   │   ├── Text : ProcessInst: Message has been processed by REPS ADK Component from REPSINPUT queue and it has been inserted into Database with routing code SUCCESS for Message Sumid: 15DF7EF4FFF2D2C3 Message UMID: OCHASUS33XXX008260603PIAPN112985362
 │   │   └── SignatureWeight : 0
 │   └── Intervention
 │       ├── Identifier
-│       │   ├── SUmid : 15DFAB88FFF2D5A8
+│       │   ├── SUmid : 15DF7EF4FFF2D2C3
 │       │   ├── InstanceNumber : 2
-│       │   ├── DateTime : 2026-06-03T17:25:11.000+01:00
-│       │   ├── InternalSequenceNumber : 18862933
+│       │   ├── DateTime : 2026-06-03T20:27:30.000+01:00
+│       │   ├── InternalSequenceNumber : 18874924
 │       │   └── PassiveLockToken : yF+7gSz8cGQEvsZPltcAhP8NjSUthqr1alNmjckQHxI=
 │       ├── Number : 2004
 │       ├── Name : Instance completed
@@ -505,72 +495,56 @@ Message
 │       └── SignatureWeight : 0
 ├── Instance
 │   ├── Identifier
-│   │   ├── SUmid : 15DFAB88FFF2D5A8
+│   │   ├── SUmid : 15DF7EF4FFF2D2C3
 │   │   ├── Number : 3
 │   │   └── PassiveLockToken : QH5ERNvxBEzPlK3+F1S2iOjiBalh1fnIWDhNm/8XolA=
-│   ├── Type : NOTIFICATION
-│   ├── NotificationType : HISTORY
+│   ├── Type : COPY
+│   ├── NotificationType : NONE
 │   ├── Status : COMPLETED
 │   ├── RelatedNumber : 0
-│   ├── AppendixDateTime : 2026-06-04T08:54:47.000+01:00
-│   ├── AppendixSequenceNumber : 18942291
+│   ├── AppendixSequenceNumber : 0
 │   ├── UnitName : SGMBMAMC
 │   ├── MpfnName : REPSTESTa
 │   ├── ProcessState : 0
 │   ├── LastMpfnResult : SUCCESS
 │   ├── RelativeReference : 0
-│   ├── Priority : 6
-│   ├── DeferredTime : 2038-01-19T03:09:52Z
-│   ├── CreationApplication : SWIFT Interface
-│   ├── CreationMpfnName : _SI_to_SWIFT
+│   ├── Priority : 7
+│   ├── CreationApplication : FLTS_appl_wait_rp
+│   ├── CreationMpfnName : FLTS_mpf_Wait
 │   ├── CreationRoutingPoint : REPSINPUT
-│   ├── CreationDate : 2026-06-04T08:54:55.000+01:00
+│   ├── CreationDate : 2026-06-03T20:27:12.000+01:00
 │   ├── InitialTargetRoutingPoint : DDASINTMD
 │   ├── LastOperator : SYSTEM
-│   ├── ReceiverCorrespondentType : CORR_TYPE_INSTITUTION
-│   ├── ReceiverCorrespondentInstitutionName : SOGEFRPPXXX
+│   ├── ReceiverCorrespondentType : CORR_TYPE_DEPARTMENT
+│   ├── ReceiverCorrespondentInstitutionName : SGMBMAMCXXX
+│   ├── ReceiverCorrespondentDepartment : xxx
 │   ├── RoutingCode : SUCCESS
+│   ├── ResponderDn : ou=xxx,o=sgmbmamc,o=swift
+│   ├── DeliveryMode : STORE_AND_FORWARD
 │   ├── MessagePreparationStatus : MESG_PREP_NONE
 │   ├── Intervention
 │   │   ├── Identifier
-│   │   │   ├── SUmid : 15DFAB88FFF2D5A8
+│   │   │   ├── SUmid : 15DF7EF4FFF2D2C3
 │   │   │   ├── InstanceNumber : 3
-│   │   │   ├── DateTime : 2026-06-04T08:54:55.000+01:00
-│   │   │   ├── InternalSequenceNumber : 18942296
+│   │   │   ├── DateTime : 2026-06-03T20:27:12.000+01:00
+│   │   │   ├── InternalSequenceNumber : 18874897
 │   │   │   └── PassiveLockToken : yF+7gSz8cGQEvsZPltcAhP8NjSUthqr1alNmjckQHxI=
 │   │   ├── Number : 2000
 │   │   ├── Name : Instance created
 │   │   ├── Category : ROUTING
 │   │   ├── Operator : SYSTEM
-│   │   ├── Application : SWIFT Interface
-│   │   ├── MpfnName : _SI_to_SWIFT
+│   │   ├── Application : FLTS_appl_wait_rp
+│   │   ├── MpfnName : FLTS_mpf_Wait
 │   │   ├── AppendixSequenceNumber : 0
 │   │   ├── Length : 72
-│   │   ├── Text : Created at rp [REPSINPUT] and assigned to unit [SGMBMAMC], priority [6]
+│   │   ├── Text : Created at rp [REPSINPUT] and assigned to unit [SGMBMAMC], priority [7]
 │   │   └── SignatureWeight : 0
 │   ├── Intervention
 │   │   ├── Identifier
-│   │   │   ├── SUmid : 15DFAB88FFF2D5A8
+│   │   │   ├── SUmid : 15DF7EF4FFF2D2C3
 │   │   │   ├── InstanceNumber : 3
-│   │   │   ├── DateTime : 2026-06-04T08:54:55.000+01:00
-│   │   │   ├── InternalSequenceNumber : 18942297
-│   │   │   └── PassiveLockToken : yF+7gSz8cGQEvsZPltcAhP8NjSUthqr1alNmjckQHxI=
-│   │   ├── Number : 2003
-│   │   ├── Name : Rule message_text
-│   │   ├── Category : ROUTING
-│   │   ├── Operator : SYSTEM
-│   │   ├── Application : SWIFT Interface
-│   │   ├── MpfnName : _SI_to_SWIFT
-│   │   ├── AppendixSequenceNumber : 0
-│   │   ├── Length : 392
-│   │   ├── Text : 20: Transaction Reference Number SGMAD-260602-024 21: Related Reference REC/1000.MAD 79: Narrative ATT MAD PAYMENT TEAM, . WE REFER TO YOUR MT199 DTD 26/05/2026 REF REC/1000.MAD . WE CONFIRM EXECUTING YOUR PAYMEN
-│   │   └── SignatureWeight : 0
-│   ├── Intervention
-│   │   ├── Identifier
-│   │   │   ├── SUmid : 15DFAB88FFF2D5A8
-│   │   │   ├── InstanceNumber : 3
-│   │   │   ├── DateTime : 2026-06-04T08:55:07.000+01:00
-│   │   │   ├── InternalSequenceNumber : 18942305
+│   │   │   ├── DateTime : 2026-06-03T20:27:35.000+01:00
+│   │   │   ├── InternalSequenceNumber : 18874925
 │   │   │   └── PassiveLockToken : yF+7gSz8cGQEvsZPltcAhP8NjSUthqr1alNmjckQHxI=
 │   │   ├── Number : 2999
 │   │   ├── Name : Toolkit intervention type
@@ -579,15 +553,15 @@ Message
 │   │   ├── Application : PCMS Interface
 │   │   ├── MpfnName : REPSTESTa
 │   │   ├── AppendixSequenceNumber : 0
-│   │   ├── Length : 230
-│   │   ├── Text : ProcessInst: Message has been processed by REPS ADK Component from REPSINPUT queue and it has been inserted into Database with routing code SUCCESS for Message Sumid: 15DFAB88FFF2D5A8 Message UMID: ISOGEFRPPXXX199SGMAD-260602-024
+│   │   ├── Length : 234
+│   │   ├── Text : ProcessInst: Message has been processed by REPS ADK Component from REPSINPUT queue and it has been inserted into Database with routing code SUCCESS for Message Sumid: 15DF7EF4FFF2D2C3 Message UMID: OCHASUS33XXX008260603PIAPN112985362
 │   │   └── SignatureWeight : 0
 │   └── Intervention
 │       ├── Identifier
-│       │   ├── SUmid : 15DFAB88FFF2D5A8
+│       │   ├── SUmid : 15DF7EF4FFF2D2C3
 │       │   ├── InstanceNumber : 3
-│       │   ├── DateTime : 2026-06-04T08:55:07.000+01:00
-│       │   ├── InternalSequenceNumber : 18942306
+│       │   ├── DateTime : 2026-06-03T20:27:35.000+01:00
+│       │   ├── InternalSequenceNumber : 18874926
 │       │   └── PassiveLockToken : yF+7gSz8cGQEvsZPltcAhP8NjSUthqr1alNmjckQHxI=
 │       ├── Number : 2004
 │       ├── Name : Instance completed
@@ -600,71 +574,292 @@ Message
 │       └── SignatureWeight : 0
 ├── Instance
 │   ├── Identifier
-│   │   ├── SUmid : 15DFAB88FFF2D5A8
+│   │   ├── SUmid : 15DF7EF4FFF2D2C3
 │   │   ├── Number : 4
-│   │   └── PassiveLockToken : piBsGPSnPU0BHlKSzWKbYtxSTekzvQETHHP7GSybgx0=
-│   ├── Type : NOTIFICATION
-│   ├── NotificationType : TRANSMISSION
+│   │   └── PassiveLockToken : QH5ERNvxBEzPlK3+F1S2iOjiBalh1fnIWDhNm/8XolA=
+│   ├── Type : COPY
+│   ├── NotificationType : NONE
 │   ├── Status : COMPLETED
 │   ├── RelatedNumber : 0
-│   ├── AppendixDateTime : 2026-06-04T08:54:47.000+01:00
-│   ├── AppendixSequenceNumber : 18942291
+│   ├── AppendixSequenceNumber : 0
 │   ├── UnitName : SGMBMAMC
-│   ├── MpfnName : AI_to_APPLI
+│   ├── MpfnName : REPSTESTa
 │   ├── ProcessState : 0
 │   ├── LastMpfnResult : SUCCESS
 │   ├── RelativeReference : 0
-│   ├── Priority : 6
-│   ├── DeferredTime : 2038-01-19T03:09:52Z
-│   ├── CreationApplication : SWIFT Interface
-│   ├── CreationMpfnName : _SI_to_SWIFT
-│   ├── CreationRoutingPoint : PRINTOUT_EP
-│   ├── CreationDate : 2026-06-04T08:54:55.000+01:00
+│   ├── Priority : 7
+│   ├── CreationApplication : FLTS_appl_wait_rp
+│   ├── CreationMpfnName : FLTS_mpf_Wait
+│   ├── CreationRoutingPoint : REPSINPUT
+│   ├── CreationDate : 2026-06-03T20:27:12.000+01:00
 │   ├── InitialTargetRoutingPoint : DDASINTMD
 │   ├── LastOperator : SYSTEM
-│   ├── ReceiverCorrespondentType : CORR_TYPE_INSTITUTION
-│   ├── ReceiverCorrespondentInstitutionName : SOGEFRPPXXX
+│   ├── ReceiverCorrespondentType : CORR_TYPE_DEPARTMENT
+│   ├── ReceiverCorrespondentInstitutionName : SGMBMAMCXXX
+│   ├── ReceiverCorrespondentDepartment : xxx
+│   ├── RoutingCode : SUCCESS
+│   ├── ResponderDn : ou=xxx,o=sgmbmamc,o=swift
+│   ├── DeliveryMode : STORE_AND_FORWARD
 │   ├── MessagePreparationStatus : MESG_PREP_NONE
 │   ├── Intervention
 │   │   ├── Identifier
-│   │   │   ├── SUmid : 15DFAB88FFF2D5A8
+│   │   │   ├── SUmid : 15DF7EF4FFF2D2C3
 │   │   │   ├── InstanceNumber : 4
-│   │   │   ├── DateTime : 2026-06-04T08:54:55.000+01:00
-│   │   │   ├── InternalSequenceNumber : 18942298
+│   │   │   ├── DateTime : 2026-06-03T20:27:12.000+01:00
+│   │   │   ├── InternalSequenceNumber : 18874898
 │   │   │   └── PassiveLockToken : yF+7gSz8cGQEvsZPltcAhP8NjSUthqr1alNmjckQHxI=
 │   │   ├── Number : 2000
 │   │   ├── Name : Instance created
 │   │   ├── Category : ROUTING
 │   │   ├── Operator : SYSTEM
-│   │   ├── Application : SWIFT Interface
-│   │   ├── MpfnName : _SI_to_SWIFT
+│   │   ├── Application : FLTS_appl_wait_rp
+│   │   ├── MpfnName : FLTS_mpf_Wait
 │   │   ├── AppendixSequenceNumber : 0
-│   │   ├── Length : 74
-│   │   ├── Text : Created at rp [PRINTOUT_EP] and assigned to unit [SGMBMAMC], priority [6]
+│   │   ├── Length : 72
+│   │   ├── Text : Created at rp [REPSINPUT] and assigned to unit [SGMBMAMC], priority [7]
 │   │   └── SignatureWeight : 0
 │   ├── Intervention
 │   │   ├── Identifier
-│   │   │   ├── SUmid : 15DFAB88FFF2D5A8
+│   │   │   ├── SUmid : 15DF7EF4FFF2D2C3
 │   │   │   ├── InstanceNumber : 4
-│   │   │   ├── DateTime : 2026-06-04T08:54:55.000+01:00
-│   │   │   ├── InternalSequenceNumber : 18942299
+│   │   │   ├── DateTime : 2026-06-03T20:27:35.000+01:00
+│   │   │   ├── InternalSequenceNumber : 18874927
 │   │   │   └── PassiveLockToken : yF+7gSz8cGQEvsZPltcAhP8NjSUthqr1alNmjckQHxI=
-│   │   ├── Number : 2003
-│   │   ├── Name : Rule message_text
+│   │   ├── Number : 2999
+│   │   ├── Name : Toolkit intervention type
+│   │   ├── Category : OTHER
+│   │   ├── Operator : SYSTEM
+│   │   ├── Application : PCMS Interface
+│   │   ├── MpfnName : REPSTESTa
+│   │   ├── AppendixSequenceNumber : 0
+│   │   ├── Length : 234
+│   │   ├── Text : ProcessInst: Message has been processed by REPS ADK Component from REPSINPUT queue and it has been inserted into Database with routing code SUCCESS for Message Sumid: 15DF7EF4FFF2D2C3 Message UMID: OCHASUS33XXX008260603PIAPN112985362
+│   │   └── SignatureWeight : 0
+│   └── Intervention
+│       ├── Identifier
+│       │   ├── SUmid : 15DF7EF4FFF2D2C3
+│       │   ├── InstanceNumber : 4
+│       │   ├── DateTime : 2026-06-03T20:27:35.000+01:00
+│       │   ├── InternalSequenceNumber : 18874928
+│       │   └── PassiveLockToken : yF+7gSz8cGQEvsZPltcAhP8NjSUthqr1alNmjckQHxI=
+│       ├── Number : 2004
+│       ├── Name : Instance completed
+│       ├── Category : ROUTING
+│       ├── Operator : SYSTEM
+│       ├── MpfnName : REPSTESTa
+│       ├── AppendixSequenceNumber : 0
+│       ├── Length : 107
+│       ├── Text : Completed in rp [REPSINPUT]; On Processing by Function REPSTESTa with result Success;(Rule:DEFAULT_RULE,0)
+│       └── SignatureWeight : 0
+├── Instance
+│   ├── Identifier
+│   │   ├── SUmid : 15DF7EF4FFF2D2C3
+│   │   ├── Number : 5
+│   │   └── PassiveLockToken : QH5ERNvxBEzPlK3+F1S2iOjiBalh1fnIWDhNm/8XolA=
+│   ├── Type : COPY
+│   ├── NotificationType : NONE
+│   ├── Status : COMPLETED
+│   ├── RelatedNumber : 0
+│   ├── AppendixSequenceNumber : 0
+│   ├── UnitName : SGMBMAMC
+│   ├── MpfnName : REPSTESTa
+│   ├── ProcessState : 0
+│   ├── LastMpfnResult : SUCCESS
+│   ├── RelativeReference : 0
+│   ├── Priority : 7
+│   ├── CreationApplication : FLTS_appl_suspect_rp
+│   ├── CreationMpfnName : FLTS_mpf_Suspect
+│   ├── CreationRoutingPoint : REPSINPUT
+│   ├── CreationDate : 2026-06-04T08:31:10.000+01:00
+│   ├── InitialTargetRoutingPoint : DDASINTMD
+│   ├── LastOperator : SYSTEM
+│   ├── ReceiverCorrespondentType : CORR_TYPE_DEPARTMENT
+│   ├── ReceiverCorrespondentInstitutionName : SGMBMAMCXXX
+│   ├── ReceiverCorrespondentDepartment : xxx
+│   ├── RoutingCode : SUCCESS
+│   ├── ResponderDn : ou=xxx,o=sgmbmamc,o=swift
+│   ├── DeliveryMode : STORE_AND_FORWARD
+│   ├── MessagePreparationStatus : MESG_PREP_NONE
+│   ├── Intervention
+│   │   ├── Identifier
+│   │   │   ├── SUmid : 15DF7EF4FFF2D2C3
+│   │   │   ├── InstanceNumber : 5
+│   │   │   ├── DateTime : 2026-06-04T08:31:10.000+01:00
+│   │   │   ├── InternalSequenceNumber : 18939268
+│   │   │   └── PassiveLockToken : yF+7gSz8cGQEvsZPltcAhP8NjSUthqr1alNmjckQHxI=
+│   │   ├── Number : 2000
+│   │   ├── Name : Instance created
 │   │   ├── Category : ROUTING
 │   │   ├── Operator : SYSTEM
-│   │   ├── Application : SWIFT Interface
-│   │   ├── MpfnName : _SI_to_SWIFT
+│   │   ├── Application : FLTS_appl_suspect_rp
+│   │   ├── MpfnName : FLTS_mpf_Suspect
 │   │   ├── AppendixSequenceNumber : 0
-│   │   ├── Length : 392
-│   │   ├── Text : 20: Transaction Reference Number SGMAD-260602-024 21: Related Reference REC/1000.MAD 79: Narrative ATT MAD PAYMENT TEAM, . WE REFER TO YOUR MT199 DTD 26/05/2026 REF REC/1000.MAD . WE CONFIRM EXECUTING YOUR PAYMEN
+│   │   ├── Length : 72
+│   │   ├── Text : Created at rp [REPSINPUT] and assigned to unit [SGMBMAMC], priority [7]
 │   │   └── SignatureWeight : 0
 │   ├── Intervention
 │   │   ├── Identifier
-│   │   │   ├── SUmid : 15DFAB88FFF2D5A8
-│   │   │   ├── InstanceNumber : 4
-│   │   │   ├── DateTime : 2026-06-04T10:00:26.000+01:00
-│   │   │   ├── InternalSequenceNumber : 18957633
+│   │   │   ├── SUmid : 15DF7EF4FFF2D2C3
+│   │   │   ├── InstanceNumber : 5
+│   │   │   ├── DateTime : 2026-06-04T08:31:28.000+01:00
+│   │   │   ├── InternalSequenceNumber : 18939337
+│   │   │   └── PassiveLockToken : yF+7gSz8cGQEvsZPltcAhP8NjSUthqr1alNmjckQHxI=
+│   │   ├── Number : 2999
+│   │   ├── Name : Toolkit intervention type
+│   │   ├── Category : OTHER
+│   │   ├── Operator : SYSTEM
+│   │   ├── Application : PCMS Interface
+│   │   ├── MpfnName : REPSTESTa
+│   │   ├── AppendixSequenceNumber : 0
+│   │   ├── Length : 234
+│   │   ├── Text : ProcessInst: Message has been processed by REPS ADK Component from REPSINPUT queue and it has been inserted into Database with routing code SUCCESS for Message Sumid: 15DF7EF4FFF2D2C3 Message UMID: OCHASUS33XXX008260603PIAPN112985362
+│   │   └── SignatureWeight : 0
+│   └── Intervention
+│       ├── Identifier
+│       │   ├── SUmid : 15DF7EF4FFF2D2C3
+│       │   ├── InstanceNumber : 5
+│       │   ├── DateTime : 2026-06-04T08:31:28.000+01:00
+│       │   ├── InternalSequenceNumber : 18939338
+│       │   └── PassiveLockToken : yF+7gSz8cGQEvsZPltcAhP8NjSUthqr1alNmjckQHxI=
+│       ├── Number : 2004
+│       ├── Name : Instance completed
+│       ├── Category : ROUTING
+│       ├── Operator : SYSTEM
+│       ├── MpfnName : REPSTESTa
+│       ├── AppendixSequenceNumber : 0
+│       ├── Length : 107
+│       ├── Text : Completed in rp [REPSINPUT]; On Processing by Function REPSTESTa with result Success;(Rule:DEFAULT_RULE,0)
+│       └── SignatureWeight : 0
+├── Instance
+│   ├── Identifier
+│   │   ├── SUmid : 15DF7EF4FFF2D2C3
+│   │   ├── Number : 6
+│   │   └── PassiveLockToken : QH5ERNvxBEzPlK3+F1S2iOjiBalh1fnIWDhNm/8XolA=
+│   ├── Type : COPY
+│   ├── NotificationType : NONE
+│   ├── Status : COMPLETED
+│   ├── RelatedNumber : 0
+│   ├── AppendixSequenceNumber : 0
+│   ├── UnitName : SGMBMAMC
+│   ├── MpfnName : REPSTESTa
+│   ├── ProcessState : 0
+│   ├── LastMpfnResult : SUCCESS
+│   ├── RelativeReference : 0
+│   ├── Priority : 7
+│   ├── CreationApplication : FLTS_appl_suspect_rp
+│   ├── CreationMpfnName : FLTS_mpf_Suspect
+│   ├── CreationRoutingPoint : REPSINPUT
+│   ├── CreationDate : 2026-06-04T08:31:10.000+01:00
+│   ├── InitialTargetRoutingPoint : DDASINTMD
+│   ├── LastOperator : SYSTEM
+│   ├── ReceiverCorrespondentType : CORR_TYPE_DEPARTMENT
+│   ├── ReceiverCorrespondentInstitutionName : SGMBMAMCXXX
+│   ├── ReceiverCorrespondentDepartment : xxx
+│   ├── RoutingCode : SUCCESS
+│   ├── ResponderDn : ou=xxx,o=sgmbmamc,o=swift
+│   ├── DeliveryMode : STORE_AND_FORWARD
+│   ├── MessagePreparationStatus : MESG_PREP_NONE
+│   ├── Intervention
+│   │   ├── Identifier
+│   │   │   ├── SUmid : 15DF7EF4FFF2D2C3
+│   │   │   ├── InstanceNumber : 6
+│   │   │   ├── DateTime : 2026-06-04T08:31:10.000+01:00
+│   │   │   ├── InternalSequenceNumber : 18939269
+│   │   │   └── PassiveLockToken : yF+7gSz8cGQEvsZPltcAhP8NjSUthqr1alNmjckQHxI=
+│   │   ├── Number : 2000
+│   │   ├── Name : Instance created
+│   │   ├── Category : ROUTING
+│   │   ├── Operator : SYSTEM
+│   │   ├── Application : FLTS_appl_suspect_rp
+│   │   ├── MpfnName : FLTS_mpf_Suspect
+│   │   ├── AppendixSequenceNumber : 0
+│   │   ├── Length : 72
+│   │   ├── Text : Created at rp [REPSINPUT] and assigned to unit [SGMBMAMC], priority [7]
+│   │   └── SignatureWeight : 0
+│   ├── Intervention
+│   │   ├── Identifier
+│   │   │   ├── SUmid : 15DF7EF4FFF2D2C3
+│   │   │   ├── InstanceNumber : 6
+│   │   │   ├── DateTime : 2026-06-04T08:31:28.000+01:00
+│   │   │   ├── InternalSequenceNumber : 18939339
+│   │   │   └── PassiveLockToken : yF+7gSz8cGQEvsZPltcAhP8NjSUthqr1alNmjckQHxI=
+│   │   ├── Number : 2999
+│   │   ├── Name : Toolkit intervention type
+│   │   ├── Category : OTHER
+│   │   ├── Operator : SYSTEM
+│   │   ├── Application : PCMS Interface
+│   │   ├── MpfnName : REPSTESTa
+│   │   ├── AppendixSequenceNumber : 0
+│   │   ├── Length : 234
+│   │   ├── Text : ProcessInst: Message has been processed by REPS ADK Component from REPSINPUT queue and it has been inserted into Database with routing code SUCCESS for Message Sumid: 15DF7EF4FFF2D2C3 Message UMID: OCHASUS33XXX008260603PIAPN112985362
+│   │   └── SignatureWeight : 0
+│   └── Intervention
+│       ├── Identifier
+│       │   ├── SUmid : 15DF7EF4FFF2D2C3
+│       │   ├── InstanceNumber : 6
+│       │   ├── DateTime : 2026-06-04T08:31:28.000+01:00
+│       │   ├── InternalSequenceNumber : 18939340
+│       │   └── PassiveLockToken : yF+7gSz8cGQEvsZPltcAhP8NjSUthqr1alNmjckQHxI=
+│       ├── Number : 2004
+│       ├── Name : Instance completed
+│       ├── Category : ROUTING
+│       ├── Operator : SYSTEM
+│       ├── MpfnName : REPSTESTa
+│       ├── AppendixSequenceNumber : 0
+│       ├── Length : 107
+│       ├── Text : Completed in rp [REPSINPUT]; On Processing by Function REPSTESTa with result Success;(Rule:DEFAULT_RULE,0)
+│       └── SignatureWeight : 0
+├── Instance
+│   ├── Identifier
+│   │   ├── SUmid : 15DF7EF4FFF2D2C3
+│   │   ├── Number : 7
+│   │   └── PassiveLockToken : piBsGPSnPU0BHlKSzWKbYtxSTekzvQETHHP7GSybgx0=
+│   ├── Type : COPY
+│   ├── NotificationType : NONE
+│   ├── Status : COMPLETED
+│   ├── RelatedNumber : 0
+│   ├── AppendixSequenceNumber : 0
+│   ├── UnitName : SGMBMAMC
+│   ├── MpfnName : AI_to_APPLI
+│   ├── ProcessState : 0
+│   ├── LastMpfnResult : SUCCESS
+│   ├── RelativeReference : 0
+│   ├── Priority : 7
+│   ├── CreationApplication : FLTS_appl_suspect_rp
+│   ├── CreationMpfnName : FLTS_mpf_Suspect
+│   ├── CreationRoutingPoint : IMP_08_PRINT_MX
+│   ├── CreationDate : 2026-06-04T08:31:10.000+01:00
+│   ├── InitialTargetRoutingPoint : DDASINTMD
+│   ├── LastOperator : SYSTEM
+│   ├── ReceiverCorrespondentType : CORR_TYPE_DEPARTMENT
+│   ├── ReceiverCorrespondentInstitutionName : SGMBMAMCXXX
+│   ├── ReceiverCorrespondentDepartment : xxx
+│   ├── ResponderDn : ou=xxx,o=sgmbmamc,o=swift
+│   ├── DeliveryMode : STORE_AND_FORWARD
+│   ├── MessagePreparationStatus : MESG_PREP_NONE
+│   ├── Intervention
+│   │   ├── Identifier
+│   │   │   ├── SUmid : 15DF7EF4FFF2D2C3
+│   │   │   ├── InstanceNumber : 7
+│   │   │   ├── DateTime : 2026-06-04T08:31:10.000+01:00
+│   │   │   ├── InternalSequenceNumber : 18939271
+│   │   │   └── PassiveLockToken : yF+7gSz8cGQEvsZPltcAhP8NjSUthqr1alNmjckQHxI=
+│   │   ├── Number : 2000
+│   │   ├── Name : Instance created
+│   │   ├── Category : ROUTING
+│   │   ├── Operator : SYSTEM
+│   │   ├── Application : FLTS_appl_suspect_rp
+│   │   ├── MpfnName : FLTS_mpf_Suspect
+│   │   ├── AppendixSequenceNumber : 0
+│   │   ├── Length : 78
+│   │   ├── Text : Created at rp [IMP_08_PRINT_MX] and assigned to unit [SGMBMAMC], priority [7]
+│   │   └── SignatureWeight : 0
+│   ├── Intervention
+│   │   ├── Identifier
+│   │   │   ├── SUmid : 15DF7EF4FFF2D2C3
+│   │   │   ├── InstanceNumber : 7
+│   │   │   ├── DateTime : 2026-06-04T08:32:24.000+01:00
+│   │   │   ├── InternalSequenceNumber : 18939465
 │   │   │   └── PassiveLockToken : yF+7gSz8cGQEvsZPltcAhP8NjSUthqr1alNmjckQHxI=
 │   │   ├── Number : 2004
 │   │   ├── Name : Instance completed
@@ -673,32 +868,32 @@ Message
 │   │   ├── Application : Applic. Interface
 │   │   ├── MpfnName : AI_to_APPLI
 │   │   ├── AppendixSequenceNumber : 0
-│   │   ├── Length : 111
-│   │   ├── Text : Completed in rp [PRINTOUT_EP]; On Processing by Function AI_to_APPLI with result Success;(Rule:DEFAULT_RULE,0)
+│   │   ├── Length : 115
+│   │   ├── Text : Completed in rp [IMP_08_PRINT_MX]; On Processing by Function AI_to_APPLI with result Success;(Rule:DEFAULT_RULE,0)
 │   │   └── SignatureWeight : 0
 │   └── Appendix
 │       ├── Identifier
-│       │   ├── SUmid : 15DFAB88FFF2D5A8
-│       │   ├── InstanceNumber : 4
-│       │   ├── DateTime : 2026-06-04T10:00:26.000+01:00
-│       │   ├── InternalSequenceNumber : 18957632
+│       │   ├── SUmid : 15DF7EF4FFF2D2C3
+│       │   ├── InstanceNumber : 7
+│       │   ├── DateTime : 2026-06-04T08:32:06.000+01:00
+│       │   ├── InternalSequenceNumber : 18939429
 │       │   └── PassiveLockToken : BMvhw1Jw5k8Sw+tRXenz8jsX0OctfrMBx4DMzcc1Cc8=
 │       ├── IntegratedApplication : APPLI
 │       ├── Type : EMISSION
-│       ├── SessionHolder : PRINTOUTMTnew
-│       ├── SessionNumber : 1331
-│       ├── SequenceNumber : 333188
-│       ├── TransmissionNumber : 18957632
+│       ├── SessionHolder : IMP08PRINTmp
+│       ├── SessionNumber : 0916
+│       ├── SequenceNumber : 020912
+│       ├── TransmissionNumber : 18939429
 │       ├── CreatingApplication : Applic. Interface
 │       ├── CreatingMpfn : AI_to_APPLI
-│       ├── CreatingRoutingPoint : PRINTOUT_EP
+│       ├── CreatingRoutingPoint : IMP_08_PRINT_MX
 │       ├── ConnectionResponseCode : RECEIVED
 │       ├── ConnectionResponseText
 │       └── NetworkDeliveryStatus : ACKED
 └── Text
     ├── Identifier
-    │   ├── SUmid : 15DFAB88FFF2D5A8
-    │   ├── TextFormatName : Swift
+    │   ├── SUmid : 15DF7EF4FFF2D2C3
+    │   ├── TextFormatName : MX
     │   └── PassiveLockToken : vwC8T8OfBwy9i9mEtkvTmHyvDrDFn1Or2pnYrDM2Mp8=
     └── DataBlock : [CONTENU DATABLOCK XML]
 
@@ -709,18 +904,80 @@ HIERARCHIE INTERNE DU DATABLOCK
 ====================================================================================================
 HIERARCHIE INTERNE DU DATABLOCK
 ====================================================================================================
-DataBlock FIN
-  :20:SGMAD-260602-024
-  :21:REC/1000.MAD
-  :79:ATT MAD PAYMENT TEAM,
-.
-WE REFER TO YOUR MT199 DTD 26/05/2026
-REF REC/1000.MAD
-.
-WE CONFIRM EXECUTING YOUR PAYMENT ORDER
-ON 02/06/2026 FOR MAD 1000,00
-UNDER REF 03085662642617I3
-.
-BEST REGARDS
-SAHAM BANK
-CASH CLEARING.
+Root
+├── AppHdr
+│   ├── Fr
+│   │   └── FIId
+│   │       └── FinInstnId
+│   │           └── BICFI : CHASUS33FXR
+│   ├── To
+│   │   └── FIId
+│   │       └── FinInstnId
+│   │           └── BICFI : SGMBMAMC
+│   ├── BizMsgIdr : E212209080393544
+│   ├── MsgDefIdr : pacs.008.001.08
+│   ├── BizSvc : swift.cbprplus.03
+│   └── CreDt : 2026-06-03T19:26:15.095+00:00
+└── Document
+    └── FIToFICstmrCdtTrf
+        ├── GrpHdr
+        │   ├── MsgId : E212209080393544
+        │   ├── CreDtTm : 2026-06-03T19:26:15.095+00:00
+        │   ├── NbOfTxs : 1
+        │   └── SttlmInf
+        │       ├── SttlmMtd : COVE
+        │       └── InstgRmbrsmntAgt
+        │           └── FinInstnId
+        │               └── BICFI : BCMAMAMC
+        └── CdtTrfTxInf
+            ├── PmtId
+            │   ├── InstrId : E212209080393544
+            │   ├── EndToEndId : NOTPROVIDED
+            │   └── UETR : 21220908-0317-4104-a154-000002025444
+            ├── PmtTpInf
+            │   └── CtgyPurp
+            │       └── Cd : CORT
+            ├── IntrBkSttlmAmt [Ccy="MAD"] : 22320.00
+            ├── IntrBkSttlmDt : 2026-06-04
+            ├── InstdAmt [Ccy="MAD"] : 22320.00
+            ├── ChrgBr : DEBT
+            ├── InstgAgt
+            │   └── FinInstnId
+            │       └── BICFI : CHASUS33FXR
+            ├── InstdAgt
+            │   └── FinInstnId
+            │       └── BICFI : SGMBMAMC
+            ├── Dbtr
+            │   ├── Nm : Julian Iragorri
+            │   └── PstlAdr
+            │       └── AdrLine : 106 Central Park S 28A New York,US
+            ├── DbtrAcct
+            │   └── Id
+            │       └── Othr
+            │           └── Id : 1000026870
+            ├── DbtrAgt
+            │   └── FinInstnId
+            │       ├── Nm : MODERN BANK, NATIONAL ASSOCIATION
+            │       └── PstlAdr
+            │           ├── AdrLine : 400 PARK AVENUE NEW YORK U.S
+            │           └── AdrLine : .A.
+            ├── DbtrAgtAcct
+            │   └── Id
+            │       └── Othr
+            │           └── Id : 3171000293124
+            ├── CdtrAgt
+            │   └── FinInstnId
+            │       └── BICFI : SGMBMAMC
+            ├── Cdtr
+            │   ├── Nm : Bourchanin ET CIE
+            │   └── PstlAdr
+            │       ├── AdrLine : Social est au 55 Boulevard Casablan
+            │       └── AdrLine : ca Morocco
+            ├── CdtrAcct
+            │   └── Id
+            │       └── Othr
+            │           └── Id : MA64022780000140000503655874
+            ├── InstrForNxtAgt
+            │   └── InstrInf : /PRODUCT/FX
+            └── RmtInf
+                └── Ustrd : PIECE BCBOU26013113
