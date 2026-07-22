@@ -1,4 +1,4 @@
-from collections import Counter, defaultdict
+from collections import defaultdict
 from decimal import Decimal, InvalidOperation
 import html
 import os
@@ -265,39 +265,6 @@ def parse_messages_s(zip_path):
     return all_messages, exemples_par_rp, anomalies_info
 
 
-def extract_pacs_msgid_from_file(zip_file):
-    all_msgids = []
-    for content, _ , _ in extract_files(zip_file):
-        msgids = re.findall(
-            r"&lt;pacs:MsgId&gt;(.*?)&lt;/pacs:MsgId&gt;",
-            content
-        )
-        for mid in msgids:
-            all_msgids.append(mid.strip())
-    return all_msgids
-
-def extract_pacs_triplets(zip_file):
-    """Extrait les triplets (date, currency, amount) bloc par bloc."""
-    triplets = set()
-    for content, _ , _ in extract_files(zip_file) :
-        blocks = re.findall(r"<DataBlock>(.*?)</DataBlock>", content, re.S)
-        for bloc in blocks:
-            dates = re.findall(r"&lt;pacs:IntrBkSttlmDt&gt;(.*?)&lt;/pacs:IntrBkSttlmDt&gt;", bloc)
-            montants = re.findall(r"&lt;pacs:IntrBkSttlmAmt Ccy=\"([A-Z]{3})\"&gt;(.*?)&lt;/pacs:IntrBkSttlmAmt&gt;", bloc)
-            for d in dates:
-                for ccy, amt in montants:
-                    triplets.add((d.strip(), ccy.strip(), amt.strip()))
-    return triplets
-
-    
-# def normalize_amount(amount_raw):
-#     """Normalise le montant Swift (virgule -> point, suppression virgule finale)."""
-#     amount = amount_raw.strip()
-#     if amount.endswith(","):
-#         amount = amount[:-1]
-#     amount = amount.replace(",", ".")
-#     return amount
-
 def normalize_amount(amount_raw):
     """ Normalise les montants D et SAA. """
     amount = amount_raw.strip()
@@ -377,10 +344,10 @@ def write_category_reports(s_messages, rapport_dir):
                 f.write("\n\n\n" + "=" * 80 + "\n\n\n")
 
 
-def write_examples_report(exemples_par_rp, output_dir):
+def write_examples_report(exemples_par_rp, OUTPUT_DIR):
     """Écrit un fichier avec un exemple de message XML par routing point."""
-    os.makedirs(output_dir, exist_ok=True)
-    chemin = os.path.join(output_dir, "exemples-messages.txt")
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+    chemin = os.path.join(OUTPUT_DIR, "exemples-messages.txt")
 
     with open(chemin, "w", encoding="utf-8") as f:
         f.write("=== Exemple de message par identificateur ===\n\n")
@@ -406,7 +373,7 @@ def write_examples_report(exemples_par_rp, output_dir):
 
     print(f"Fichier d'exemples généré : {chemin}")
 
-def compare_and_save(D_messages, S_messages, output_dir):
+def compare_and_save(D_messages, S_messages, OUTPUT_DIR):
     """Compare les blocs SAA avec D :
     - rapproche MsgId + champ 32A pour O103/O202/O200
     - rapproche champ par champ pour O700
@@ -416,14 +383,6 @@ def compare_and_save(D_messages, S_messages, output_dir):
     for bloc4, bloc2, path in D_messages:
         global_source_map[(bloc2, bloc4)].append(path)
     global_duplicates = [bloc for bloc, paths in global_source_map.items() if len(paths) > 1]
-
-    blocs_o_only = []
-    source_map = defaultdict(list)
-
-    for bloc4, bloc2, path in D_messages:
-        if bloc2.startswith(("O103", "O202", "O200", "O700")):
-            blocs_o_only.append(bloc4)
-            source_map[(bloc2, bloc4)].append(path)
 
     set_D = set(bloc4 for bloc4, bloc2, path in D_messages)
     set_S = {bloc for msg in S_messages for bloc in msg["blocs"]}
@@ -441,10 +400,7 @@ def compare_and_save(D_messages, S_messages, output_dir):
     # COMPARAISONS ADAPTÉES SELON LE FORMAT DU MESSAGE
     # ============================================================
 
-    correspondances_par_champs = []
-
-    # matched_blocs doit contenir des blocs SAA,
-    # car missing_in_D contient des blocs SAA.
+    # blocs_trouves_par_champs doit contenir des blocs SAA, car missing_in_D contient des blocs SAA.
     blocs_trouves_par_champs = set()
 
     # ------------------------------------------------------------
@@ -506,18 +462,16 @@ def compare_and_save(D_messages, S_messages, output_dir):
             # Le bloc correspond déjà directement à un bloc D
             if bloc_S not in missing_in_D:
                 continue
-            bloc_S_unesc = html.unescape(bloc_S)
-
             # ====================================================
             # Cas PACS correspondant à O103 / O202 / O200
             # ====================================================
 
             msgids_S = re.findall(
-                r"<pacs:MsgId>\s*(.*?)\s*</pacs:MsgId>", bloc_S_unesc, re.S | re.I)
+                r"<pacs:MsgId>\s*(.*?)\s*</pacs:MsgId>", bloc_S, re.S | re.I)
             dates_S = re.findall(
-                r"<pacs:IntrBkSttlmDt>\s*(.*?)\s*</pacs:IntrBkSttlmDt>", bloc_S_unesc, re.S | re.I)
+                r"<pacs:IntrBkSttlmDt>\s*(.*?)\s*</pacs:IntrBkSttlmDt>", bloc_S, re.S | re.I)
             montants_S = re.findall(
-                r"<pacs:IntrBkSttlmAmt\b[^>]*Ccy=[\"']([A-Z]{3})[\"'][^>]*>\s*(.*?)\s*</pacs:IntrBkSttlmAmt>",bloc_S_unesc, re.S | re.I)
+                r"<pacs:IntrBkSttlmAmt\b[^>]*Ccy=[\"']([A-Z]{3})[\"'][^>]*>\s*(.*?)\s*</pacs:IntrBkSttlmAmt>",bloc_S, re.S | re.I)
             correspondance_pacs = None
 
             for msgid_S in msgids_S:
@@ -537,12 +491,6 @@ def compare_and_save(D_messages, S_messages, output_dir):
                 # Important : on ajoute le bloc SAA,
                 # pas le bloc D.
                 blocs_trouves_par_champs.add(bloc_S)
-                correspondances_par_champs.append(
-                    f"SAA -> D MATCH MT103/202/200 "
-                    f"| Type SAA : {message_S['message_identifier']} "
-                    f"| Fichier D : {correspondance_pacs['fichier']} "
-                    f"| Clé : {cle_S}"
-                )
                 # Le bloc SAA a déjà été rapproché.
                 # Il n'est pas nécessaire de tester ensuite le cas MT700.
                 continue
@@ -566,18 +514,8 @@ def compare_and_save(D_messages, S_messages, output_dir):
             contient_champ_700 = any(cle_S_700)
 
             if (contient_champ_700 and cle_S_700 in index_D_700 and index_D_700[cle_S_700]):
-
-                correspondance_700 = index_D_700[cle_S_700].pop(0)
+                index_D_700[cle_S_700].pop(0)
                 blocs_trouves_par_champs.add(bloc_S)
-                correspondances_par_champs.append(f"SAA -> D MATCH MT700 | Type SAA : {message_S['message_identifier']} | Fichier D : {correspondance_700['fichier']}"
-                )
-
-    blocs_trouves_directement = set_S & set_D
-
-    # Tous les blocs trouvés, quelle que soit la méthode de comparaison
-    blocs_trouves = (blocs_trouves_directement | blocs_trouves_par_champs)
-    # Blocs SAA qui n'ont aucune correspondance dans D
-    missing_in_D = set_S - blocs_trouves
 
     # ============================================================
     # STATISTIQUES FINALES
@@ -600,9 +538,9 @@ def compare_and_save(D_messages, S_messages, output_dir):
         if message_possede_bloc_absent:
             nombre_messages_saa_avec_absence += 1
 
-    rapport_path = os.path.join(output_dir, "Rapprochement_SAA_vs_D.txt")
+    rapport_path = os.path.join(OUTPUT_DIR, "Rapprochement_SAA_vs_D.txt")
 
-    os.makedirs(output_dir, exist_ok=True)
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
 
     with open(rapport_path, "w", encoding="utf-8") as f:
 
@@ -656,42 +594,27 @@ def compare_and_save(D_messages, S_messages, output_dir):
         len(global_duplicates)
     )
 
-# === Exemple d’utilisation ===
-chemin_fichier_S = r"C:\Users\msi\Desktop\stage2\Nouveau dossier\data\EXTRACTION0306.zip"
-repertoire_D = r"C:\Users\msi\Desktop\stage2\Nouveau dossier\data\SGMB-GI"
-output_dir = r"C:\Users\msi\Desktop\stage2\Nouveau dossier\data\Output"
-
 if __name__ == "__main__":
 
     # ============================================================
     # 1. Parsing
     # ============================================================
 
-    messages_D = parse_messages_D(repertoire_D)
-    messages_S, exemples_par_rp, anomalies_info = parse_messages_s(chemin_fichier_S)
+    messages_D = parse_messages_D(REPERTOIRE_D)
 
-    # ============================================================
-    # 2. Comparaison SAA vs D
-    # ============================================================
-
-    (
-        total_D,
-        total_S,
-        total_blocs_SAA,
-        nb_blocs_trouves,
-        nb_blocs_absents,
-        nb_messages_avec_absence,
-        nb_duplicates_globaux
-    ) = compare_and_save(messages_D, messages_S, output_dir)
+    messages_S, exemples_par_rp, anomalies_info = parse_messages_s(CHEMIN_FICHIER_S)
+    
+    (total_D, total_S, total_blocs_SAA, nb_blocs_trouves, nb_blocs_absents,
+    nb_messages_avec_absence, nb_duplicates_globaux) = compare_and_save(messages_D, messages_S, OUTPUT_DIR)
 
     # ============================================================
     # 3. Création des autres rapports
     # ============================================================
 
-    chemin_anomalies = os.path.join(output_dir, "Anomalies_SAA.txt")
+    chemin_anomalies = os.path.join(OUTPUT_DIR, "Anomalies_SAA.txt")
     write_anomalies_report(anomalies_info, chemin_anomalies)
     write_category_reports(messages_S, RAPPORT_DIR)
-    write_examples_report(exemples_par_rp,output_dir)
+    write_examples_report(exemples_par_rp,OUTPUT_DIR)
 
     # ============================================================
     # 4. Affichage
@@ -704,7 +627,7 @@ if __name__ == "__main__":
     print("Nombre de blocs SAA absents dans D :", nb_blocs_absents)
     print("Nombre de messages SAA ayant au moins un bloc absent :", nb_messages_avec_absence)
     print("Nombre de doublons globaux dans D :", nb_duplicates_globaux)
-    print("Rapport de rapprochement :", os.path.join(output_dir, "Rapprochement_SAA_vs_D.txt"))
+    print("Rapport de rapprochement :", os.path.join(OUTPUT_DIR, "Rapprochement_SAA_vs_D.txt"))
     print("Rapport des anomalies :", chemin_anomalies)
     print("Rapports par catégorie :", RAPPORT_DIR)
-    print("Exemples par routing point :", os.path.join(output_dir, "exemples-messages.txt"))
+    print("Exemples par routing point :", os.path.join(OUTPUT_DIR, "exemples-messages.txt"))
