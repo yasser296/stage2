@@ -1,4 +1,5 @@
 from collections import Counter, defaultdict
+from decimal import Decimal, InvalidOperation
 import html
 import os
 import re
@@ -289,13 +290,29 @@ def extract_pacs_triplets(zip_file):
     return triplets
 
     
+# def normalize_amount(amount_raw):
+#     """Normalise le montant Swift (virgule -> point, suppression virgule finale)."""
+#     amount = amount_raw.strip()
+#     if amount.endswith(","):
+#         amount = amount[:-1]
+#     amount = amount.replace(",", ".")
+#     return amount
+
 def normalize_amount(amount_raw):
-    """Normalise le montant Swift (virgule -> point, suppression virgule finale)."""
+    """ Normalise les montants D et SAA. """
     amount = amount_raw.strip()
+    amount = amount.replace(" ", "")
+    # Dans D, une virgule peut être présente sans décimales
     if amount.endswith(","):
         amount = amount[:-1]
+    # Même séparateur décimal pour D et SAA
     amount = amount.replace(",", ".")
-    return amount
+    try:
+        amount_decimal = Decimal(amount)
+        # Supprime les zéros inutiles après la virgule
+        return format(amount_decimal.normalize(), "f")
+    except InvalidOperation:
+        return amount
 
 def convert_date_32A(date_raw):
     """Convertit YYMMDD en YYYY-MM-DD (ex: 260505 -> 2026-05-05)."""
@@ -408,8 +425,6 @@ def compare_and_save(D_messages, S_messages, output_dir):
             blocs_o_only.append(bloc4)
             source_map[(bloc2, bloc4)].append(path)
 
-    duplicates = [bloc for bloc, paths in source_map.items() if len(paths) > 1]
-
     set_D = set(bloc4 for bloc4, bloc2, path in D_messages)
     set_S = {bloc for msg in S_messages for bloc in msg["blocs"]}
     missing_in_D = set_S - set_D
@@ -448,10 +463,8 @@ def compare_and_save(D_messages, S_messages, output_dir):
             continue
         champs20 = re.findall(r":20:(.+)", bloc4)
         champs32A = re.findall(r":32A:(\d{6})([A-Z]{3})([\d,]+)", bloc4)
-
         for champ20 in champs20:
             valeur20 = champ20.strip()
-
             for date_raw, currency, amount_raw in champs32A:
                 date_iso = convert_date_32A(date_raw)
                 amount = normalize_amount(amount_raw)
@@ -512,8 +525,7 @@ def compare_and_save(D_messages, S_messages, output_dir):
                 for date_S in dates_S:
                     date_S = date_S.strip()
                     for currency_S, amount_S in montants_S:
-                        # le montant SAA est seulement nettoyé avec strip().
-                        cle_S = (msgid_S, date_S, currency_S.strip(), amount_S.strip())
+                        cle_S = (msgid_S, date_S, currency_S.strip().upper(), normalize_amount(amount_S))
                         if cle_S in index_D_pacs and index_D_pacs[cle_S]:
                             correspondance_pacs = index_D_pacs[cle_S].pop(0)
                             break
@@ -525,7 +537,6 @@ def compare_and_save(D_messages, S_messages, output_dir):
                 # Important : on ajoute le bloc SAA,
                 # pas le bloc D.
                 blocs_trouves_par_champs.add(bloc_S)
-
                 correspondances_par_champs.append(
                     f"SAA -> D MATCH MT103/202/200 "
                     f"| Type SAA : {message_S['message_identifier']} "
@@ -554,19 +565,11 @@ def compare_and_save(D_messages, S_messages, output_dir):
             # comme identiques.
             contient_champ_700 = any(cle_S_700)
 
-            if (
-                contient_champ_700
-                and cle_S_700 in index_D_700
-                and index_D_700[cle_S_700]
-            ):
+            if (contient_champ_700 and cle_S_700 in index_D_700 and index_D_700[cle_S_700]):
+
                 correspondance_700 = index_D_700[cle_S_700].pop(0)
-
                 blocs_trouves_par_champs.add(bloc_S)
-
-                correspondances_par_champs.append(
-                    f"SAA -> D MATCH MT700 "
-                    f"| Type SAA : {message_S['message_identifier']} "
-                    f"| Fichier D : {correspondance_700['fichier']}"
+                correspondances_par_champs.append(f"SAA -> D MATCH MT700 | Type SAA : {message_S['message_identifier']} | Fichier D : {correspondance_700['fichier']}"
                 )
 
     blocs_trouves_directement = set_S & set_D
