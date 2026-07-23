@@ -17,7 +17,7 @@ OUTPUT_DIR = os.path.join(DATA_DIR, "Output")
 RAPPORT_DIR = os.path.join(OUTPUT_DIR, "rapport")
 
 CHEMIN_FICHIER_S = os.path.join(DATA_DIR, "EXTRACTION0306.zip")
-REPERTOIRE_D = os.path.join(DATA_DIR, "SGMB-GI")
+REPERTOIRE_D = os.path.join(DATA_DIR, "D")
 
 ROUTING_POINT_TO_CATEGORY = {
     "SGMB_KONDOR_EP":        "KTP",
@@ -44,14 +44,6 @@ def normalize_delta_bloc(text):
     text = re.sub(r"\s+", " ", text.strip())
     parts = re.split(r"(?=:\d{2}[A-Z]?:)", text)
     return "\n".join(p.strip() for p in parts if p.strip())
-
-def normalize_bloc(text):
-    """Nettoie et normalise un bloc pour comparaison."""
-    text = text.replace("&#xD;", "\n")
-    text = text.replace("&lt;", "<")
-    text = text.replace("&gt;", ">")
-    text = re.sub(r"\s+", " ", text.strip())
-    return text
 
 def Affiche_bloc(text):
     """Nettoie et normalise un bloc Swift ou XML pour comparaison champ par champ."""
@@ -152,9 +144,6 @@ def extraire_datablocks(message, message_identifier):
 
     return blocs, anomalies
 
-
-
-
 def extract_files(path):
     if not os.path.exists(path):
         raise FileNotFoundError(f"Chemin introuvable : {path}")
@@ -179,9 +168,7 @@ def extract_files(path):
                 full_path = os.path.join(root, fname)
                 with open(full_path, encoding="utf-8") as f:
                     yield f.read(), fname, full_path
-
-
-    
+  
 def parse_messages_D(directory):
     """Extrait tous les couples bloc2/bloc4 de tous les fichiers D."""
     all_messages = []
@@ -197,18 +184,11 @@ def parse_messages_D(directory):
         for bloc2, bloc4 in matches:
             bloc4_norm = normalize_delta_bloc(bloc4)
             all_messages.append((bloc4_norm, bloc2.strip(), full_path))
-        # PAS ENCORE TRAITER 
         for body in re.findall(r"<Body>(.*?)</Body>", content, re.S):
-                all_messages.append((normalize_bloc(body), "BODY", full_path))
+                all_messages.append((normalize_delta_bloc(body), "BODY", full_path))
     return all_messages
 
 def parse_messages_s(zip_path):
-    """
-    Retourne :
-        all_messages    - liste de dicts {categories_S, blocs, nombre_blocs, message_identifier}
-        exemples_par_rp - dict {routing_point: (catégorie, message_xml)}
-        anomalies_info  - dict {compteurs, anomalies} pour le rapport
-    """
     if not os.path.exists(zip_path):
         raise FileNotFoundError(f"Archive S introuvable : {zip_path}")
 
