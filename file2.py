@@ -361,11 +361,6 @@ def compare_and_save(D_messages, S_messages, OUTPUT_DIR):
     - rapproche champ par champ pour O700
     """
 
-    global_source_map = defaultdict(list)
-    for bloc4, bloc2, path in D_messages:
-        global_source_map[(bloc2, bloc4)].append(path)
-    global_duplicates = [bloc for bloc, paths in global_source_map.items() if len(paths) > 1]
-
     set_D = set(bloc4 for bloc4, bloc2, path in D_messages)
     set_S = {bloc for msg in S_messages for bloc in msg["blocs"]}
     missing_in_D = set_S - set_D
@@ -527,7 +522,6 @@ def compare_and_save(D_messages, S_messages, OUTPUT_DIR):
         f.write(f"Nombre de messages D : {len(D_messages)}\n")
         f.write(f"Nombre de blocs SAA trouvés dans D : {len(blocs_trouves)}\n")
         f.write(f"Nombre de blocs SAA uniques absents dans D : {len(missing_in_D)}\n")
-        f.write(f"Nombre de doublons globaux dans D : {len(global_duplicates)}\n")
 
         # ========================================================
         # BLOCS ABSENTS
@@ -560,7 +554,6 @@ def compare_and_save(D_messages, S_messages, OUTPUT_DIR):
         nombre_blocs_saa,
         len(blocs_trouves),
         len(missing_in_D),
-        len(global_duplicates)
     )
 
 if __name__ == "__main__":
@@ -573,7 +566,7 @@ if __name__ == "__main__":
 
     messages_S, exemples_par_rp, anomalies_info = parse_messages_s(CHEMIN_FICHIER_S)
     
-    (total_D, total_S, total_blocs_SAA, nb_blocs_trouves, nb_blocs_absents, nb_duplicates_globaux) = compare_and_save(messages_D, messages_S, OUTPUT_DIR)
+    (total_D, total_S, total_blocs_SAA, nb_blocs_trouves, nb_blocs_absents) = compare_and_save(messages_D, messages_S, OUTPUT_DIR)
 
     # ============================================================
     # 3. Création des autres rapports
@@ -591,9 +584,8 @@ if __name__ == "__main__":
     print("Nombre total de messages D :", total_D)
     print("Nombre total de messages SAA OUTPUT :", total_S)
     print("Nombre total de DataBlocks SAA :", total_blocs_SAA)
-    print("Nombre de blocs SAA trouvés dans D :", nb_blocs_trouves)
-    print("Nombre de blocs SAA absents dans D :", nb_blocs_absents)
-    print("Nombre de doublons globaux dans D :", nb_duplicates_globaux)
+    print("Nombre de blocs SAA qui ont un match dans D :", nb_blocs_trouves)
+    print("Nombre de blocs presents dans SAA mais absents dans D :", nb_blocs_absents)
     print("Rapport de rapprochement :", os.path.join(OUTPUT_DIR, "Rapprochement_SAA_vs_D.txt"))
     print("Rapport des anomalies :", chemin_anomalies)
     print("Rapports par catégorie :", RAPPORT_DIR)
