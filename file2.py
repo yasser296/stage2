@@ -19,6 +19,8 @@ RAPPORT_DIR = os.path.join(OUTPUT_DIR, "rapport")
 CHEMIN_FICHIER_S = os.path.join(DATA_DIR, "EXTRACTION0306.zip")
 REPERTOIRE_D = os.path.join(DATA_DIR, "D")
 
+CATEGORIES = ["KTP","AGI","delta v9","delta v10","SmartCash","gateway","FTI"]
+
 ROUTING_POINT_TO_CATEGORY = {
     "SGMB_KONDOR_EP":        "KTP",
     "KTP_MX_EP":             "KTP",
@@ -506,17 +508,6 @@ def compare_and_save(D_messages, S_messages, OUTPUT_DIR):
 
     blocs_trouves = (blocs_trouves_directement | blocs_trouves_par_champs)
     missing_in_D = set_S - blocs_trouves
-    nombre_messages_saa_avec_absence = 0
-
-    for message_S in S_messages:
-        message_possede_bloc_absent = False
-        for bloc in message_S["blocs"]:
-            if bloc in missing_in_D:
-                message_possede_bloc_absent = True
-                break
-
-        if message_possede_bloc_absent:
-            nombre_messages_saa_avec_absence += 1
 
     rapport_path = os.path.join(OUTPUT_DIR, "Rapprochement_SAA_vs_D.txt")
 
@@ -536,7 +527,6 @@ def compare_and_save(D_messages, S_messages, OUTPUT_DIR):
         f.write(f"Nombre de messages D : {len(D_messages)}\n")
         f.write(f"Nombre de blocs SAA trouvés dans D : {len(blocs_trouves)}\n")
         f.write(f"Nombre de blocs SAA uniques absents dans D : {len(missing_in_D)}\n")
-        f.write(f"Nombre de messages SAA ayant au moins un bloc absent : {nombre_messages_saa_avec_absence}\n")
         f.write(f"Nombre de doublons globaux dans D : {len(global_duplicates)}\n")
 
         # ========================================================
@@ -570,7 +560,6 @@ def compare_and_save(D_messages, S_messages, OUTPUT_DIR):
         nombre_blocs_saa,
         len(blocs_trouves),
         len(missing_in_D),
-        nombre_messages_saa_avec_absence,
         len(global_duplicates)
     )
 
@@ -584,8 +573,7 @@ if __name__ == "__main__":
 
     messages_S, exemples_par_rp, anomalies_info = parse_messages_s(CHEMIN_FICHIER_S)
     
-    (total_D, total_S, total_blocs_SAA, nb_blocs_trouves, nb_blocs_absents,
-    nb_messages_avec_absence, nb_duplicates_globaux) = compare_and_save(messages_D, messages_S, OUTPUT_DIR)
+    (total_D, total_S, total_blocs_SAA, nb_blocs_trouves, nb_blocs_absents, nb_duplicates_globaux) = compare_and_save(messages_D, messages_S, OUTPUT_DIR)
 
     # ============================================================
     # 3. Création des autres rapports
@@ -605,7 +593,6 @@ if __name__ == "__main__":
     print("Nombre total de DataBlocks SAA :", total_blocs_SAA)
     print("Nombre de blocs SAA trouvés dans D :", nb_blocs_trouves)
     print("Nombre de blocs SAA absents dans D :", nb_blocs_absents)
-    print("Nombre de messages SAA ayant au moins un bloc absent :", nb_messages_avec_absence)
     print("Nombre de doublons globaux dans D :", nb_duplicates_globaux)
     print("Rapport de rapprochement :", os.path.join(OUTPUT_DIR, "Rapprochement_SAA_vs_D.txt"))
     print("Rapport des anomalies :", chemin_anomalies)
