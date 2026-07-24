@@ -19,7 +19,7 @@ RAPPORT_DIR = os.path.join(OUTPUT_DIR, "rapport")
 CHEMIN_FICHIER_S = os.path.join(DATA_DIR, "EXTRACTION0306.zip")
 REPERTOIRE_D = os.path.join(DATA_DIR, "D")
 
-CATEGORIES = ["KTP","AGI","delta v9","delta v10","SmartCash","gateway","FTI"]
+CATEGORIES = ["KTP","AGI","delta v9","delta v10","SmartCash","gateway","FTI","openPay RTGS"]
 
 ROUTING_POINT_TO_CATEGORY = {
     "SGMB_KONDOR_EP":        "KTP",
@@ -97,54 +97,70 @@ def detect_categories(message):
         for rp in all_rp
     }
 
+def detecter_format_datablock(bloc):
+    texte = html.unescape(bloc).strip()
+    contient_xml_mx = bool(
+        re.search(
+            r"<\?xml"
+            r"|</?[A-Za-z_][\w.-]*:[A-Za-z_][\w.-]*\b"
+            r"|</?(?:Document|AppHdr|GrpHdr)\b",
+            texte,
+            re.I
+        )
+    )
 
-# ============================================================
-# EXTRACTION DE DATABLOCKS
-# ============================================================
+    if contient_xml_mx:
+        return "MX"
+    
+    champs_mt = re.findall(
+        r"(?:^|\s):\d{2}[A-Z]?:",
+        texte,
+        re.M
+    )
+    # On exige au moins deux champs pour éviter les faux positifs
+    if len(champs_mt) >= 2:
+        return "MT"
+
+    return "INCONNU"
 
 def extraire_datablocks(message, message_identifier):
-    """
-    Extrait seulement les DataBlock des messages SAA OUTPUT.
-    Retourne :
-    - blocs normalisés pour comparaison
-    - anomalies
-    """
 
     message = html.unescape(message)
+    anomalies = []
+    categories = detect_categories(message)
 
     datablocks = re.findall(
         r"<DataBlock\b[^>]*>(.*?)</DataBlock>",
         message,
         re.S | re.I
     )
-
-    blocs = []
-
-    for bloc in datablocks:
-        bloc_normalise = normalize_delta_bloc(bloc)
-        blocs.append(bloc_normalise)
-
-    anomalies = []
-    categories = detect_categories(message)
+    block = []
 
     if not datablocks:
+            anomalies.append({
+                "type": "OUTPUT_SANS_DATABLOCK",
+                "categories_S": categories,
+                "message": message,
+                "message_identifier": message_identifier,
+            })
+            return block ,anomalies
+    
+    if len(datablocks) > 1 :
+        for bloc in datablocks:
+            if detecter_format_datablock(bloc) == "MT":
+                bloc_normalise = normalize_delta_bloc(bloc)
+                block.append(bloc_normalise)
         anomalies.append({
-            "type": "OUTPUT_SANS_DATABLOCK",
-            "categories_S": categories,
-            "message": message,
-            "message_identifier": message_identifier,
-        })
+                    "type": "OUTPUT_PLUSIEURS_DATABLOCK",
+                    "categories_S": categories,
+                    "nombre_blocs": len(datablocks),
+                    "message": message,
+                    "message_identifier": message_identifier,
+                })
+    else :
+        block.append(normalize_delta_bloc(datablocks[0]))      
 
-    if len(datablocks) > 1:
-        anomalies.append({
-            "type": "OUTPUT_PLUSIEURS_DATABLOCK",
-            "categories_S": categories,
-            "nombre_blocs": len(datablocks),
-            "message": message,
-            "message_identifier": message_identifier,
-        })
-
-    return blocs, anomalies
+    return block, anomalies
 
 def extract_files(path):
     if not os.path.exists(path):
@@ -361,15 +377,29 @@ def compare_and_save(D_messages, S_messages, OUTPUT_DIR):
     - rapproche champ par champ pour O700
     """
 
+    categoriesmessageCount = defaultdict(int)
+    
     set_D = set(bloc4 for bloc4, bloc2, path in D_messages)
     set_S = {bloc for msg in S_messages for bloc in msg["blocs"]}
     missing_in_D = set_S - set_D
 
     # Index pour retrouver les infos d'un bloc SAA absent
     s_index = defaultdict(list)
+    k = 0
     for msg in S_messages:
         for bloc in msg["blocs"]:
             s_index[bloc].append(msg)
+            if len(s_index[bloc]) > 1:
+                k += 1
+                print(f"meme bloc dans plusieurs messages est arrives {k} fois")
+
+    for msg in S_messages:
+        categories_du_message = set(
+            msg["categories_S"].values()
+        )
+        for categorie in categories_du_message:
+            if categorie in CATEGORIES:
+                categoriesmessageCount[categorie] += 1 
 
     nombre_blocs_saa = sum(len(msg["blocs"]) for msg in S_messages)
 
@@ -503,6 +533,13 @@ def compare_and_save(D_messages, S_messages, OUTPUT_DIR):
 
     blocs_trouves = (blocs_trouves_directement | blocs_trouves_par_champs)
     missing_in_D = set_S - blocs_trouves
+    
+    categoriesMatcheCount = defaultdict(int)
+    for block in blocs_trouves:
+        msgs = s_index[block]
+        for msg in msgs:
+            for cat in set(msg["categories_S"].values()):
+                categoriesMatcheCount[cat] += 1   
 
     rapport_path = os.path.join(OUTPUT_DIR, "Rapprochement_SAA_vs_D.txt")
 
@@ -554,6 +591,8 @@ def compare_and_save(D_messages, S_messages, OUTPUT_DIR):
         nombre_blocs_saa,
         len(blocs_trouves),
         len(missing_in_D),
+        categoriesMatcheCount,
+        categoriesmessageCount
     )
 
 if __name__ == "__main__":
@@ -566,7 +605,7 @@ if __name__ == "__main__":
 
     messages_S, exemples_par_rp, anomalies_info = parse_messages_s(CHEMIN_FICHIER_S)
     
-    (total_D, total_S, total_blocs_SAA, nb_blocs_trouves, nb_blocs_absents) = compare_and_save(messages_D, messages_S, OUTPUT_DIR)
+    (total_D, total_S, total_blocs_SAA, nb_blocs_trouves, nb_blocs_absents, categoriesMatcheCount,nb_messagesSParCategorie) = compare_and_save(messages_D, messages_S, OUTPUT_DIR)
 
     # ============================================================
     # 3. Création des autres rapports
@@ -583,9 +622,14 @@ if __name__ == "__main__":
 
     print("Nombre total de messages D :", total_D)
     print("Nombre total de messages SAA OUTPUT :", total_S)
+    print("Nombre de messages par categories : \n")
+    for cat in CATEGORIES:
+        print(f" Nombre de blocks dans {cat} est {nb_messagesSParCategorie[cat]}\n")
     print("Nombre total de DataBlocks SAA :", total_blocs_SAA)
     print("Nombre de blocs SAA qui ont un match dans D :", nb_blocs_trouves)
     print("Nombre de blocs presents dans SAA mais absents dans D :", nb_blocs_absents)
+    for cat in CATEGORIES:
+        print(f" Nombre de blocks dans {cat} est {categoriesMatcheCount[cat]}\n")
     print("Rapport de rapprochement :", os.path.join(OUTPUT_DIR, "Rapprochement_SAA_vs_D.txt"))
     print("Rapport des anomalies :", chemin_anomalies)
     print("Rapports par catégorie :", RAPPORT_DIR)
