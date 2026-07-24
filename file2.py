@@ -230,8 +230,9 @@ def parse_messages_s(zip_path):
 
                 categories = detect_categories(message)
                 msg_id = extract_message_identifier(message)
-                block, anomalies_msg = extraire_datablocks(message, msg_id)
-                anomalies.append(anomalies_msg)
+                block, anomalie_msg = extraire_datablocks(message, msg_id)
+                if anomalie_msg:
+                    anomalies.append(anomalie_msg)
 
                 # Un exemple par routing point
                 for rp, cat in categories.items():
@@ -248,7 +249,7 @@ def parse_messages_s(zip_path):
                     })
                     continue
 
-                if anomalies_msg and (anomalies_msg["type"] == "OUTPUT_PLUSIEURS_DATABLOCK"):
+                if anomalie_msg and (anomalie_msg["type"] == "OUTPUT_PLUSIEURS_DATABLOCK"):
                     compteurs["plusieurs_datablocks"] += 1
                     compteurs["surplus_datablocks"] += 1
 
@@ -625,11 +626,14 @@ if __name__ == "__main__":
     print("Nombre de messages par categories : \n")
     for cat in CATEGORIES:
         print(f" Nombre de blocks dans {cat} est {nb_messagesSParCategorie[cat]}\n")
+    print("\n")
     print("Nombre total de DataBlocks SAA :", total_blocs_SAA)
     print("Nombre de blocs SAA qui ont un match dans D :", nb_blocs_trouves)
     print("Nombre de blocs presents dans SAA mais absents dans D :", nb_blocs_absents)
+    print("Nombre de block presents dans SAA et le systeme operant par categorie : \n")
     for cat in CATEGORIES:
-        print(f" Nombre de blocks dans {cat} est {categoriesMatcheCount[cat]}\n")
+        print(f" Nombre de blocks dans {cat} est {categoriesMatcheCount[cat]}")
+    print("\n")
     print("Rapport de rapprochement :", os.path.join(OUTPUT_DIR, "Rapprochement_SAA_vs_D.txt"))
     print("Rapport des anomalies :", chemin_anomalies)
     print("Rapports par catégorie :", RAPPORT_DIR)
