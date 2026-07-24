@@ -126,7 +126,7 @@ def detecter_format_datablock(bloc):
 def extraire_datablocks(message, message_identifier):
 
     message = html.unescape(message)
-    anomalies = []
+    anomalies = {}
     categories = detect_categories(message)
 
     datablocks = re.findall(
@@ -137,12 +137,12 @@ def extraire_datablocks(message, message_identifier):
     block = []
 
     if not datablocks:
-            anomalies.append({
+            anomalies = {
                 "type": "OUTPUT_SANS_DATABLOCK",
                 "categories_S": categories,
                 "message": message,
                 "message_identifier": message_identifier,
-            })
+            }
             return block ,anomalies
     
     if len(datablocks) > 1 :
@@ -150,13 +150,13 @@ def extraire_datablocks(message, message_identifier):
             if detecter_format_datablock(bloc) == "MT":
                 bloc_normalise = normalize_delta_bloc(bloc)
                 block.append(bloc_normalise)
-        anomalies.append({
+        anomalies = {
                     "type": "OUTPUT_PLUSIEURS_DATABLOCK",
                     "categories_S": categories,
                     "nombre_blocs": len(datablocks),
                     "message": message,
                     "message_identifier": message_identifier,
-                })
+                }
     else :
         block.append(normalize_delta_bloc(datablocks[0]))      
 
@@ -230,15 +230,15 @@ def parse_messages_s(zip_path):
 
                 categories = detect_categories(message)
                 msg_id = extract_message_identifier(message)
-                blocs, anomalies_msg = extraire_datablocks(message, msg_id)
-                anomalies.extend(anomalies_msg)
+                block, anomalies_msg = extraire_datablocks(message, msg_id)
+                anomalies.append(anomalies_msg)
 
                 # Un exemple par routing point
                 for rp, cat in categories.items():
                     if rp not in exemples_par_rp:
                         exemples_par_rp[rp] = (cat, message)
 
-                if not blocs:
+                if not block:
                     compteurs["sans_datablock"] += 1
                     all_messages.append({
                         "categories_S": categories,
@@ -248,14 +248,14 @@ def parse_messages_s(zip_path):
                     })
                     continue
 
-                if len(blocs) > 1:
+                if anomalies_msg and (anomalies_msg["type"] == "OUTPUT_PLUSIEURS_DATABLOCK"):
                     compteurs["plusieurs_datablocks"] += 1
-                    compteurs["surplus_datablocks"] += len(blocs) - 1
+                    compteurs["surplus_datablocks"] += 1
 
                 all_messages.append({
                     "categories_S": categories,
-                    "blocs": blocs,
-                    "nombre_blocs": len(blocs),
+                    "blocs": block,
+                    "nombre_blocs": len(block),
                     "message_identifier": msg_id,
                 })
 
