@@ -563,19 +563,19 @@ def compare_and_save(D_messages, S_messages, OUTPUT_DIR):
 
         f.write("=== RAPPORT DE RAPPROCHEMENT SAA OUTPUT VS D ===\n\n")
         f.write("=== Résumé ===\n\n")
-        f.write(f"Nombre total de DataBlocks SAA : {nombre_blocs_saa}\n")
+        f.write(f"Nombre total de DataBlocks output SAA : {nombre_blocs_saa}\n")
         f.write(f"Nombre de messages SAA OUTPUT : {len(S_messages)}\n")
         f.write("Nombre de messages OUTPUT par categories : \n")
         for cat in CATEGORIES:
             f.write(f"{cat} : {messages_output_par_categorie[cat]}\n")
         f.write("\n")
         f.write(f"Nombre de messages D : {len(D_messages)}\n")
-        f.write(f"Nombre de blocs SAA trouvés dans D : {len(blocs_trouves)}\n")
-        f.write("Nombre de block presents dans SAA et le systeme operant par categorie : \n")
+        f.write(f"Nombre de blocs output SAA trouvés dans D : {len(blocs_trouves)}\n")
+        f.write("Nombre de block output presents dans SAA et le systeme operant par categorie : \n")
         for cat in CATEGORIES:
             f.write(f" {cat} : {categoriesMatcheCount[cat]} \n")
         f.write("\n")
-        f.write(f"Nombre de DataBlocks SAA dupliqués (presents dans plus qu'un seul message) ignorés : {doublons_saa}\n")
+        f.write(f"Nombre de DataBlocks SAA output dupliqués (presents dans plus qu'un seul message) ignorés : {doublons_saa}\n")
 
         # ========================================================
         # BLOCS ABSENTS
@@ -645,8 +645,8 @@ if __name__ == "__main__":
         print(f" Nombre de messages {cat} OUTPUT est {nb_messagesSParCategorie[cat]}")
     print("\n")
     print("Nombre total de DataBlocks SAA :", total_blocs_SAA)
-    print("Nombre de blocs presents dans SAA mais absents dans D :", nb_blocs_absents)
-    print("Nombre de blocs SAA qui ont un match dans D :", nb_blocs_trouves)
+    print("Nombre de blocs output presents dans SAA mais absents dans D :", nb_blocs_absents)
+    print("Nombre de blocs SAA OUTPUT qui ont un match dans D :", nb_blocs_trouves)
     print("Nombre de block presents dans SAA et le systeme operant par categorie : \n")
     for cat in CATEGORIES:
         print(f" Nombre de blocks {cat} matchés est {categoriesMatcheCount[cat]}")
