@@ -378,7 +378,7 @@ def compare_and_save(D_messages, S_messages, OUTPUT_DIR):
     - rapproche champ par champ pour O700
     """
 
-    categoriesmessageCount = defaultdict(int)
+    messages_output_par_categorie = defaultdict(int)
     
     set_D = set(bloc4 for bloc4, bloc2, path in D_messages)
     set_S = {bloc for msg in S_messages for bloc in msg["blocs"]}
@@ -400,7 +400,7 @@ def compare_and_save(D_messages, S_messages, OUTPUT_DIR):
         )
         for categorie in categories_du_message:
             if categorie in CATEGORIES:
-                categoriesmessageCount[categorie] += 1 
+                messages_output_par_categorie[categorie] += 1 
 
     nombre_blocs_saa = sum(len(msg["blocs"]) for msg in S_messages)
 
@@ -556,10 +556,17 @@ def compare_and_save(D_messages, S_messages, OUTPUT_DIR):
         f.write("=== Résumé ===\n\n")
         f.write(f"Nombre de messages SAA OUTPUT : {len(S_messages)}\n")
         f.write(f"Nombre total de DataBlocks SAA : {nombre_blocs_saa}\n")
+        f.write("Nombre de messages OUTPUT par categories : \n")
+        for cat in CATEGORIES:
+            f.write(f" Nombre de messages OUTPUT {cat} est {messages_output_par_categorie[cat]}\n")
+        f.write("\n")
         f.write(f"Nombre de blocs SAA uniques : {len(set_S)}\n")
         f.write(f"Nombre de messages D : {len(D_messages)}\n")
         f.write(f"Nombre de blocs SAA trouvés dans D : {len(blocs_trouves)}\n")
-        f.write(f"Nombre de blocs SAA uniques absents dans D : {len(missing_in_D)}\n")
+        f.write("Nombre de block presents dans SAA et le systeme operant par categorie : \n")
+        for cat in CATEGORIES:
+            f.write(f" Nombre de blocks dans {cat} est {categoriesMatcheCount[cat]} \n")
+        f.write("\n")
 
         # ========================================================
         # BLOCS ABSENTS
@@ -593,7 +600,7 @@ def compare_and_save(D_messages, S_messages, OUTPUT_DIR):
         len(blocs_trouves),
         len(missing_in_D),
         categoriesMatcheCount,
-        categoriesmessageCount
+        messages_output_par_categorie
     )
 
 if __name__ == "__main__":
@@ -623,16 +630,16 @@ if __name__ == "__main__":
 
     print("Nombre total de messages D :", total_D)
     print("Nombre total de messages SAA OUTPUT :", total_S)
-    print("Nombre de messages par categories : \n")
+    print("Nombre de messages OUTPUT par categories : \n")
     for cat in CATEGORIES:
-        print(f" Nombre de blocks dans {cat} est {nb_messagesSParCategorie[cat]}\n")
+        print(f" Nombre de messages {cat} OUTPUT est {nb_messagesSParCategorie[cat]}\n")
     print("\n")
     print("Nombre total de DataBlocks SAA :", total_blocs_SAA)
     print("Nombre de blocs SAA qui ont un match dans D :", nb_blocs_trouves)
     print("Nombre de blocs presents dans SAA mais absents dans D :", nb_blocs_absents)
     print("Nombre de block presents dans SAA et le systeme operant par categorie : \n")
     for cat in CATEGORIES:
-        print(f" Nombre de blocks dans {cat} est {categoriesMatcheCount[cat]}")
+        print(f" Nombre de blocks {cat} matcher est {categoriesMatcheCount[cat]}")
     print("\n")
     print("Rapport de rapprochement :", os.path.join(OUTPUT_DIR, "Rapprochement_SAA_vs_D.txt"))
     print("Rapport des anomalies :", chemin_anomalies)
