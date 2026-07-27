@@ -230,14 +230,25 @@ def parse_messages_s(zip_path):
 
                 categories = detect_categories(message)
                 msg_id = extract_message_identifier(message)
-                block, anomalie_msg = extraire_datablocks(message, msg_id)
-                if anomalie_msg:
-                    anomalies.append(anomalie_msg)
+                
+                lcat = []
+                NonPrisEnCharge = True
 
                 # Un exemple par routing point
                 for rp, cat in categories.items():
                     if rp not in exemples_par_rp:
                         exemples_par_rp[rp] = (cat, message)
+                    lcat.append(cat)
+                for catg in lcat:
+                    if catg != "Non prise en charge":
+                        NonPrisEnCharge = False
+
+                if NonPrisEnCharge == True:
+                    continue
+
+                block, anomalie_msg = extraire_datablocks(message, msg_id)
+                if anomalie_msg:
+                    anomalies.append(anomalie_msg)
 
                 if not block:
                     compteurs["sans_datablock"] += 1
@@ -525,9 +536,6 @@ def compare_and_save(D_messages, S_messages, OUTPUT_DIR):
                 index_D_700[cle_S_700].pop(0)
                 blocs_trouves_par_champs.add(bloc_S)
 
-    # ============================================================
-    # STATISTIQUES FINALES
-    # ============================================================
 
     # Tous les blocs trouvés ont le même statut final.
     blocs_trouves_directement = set_S & set_D
@@ -554,18 +562,17 @@ def compare_and_save(D_messages, S_messages, OUTPUT_DIR):
 
         f.write("=== RAPPORT DE RAPPROCHEMENT SAA OUTPUT VS D ===\n\n")
         f.write("=== Résumé ===\n\n")
-        f.write(f"Nombre de messages SAA OUTPUT : {len(S_messages)}\n")
         f.write(f"Nombre total de DataBlocks SAA : {nombre_blocs_saa}\n")
+        f.write(f"Nombre de messages SAA OUTPUT : {len(S_messages)}\n")
         f.write("Nombre de messages OUTPUT par categories : \n")
         for cat in CATEGORIES:
-            f.write(f" Nombre de messages OUTPUT {cat} est {messages_output_par_categorie[cat]}\n")
+            f.write(f"{cat} : {messages_output_par_categorie[cat]}\n")
         f.write("\n")
-        f.write(f"Nombre de blocs SAA uniques : {len(set_S)}\n")
         f.write(f"Nombre de messages D : {len(D_messages)}\n")
         f.write(f"Nombre de blocs SAA trouvés dans D : {len(blocs_trouves)}\n")
         f.write("Nombre de block presents dans SAA et le systeme operant par categorie : \n")
         for cat in CATEGORIES:
-            f.write(f" Nombre de blocks dans {cat} est {categoriesMatcheCount[cat]} \n")
+            f.write(f" {cat} : {categoriesMatcheCount[cat]} \n")
         f.write("\n")
 
         # ========================================================
@@ -635,11 +642,11 @@ if __name__ == "__main__":
         print(f" Nombre de messages {cat} OUTPUT est {nb_messagesSParCategorie[cat]}\n")
     print("\n")
     print("Nombre total de DataBlocks SAA :", total_blocs_SAA)
-    print("Nombre de blocs SAA qui ont un match dans D :", nb_blocs_trouves)
     print("Nombre de blocs presents dans SAA mais absents dans D :", nb_blocs_absents)
+    print("Nombre de blocs SAA qui ont un match dans D :", nb_blocs_trouves)
     print("Nombre de block presents dans SAA et le systeme operant par categorie : \n")
     for cat in CATEGORIES:
-        print(f" Nombre de blocks {cat} matcher est {categoriesMatcheCount[cat]}")
+        print(f" Nombre de blocks {cat} matchés est {categoriesMatcheCount[cat]}")
     print("\n")
     print("Rapport de rapprochement :", os.path.join(OUTPUT_DIR, "Rapprochement_SAA_vs_D.txt"))
     print("Rapport des anomalies :", chemin_anomalies)
