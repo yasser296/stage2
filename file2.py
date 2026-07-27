@@ -545,10 +545,11 @@ def compare_and_save(D_messages, S_messages, OUTPUT_DIR):
     
     categoriesMatcheCount = defaultdict(int)
     for block in blocs_trouves:
-        msgs = s_index[block]
-        for msg in msgs:
-            for cat in set(msg["categories_S"].values()):
-                categoriesMatcheCount[cat] += 1   
+        msg = s_index[block][0]
+        for cat in set(msg["categories_S"].values()):
+            categoriesMatcheCount[cat] += 1   
+
+    doublons_saa = sum(len(msgs) - 1 for msgs in s_index.values() if len(msgs) > 1)
 
     rapport_path = os.path.join(OUTPUT_DIR, "Rapprochement_SAA_vs_D.txt")
 
@@ -574,6 +575,7 @@ def compare_and_save(D_messages, S_messages, OUTPUT_DIR):
         for cat in CATEGORIES:
             f.write(f" {cat} : {categoriesMatcheCount[cat]} \n")
         f.write("\n")
+        f.write(f"Nombre de DataBlocks SAA dupliqués (presents dans plus qu'un seul message) ignorés : {doublons_saa}\n")
 
         # ========================================================
         # BLOCS ABSENTS
@@ -607,7 +609,8 @@ def compare_and_save(D_messages, S_messages, OUTPUT_DIR):
         len(blocs_trouves),
         len(missing_in_D),
         categoriesMatcheCount,
-        messages_output_par_categorie
+        messages_output_par_categorie,
+        doublons_saa
     )
 
 if __name__ == "__main__":
@@ -620,7 +623,7 @@ if __name__ == "__main__":
 
     messages_S, exemples_par_rp, anomalies_info = parse_messages_s(CHEMIN_FICHIER_S)
     
-    (total_D, total_S, total_blocs_SAA, nb_blocs_trouves, nb_blocs_absents, categoriesMatcheCount,nb_messagesSParCategorie) = compare_and_save(messages_D, messages_S, OUTPUT_DIR)
+    (total_D, total_S, total_blocs_SAA, nb_blocs_trouves, nb_blocs_absents, categoriesMatcheCount,nb_messagesSParCategorie, doublons_saa) = compare_and_save(messages_D, messages_S, OUTPUT_DIR)
 
     # ============================================================
     # 3. Création des autres rapports
@@ -639,7 +642,7 @@ if __name__ == "__main__":
     print("Nombre total de messages SAA OUTPUT :", total_S)
     print("Nombre de messages OUTPUT par categories : \n")
     for cat in CATEGORIES:
-        print(f" Nombre de messages {cat} OUTPUT est {nb_messagesSParCategorie[cat]}\n")
+        print(f" Nombre de messages {cat} OUTPUT est {nb_messagesSParCategorie[cat]}")
     print("\n")
     print("Nombre total de DataBlocks SAA :", total_blocs_SAA)
     print("Nombre de blocs presents dans SAA mais absents dans D :", nb_blocs_absents)
@@ -648,6 +651,7 @@ if __name__ == "__main__":
     for cat in CATEGORIES:
         print(f" Nombre de blocks {cat} matchés est {categoriesMatcheCount[cat]}")
     print("\n")
+    print(f"Nombre de DataBlocks SAA dupliqués (presents dans plus qu'un seul message) ignorés : {doublons_saa}\n")
     print("Rapport de rapprochement :", os.path.join(OUTPUT_DIR, "Rapprochement_SAA_vs_D.txt"))
     print("Rapport des anomalies :", chemin_anomalies)
     print("Rapports par catégorie :", RAPPORT_DIR)
