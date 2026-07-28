@@ -101,7 +101,7 @@ def parse_messages_s(zip_path):
     return all_messages, exemples_par_rp
 
 def write_D_files(s_messages, repertoire_D):
-    """Écrit un fichier de rapport par catégorie/routing point."""
+    
     shutil.rmtree(repertoire_D, ignore_errors=True)
     os.makedirs(repertoire_D, exist_ok=True)
     n = 0

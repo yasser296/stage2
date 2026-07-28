@@ -193,13 +193,10 @@ def parse_messages_D(directory):
     for content, fname, full_path in extract_files(directory):
         if fname.endswith(".Z"):
             continue
-        bloc2_match = re.search(r"\{2:(.*?)\}", content)
-        if bloc2_match:
-            bloc2 = bloc2_match.group(1)
-            if bloc2.startswith("I"):
-                continue
         matches = re.findall(r"\{2:(.*?)\}.*?\{4:(.*?)\-}", content, re.S)
         for bloc2, bloc4 in matches:
+            if bloc2.startswith("I"):
+                continue
             bloc4_norm = normalize_delta_bloc(bloc4)
             all_messages.append((bloc4_norm, bloc2.strip(), full_path))
         for body in re.findall(r"<Body>(.*?)</Body>", content, re.S):
@@ -524,11 +521,10 @@ def compare_and_save(D_messages, S_messages, OUTPUT_DIR):
                 tuple(re.findall(r":50:(.+)", bloc_S)),
             )
 
-            # Évite de considérer deux blocs sans aucun champ 700
-            # comme identiques.
+            # Évite de considérer deux blocs sans aucun champ 700 comme identiques.
             contient_champ_700 = any(cle_S_700)
 
-            if (contient_champ_700 and cle_S_700 in index_D_700 and index_D_700[cle_S_700]):
+            if (contient_champ_700 and (cle_S_700 in index_D_700) and (len(index_D_700[cle_S_700]) > 0)):
                 index_D_700[cle_S_700].pop(0)
                 blocs_trouves_par_champs.add(bloc_S)
 
