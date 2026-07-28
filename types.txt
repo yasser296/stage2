@@ -98,5 +98,5 @@ NOSTRO            | 1  | camt.053.001.08
 PRTRACK           | 1  | fin.210
 SGTG              | 1  | fin.101
 
-est ce que des blocs de differents types (input/output) peuvent etre dans le meme fichiers
+est ce que des blocs de different subformat (input/output) peuvent etre dans le meme fichiers
 comment creer des fichiers D non fin

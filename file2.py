@@ -384,11 +384,7 @@ def write_examples_report(exemples_par_rp, OUTPUT_DIR):
     print(f"Fichier d'exemples généré : {chemin}")
 
 def compare_and_save(D_messages, S_messages, OUTPUT_DIR):
-    """Compare les blocs SAA avec D :
-    - rapproche MsgId + champ 32A pour O103/O202/O200
-    - rapproche champ par champ pour O700
-    """
-
+    
     messages_output_par_categorie = defaultdict(int)
     
     set_D = set(bloc4 for bloc4, bloc2, path in D_messages)
