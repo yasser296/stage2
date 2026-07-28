@@ -1,3 +1,4 @@
+from collections import defaultdict
 import html
 import os
 import re
@@ -101,28 +102,38 @@ def parse_messages_s(zip_path):
     return all_messages, exemples_par_rp
 
 def write_D_files(s_messages, repertoire_D):
-    
+
     shutil.rmtree(repertoire_D, ignore_errors=True)
     os.makedirs(repertoire_D, exist_ok=True)
+    messages_par_famille = defaultdict(int)
     n = 0
     nb_messages_fin = 0
     for msg in s_messages:
         message_identifier = msg["message_identifier"]
-        type = re.fullmatch(
+
+        if not message_identifier:
+            continue
+
+        message_identifier = message_identifier.strip()
+
+        fin_match = re.fullmatch(
             r"fin\.(\d{3})",
-            message_identifier.strip(),
+            message_identifier,
             re.I
         )
-        if not type:
-            continue
 
-        type = type.group(1)
-        
+        if fin_match:
+            famille = "FIN"
+            type_fin = fin_match.group(1)
+
+        else:
+            famille = message_identifier.split(".")[0].upper()
+            type_fin = None
+
+        messages_par_famille[famille] += 1       
         if not msg["blocs"]:
-            continue
-
-        
-        nb_messages_fin += 1
+            continue       
+        nb_messages_fin += 1      
         for rp, cat in msg["categories_S"].items():
             if cat.upper().startswith("NON PRISE EN CHARGE") or cat == "SANS_ROUTING_POINT":
                 continue
@@ -131,13 +142,21 @@ def write_D_files(s_messages, repertoire_D):
             os.makedirs(cat_dir, exist_ok=True)
             file_path = os.path.join(cat_dir, f"{rp}{n}.txt")
             with open(file_path, "w", encoding="utf-8") as f:
-                f.write(rf"{{1:F01{generer_String()}}}")
-                f.write(rf"{{2:O{type}{generer_String()}}}")
-                f.write("{4:\n")
-                for block in msg["blocs"]:
-                    f.write(block)
-                f.write("\n-}")
+                if fin_match:
+                    f.write(rf"{{1:F01{generer_String()}}}")
+                    f.write(rf"{{2:O{type_fin}{generer_String()}}}")
+                    f.write("{4:\n")
+                    for block in msg["blocs"]:
+                        f.write(block)
+                    f.write("\n-}")
+                else :
+                    f.write("<Body>")
+                    for block in msg["blocs"]:
+                        f.write(block)
+                    f.write("</Body>\n")
     print(nb_messages_fin)
+    for type , occ in messages_par_famille.items():
+        print(f"{type} : {occ}")
     # nb messages fin : 3418
     # nb messages fin (categories prises en charges) : 1539
 

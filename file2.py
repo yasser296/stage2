@@ -128,7 +128,6 @@ def extraire_datablocks(message, message_identifier):
     message = html.unescape(message)
     anomalies = {}
     categories = detect_categories(message)
-
     datablocks = re.findall(
         r"<DataBlock\b[^>]*>(.*?)</DataBlock>",
         message,
