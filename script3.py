@@ -19,6 +19,30 @@ CHEMIN_FICHIER_S = os.path.join(DATA_DIR, "EXTRACTION0306.zip")
 REPERTOIRE_D = os.path.join(DATA_DIR, "D")
 
 
+
+def detecter_format_datablock(bloc):
+    texte = html.unescape(bloc).strip()
+    contient_xml_mx = bool(
+        re.search(
+            r"<\?xml"
+            r"|</?[A-Za-z_][\w.-]*:[A-Za-z_][\w.-]*\b"
+            r"|</?(?:Document|AppHdr|GrpHdr)\b",
+            texte,
+            re.I
+        )
+    )
+    if contient_xml_mx:
+        return "MX"
+    champs_mt = re.findall(
+        r"(?:^|\s):\d{2}[A-Z]?:",
+        texte,
+        re.M
+    )
+    # On exige au moins deux champs pour éviter les faux positifs
+    if len(champs_mt) >= 2:
+        return "MT"
+    return "INCONNU"
+
 def extraire_datablocks(message):
     message = html.unescape(message)
     datablocks = re.findall(
@@ -26,11 +50,30 @@ def extraire_datablocks(message):
         message,
         re.S | re.I
     )
-    blocs = []
-    for bloc in datablocks:
-        bloc_normalise = normalize_delta_bloc(bloc)
-        blocs.append(bloc_normalise)
-    return blocs
+    block = []
+    if not datablocks:
+        return block
+    if len(datablocks) > 1 :
+        for bloc in datablocks:
+            if detecter_format_datablock(bloc) == "MT":
+                bloc_normalise = normalize_delta_bloc(bloc)
+                block.append(bloc_normalise)
+    else :
+        block.append(normalize_delta_bloc(datablocks[0]))      
+    return block
+
+# def extraire_datablocks(message):
+#     message = html.unescape(message)
+#     datablocks = re.findall(
+#         r"<DataBlock\b[^>]*>(.*?)</DataBlock>",
+#         message,
+#         re.S | re.I
+#     )
+#     blocs = []
+#     for bloc in datablocks:
+#         bloc_normalise = normalize_delta_bloc(bloc)
+#         blocs.append(bloc_normalise)
+#     return blocs
 
 
 def extract_files(path):
@@ -79,10 +122,20 @@ def parse_messages_s(zip_path):
                 msg_id = extract_message_identifier(message)
                 blocs = extraire_datablocks(message)
 
+                lcat = []
+                NonPrisEnCharge = True
+
                 # Un exemple par routing point
                 for rp, cat in categories.items():
                     if rp not in exemples_par_rp:
                         exemples_par_rp[rp] = (cat, message)
+                    lcat.append(cat)
+                for catg in lcat:
+                    if catg != "Non prise en charge":
+                        NonPrisEnCharge = False
+
+                if NonPrisEnCharge == True:
+                    continue
 
                 if not blocs:
                     all_messages.append({
@@ -105,9 +158,10 @@ def write_D_files(s_messages, repertoire_D):
 
     shutil.rmtree(repertoire_D, ignore_errors=True)
     os.makedirs(repertoire_D, exist_ok=True)
-    messages_par_famille = defaultdict(int)
+    messages_ecrits_par_famille = defaultdict(int)
+    fichiers_par_famille = defaultdict(int)
     n = 0
-    nb_messages_fin = 0
+    nb_messages_ecrits = 0
     for msg in s_messages:
         message_identifier = msg["message_identifier"]
 
@@ -130,14 +184,18 @@ def write_D_files(s_messages, repertoire_D):
             famille = message_identifier.split(".")[0].upper()
             type_fin = None
 
-        messages_par_famille[famille] += 1       
         if not msg["blocs"]:
             continue       
-        nb_messages_fin += 1      
+        message_ecrit = False
         for rp, cat in msg["categories_S"].items():
             if cat.upper().startswith("NON PRISE EN CHARGE") or cat == "SANS_ROUTING_POINT":
                 continue
             n += 1
+            fichiers_par_famille[famille] += 1
+            if not message_ecrit:
+                messages_ecrits_par_famille[famille] += 1
+                nb_messages_ecrits += 1
+                message_ecrit = True
             cat_dir = os.path.join(repertoire_D, cat)
             os.makedirs(cat_dir, exist_ok=True)
             file_path = os.path.join(cat_dir, f"{rp}{n}.txt")
@@ -154,11 +212,10 @@ def write_D_files(s_messages, repertoire_D):
                     for block in msg["blocs"]:
                         f.write(block)
                     f.write("</Body>\n")
-    print(nb_messages_fin)
-    for type , occ in messages_par_famille.items():
-        print(f"{type} : {occ}")
-    # nb messages fin : 3418
-    # nb messages fin (categories prises en charges) : 1539
+    print(f"Messages ecrits : {nb_messages_ecrits}")
+    print(f"Fichiers D generes : {n}")
+    for famille, occ in sorted(messages_ecrits_par_famille.items()):
+        print(f"{famille} : {occ} messages, {fichiers_par_famille[famille]} fichiers")
 
 # def generer_identifiant():
 #     # 1. Génère un nombre à 3 chiffres (entre 100 et 999)
