@@ -1,0 +1,36 @@
+=== RAPPORT DE RAPPROCHEMENT SAA OUTPUT VS D ===
+
+=== Résumé ===
+
+Nombre total de DataBlocks output SAA : 3253
+Nombre de messages SAA OUTPUT : 3253
+Nombre de messages OUTPUT par categories : 
+KTP : 91
+AGI : 10
+delta v9 : 75
+delta v10 : 1530
+SmartCash : 185
+gateway : 14
+FTI : 413
+openPay RTGS : 961
+
+Nombre de messages D : 3279
+Nombre de blocs output SAA trouvés dans D : 3253
+Nombre de block output presents dans SAA et le systeme operant par categorie : 
+ KTP : 91 
+ AGI : 10 
+ delta v9 : 75 
+ delta v10 : 1530 
+ SmartCash : 185 
+ gateway : 14 
+ FTI : 413 
+ openPay RTGS : 961 
+
+Nombre de DataBlocks SAA output dupliqués (presents dans plus qu'un seul message) ignorés : 0
+
+
+====================================================================================================
+BLOCS SAA ABSENTS DANS D
+====================================================================================================
+
+Aucun bloc SAA absent dans D.
