@@ -50,7 +50,7 @@ def get_status():
             "exists": SAA_ZIP.is_file(),
         },
         "d": {
-            "name": D_SOURCE.name,
+            "name": "Dossier D",
             "exists": D_SOURCE.exists(),
             "files": count_files(D_SOURCE),
         },

@@ -62,8 +62,7 @@ export default function App() {
   return (
     <main className="app">
       <header>
-        <p className="eyebrow">React + Python</p>
-        <h1>Rapprochement SAA / D</h1>
+        <h1>Rapprochement SAA / Systeme Operant</h1>
       </header>
 
       <section className="source-grid">
@@ -79,7 +78,7 @@ export default function App() {
         </article>
 
         <article className="source-card">
-          <span>Résultat D</span>
+          <span>Systeme Operant</span>
           <strong>{sources?.d.name || "Chargement..."}</strong>
 
           <p className={sources?.d.exists ? "ready" : "missing"}>
@@ -130,7 +129,12 @@ export default function App() {
             />
 
             <Kpi
-              label="Blocs trouvés"
+              label="Doublons"
+              value={result.summary.duplicates}
+              color="orange"
+            />
+            <Kpi
+              label="Blocs SAA ayant trouvé un équivalent dans le système opérant"
               value={result.summary.matched}
               color="green"
             />
@@ -139,12 +143,6 @@ export default function App() {
               label="Blocs absents"
               value={result.summary.missing}
               color="red"
-            />
-
-            <Kpi
-              label="Doublons"
-              value={result.summary.duplicates}
-              color="orange"
             />
           </section>
 

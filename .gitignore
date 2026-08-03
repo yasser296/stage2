@@ -4,3 +4,4 @@ react_js/
 node_modules/
 dist/
 .pnpm-store/
+interface/
