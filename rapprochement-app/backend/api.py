@@ -1,4 +1,5 @@
 from pathlib import Path
+import shutil
 from uuid import uuid4, UUID
 
 from fastapi import FastAPI, HTTPException
@@ -25,6 +26,15 @@ app.add_middleware(
 )
 
 RUNS_DIRECTORY = Path(__file__).parent / "runs"
+
+def clear_old_runs():
+    RUNS_DIRECTORY.mkdir(exist_ok=True)
+
+    for item in RUNS_DIRECTORY.iterdir():
+        if item.is_dir():
+            shutil.rmtree(item)
+        else:
+            item.unlink()
 
 
 def count_files(path: Path):
@@ -73,6 +83,7 @@ def compare():
             detail=f"Source D introuvable : {D_SOURCE}",
         )
 
+    clear_old_runs()
     job_id = str(uuid4())
     output_directory = RUNS_DIRECTORY / job_id
 
