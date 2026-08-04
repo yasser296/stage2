@@ -237,52 +237,133 @@ export default function App() {
         {result && (
           <>
             <section ref={sectionSyntheseRef} className="kpi-section">
-              <SectionHeader title="Synthese des resultats" />
-
+              <div className="section-header">
+                <h2 className="section-title">Synthèse des résultats</h2>
+                <div className="section-divider"></div>
+              </div>
               <div className="kpi-grid">
-                <Kpi label="Messages D" value={result.summary.totalD} />
-                <Kpi label="Messages SAA" value={result.summary.totalMessagesSaa} />
-                <Kpi label="DataBlocks SAA" value={result.summary.totalDataBlocksSaa} />
-                <Kpi label="Doublons" value={result.summary.duplicates} color="orange" />
                 <Kpi
-                  label="Correspondances trouvees"
-                  value={result.summary.matched}
-                  color="green"
+                  label="Messages D"
+                  value={result.summary.totalD}
+                  icon="database"
+                  color="slate"
                 />
-                <Kpi label="Blocs absents" value={result.summary.missing} color="red" />
+                <Kpi
+                  label="Messages SAA"
+                  value={result.summary.totalMessagesSaa}
+                  icon="archive"
+                  color="indigo"
+                />
+                <Kpi
+                  label="DataBlocks SAA"
+                  value={result.summary.totalDataBlocksSaa}
+                  icon="layers"
+                  color="violet"
+                />
+                <Kpi
+                  label="Doublons"
+                  value={result.summary.duplicates}
+                  icon="copy"
+                  color="amber"
+                />
+                <Kpi
+                  label="Correspondances trouvées"
+                  value={result.summary.matched}
+                  icon="check-circle"
+                  color="emerald"
+                  highlight
+                />
+                <Kpi
+                  label="Écarts détectés"
+                  value={result.summary.missing}
+                  icon="alert-triangle"
+                  color="rose"
+                />
               </div>
             </section>
 
             <section ref={sectionEcartsRef} className="table-section">
-              <SectionHeader title="Resultats par categorie" />
-
+              <div className="section-header">
+                <h2 className="section-title">Résultats par catégorie</h2>
+                <div className="section-divider"></div>
+              </div>
               <div className="table-container">
                 <table>
                   <thead>
                     <tr>
-                      <th>Categorie</th>
-                      <th>Messages SAA</th>
-                      <th>Blocs trouves</th>
+                      <th>
+                        <span className="th-content">
+                          {/* <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                          </svg> */}
+                          Catégorie
+                        </span>
+                      </th>
+                      <th>
+                        <span className="th-content">
+                          {/* <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                          </svg> */}
+                          Messages SAA
+                        </span>
+                      </th>
+                      <th>
+                        <span className="th-content">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <polyline points="20 6 9 17 4 12"/>
+                          </svg>
+                          Correspondances
+                        </span>
+                      </th>
+                      <th>
+                        <span className="th-content">
+                          Taux de match
+                        </span>
+                      </th>
                     </tr>
                   </thead>
-
                   <tbody>
-                    {result.categories.map((category) => (
-                      <tr key={category.name}>
-                        <td>
-                          <span className="category-badge">{category.name}</span>
-                        </td>
-                        <td>{category.messages}</td>
-                        <td className="td-success">{category.matched}</td>
-                      </tr>
-                    ))}
+                    {result.categories.map((category) => {
+                      const matchRate = category.messages > 0 
+                        ? Math.round((category.matched / category.messages) * 100) 
+                        : 0;
+                      return (
+                        <tr key={category.name}>
+                          <td>
+                            <span className="category-badge">{category.name}</span>
+                          </td>
+                          <td className="td-number">{category.messages.toLocaleString()}</td>
+                          <td className="td-number td-number--success">{category.matched.toLocaleString()}</td>
+                          <td>
+                            <div className="match-rate">
+                              <div className="match-rate__bar">
+                                <div 
+                                  className="match-rate__fill" 
+                                  style={{ width: `${matchRate}%` }}
+                                ></div>
+                              </div>
+                              <span className="match-rate__value">{matchRate}%</span>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
             </section>
 
-            <a className="download-btn" href={`${API_URL}${result.reportUrl}`}>
-              Telecharger le rapport TXT
+            <a
+              className="download-btn"
+              href={`${API_URL}${result.reportUrl}`}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+              Télécharger le rapport complet
             </a>
           </>
         )}
@@ -291,38 +372,37 @@ export default function App() {
   );
 }
 
-function SourceCard({ marker, label, name, ready, readyText, missingText }) {
-  return (
-    <article className="source-card">
-      <div className={`source-card__marker source-card__marker--${marker.toLowerCase()}`}>
-        {marker}
-      </div>
-      <div>
-        <span className="source-card__label">{label}</span>
-        <strong className="source-card__name">{name}</strong>
-        <p className={`source-card__status ${ready ? "ready" : "missing"}`}>
-          <span className="status-indicator"></span>
-          {ready ? readyText : missingText}
-        </p>
-      </div>
-    </article>
-  );
-}
+function Kpi({ label, value, icon, color = "slate", highlight = false }) {
+  const getIcon = () => {
+    switch(icon) {
+      case 'database':
+        return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>;
+      case 'archive':
+        return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>;
+      case 'layers':
+        return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>;
+      case 'copy':
+        return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>;
+      case 'check-circle':
+        return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>;
+      case 'alert-triangle':
+        return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>;
+      default:
+        return null;
+    }
+  };
 
-function SectionHeader({ title }) {
   return (
-    <div className="section-header">
-      <h2>{title}</h2>
-      <div className="section-divider"></div>
-    </div>
-  );
-}
-
-function Kpi({ label, value, color = "blue" }) {
-  return (
-    <article className={`kpi kpi--${color}`}>
-      <span>{label}</span>
-      <strong>{value}</strong>
+    <article className={`kpi kpi--${color} ${highlight ? 'kpi--highlight' : ''}`}>
+      <div className="kpi__header">
+        <div className={`kpi__icon kpi__icon--${color}`}>
+          {getIcon()}
+        </div>
+      </div>
+      <div className="kpi__body">
+        <span className="kpi__label">{label}</span>
+        <strong className="kpi__value">{value.toLocaleString()}</strong>
+      </div>
     </article>
   );
 }
