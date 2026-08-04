@@ -41,7 +41,11 @@ export default function App() {
     setResult(null);
 
     try {
-      const response = await fetch(`${API_URL}/api/compare`, {
+      const compareUrl = selectedCategory
+        ? `${API_URL}/api/compare?category=${encodeURIComponent(selectedCategory)}`
+        : `${API_URL}/api/compare`;
+
+      const response = await fetch(compareUrl, {
         method: "POST",
       });
 
@@ -70,6 +74,7 @@ export default function App() {
 
   const sourcesAreReady =
     sources?.saa.exists && sources?.d.exists;
+  const availableCategories = sources?.categories || [];
 
   return (
     <main className="app">
@@ -107,18 +112,18 @@ export default function App() {
                 onChange={event =>
                     setSelectedCategory(event.target.value)
                 }
-                disabled={!result}
+                disabled={!availableCategories.length || loading}
                 >
                 <option value="">
-                    Choisir une catégorie
+                    Toutes les categories
                 </option>
 
-                {result?.categories.map(category => (
+                {availableCategories.map(category => (
                     <option
-                    key={category.name}
-                    value={category.name}
+                    key={category}
+                    value={category}
                     >
-                    {category.name}
+                    {category}
                     </option>
                 ))}
                 </select>

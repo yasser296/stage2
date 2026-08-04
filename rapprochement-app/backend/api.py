@@ -8,6 +8,7 @@ from fastapi.responses import FileResponse
 
 from config import SAA_ZIP, D_SOURCE
 from processing import (
+    CATEGORIES,
     run_comparison,
     clear_sources_cache,
 )
@@ -64,12 +65,21 @@ def get_status():
             "exists": D_SOURCE.exists(),
             "files": count_files(D_SOURCE),
         },
+        "categories": CATEGORIES,
     }
 
 
 @app.post("/api/compare")
-def compare():
+def compare(category: str | None = None):
     """Lance le rapprochement sans recevoir de fichier."""
+
+    selected_category = category.strip() if category else None
+
+    if selected_category and selected_category not in CATEGORIES:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Categorie inconnue : {selected_category}",
+        )
 
     if not SAA_ZIP.is_file():
         raise HTTPException(
@@ -88,7 +98,7 @@ def compare():
     output_directory = RUNS_DIRECTORY / job_id
 
     try:
-        result = run_comparison(output_directory)
+        result = run_comparison(output_directory, selected_category)
     except Exception as error:
         raise HTTPException(
             status_code=500,

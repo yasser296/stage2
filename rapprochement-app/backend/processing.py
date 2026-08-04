@@ -31,10 +31,16 @@ def clear_sources_cache():
     load_sources.cache_clear()
 
 
-def run_comparison(output_directory: Path):
+def run_comparison(output_directory: Path, selected_category=None):
     output_directory.mkdir(parents=True, exist_ok=True)
 
     messages_d, messages_s = load_sources()
+
+    if selected_category:
+        messages_s = [
+            message for message in messages_s
+            if selected_category in message["categories_S"].values()
+        ]
 
     result = compare_and_save(
         messages_d,
@@ -54,8 +60,9 @@ def run_comparison(output_directory: Path):
     ) = result
 
     categories = []
+    categories_to_show = [selected_category] if selected_category else CATEGORIES
 
-    for category in CATEGORIES:
+    for category in categories_to_show:
         categories.append({
             "name": category,
             "messages": messages_by_category.get(category, 0),
