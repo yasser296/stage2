@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
 
 const API_URL = "http://localhost:8000";
@@ -14,10 +14,9 @@ export default function App() {
   const sectionSyntheseRef = useRef(null);
   const sectionEcartsRef = useRef(null);
 
-  // 2. Fonction unique pour faire défiler vers la section demandée
   const defilerVers = (referenceElement) => {
     if (referenceElement.current) {
-      referenceElement.current.scrollIntoView({ behavior: 'smooth' });
+      referenceElement.current.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -72,183 +71,189 @@ export default function App() {
     await loadStatus();
   }
 
-  const sourcesAreReady =
-    sources?.saa.exists && sources?.d.exists;
+  const sourcesAreReady = sources?.saa.exists && sources?.d.exists;
   const availableCategories = sources?.categories || [];
 
   return (
-    <main className="app">
+    <div className="app-wrapper">
       <nav className="navbar">
         <div className="navbar__content">
-            <ul className="navbar__links">
-              <li>
-                  <button onClick={() => defilerVers(sectionAccueilRef)}>
-                    Accueil
-                  </button>
-              </li>
 
-              <li>
-                  <button onClick={() => defilerVers(sectionSyntheseRef)}>
-                      Synthèse
-                  </button>
-              </li>
+          <ul className="navbar__links">
+            <li>
+              <button className="nav-btn" onClick={() => defilerVers(sectionAccueilRef)}>
+                Accueil
+              </button>
+            </li>
+            <li>
+              <button className="nav-btn" onClick={() => defilerVers(sectionSyntheseRef)}>
+                Synthese
+              </button>
+            </li>
+            <li>
+              <button className="nav-btn" onClick={() => defilerVers(sectionEcartsRef)}>
+                Ecarts
+              </button>
+            </li>
+          </ul>
 
-              <li>
-                  <button onClick={() => defilerVers(sectionEcartsRef)}>
-                      Ecarts
-                  </button>
-              </li>
-            </ul>
-
-            <div className="category-select">
-            <label htmlFor="category">
-                Catégorie
-            </label>
-
+          <div className="category-select">
+            <label htmlFor="category">Categorie</label>
             <div className="category-select__wrapper">
-                <select
+              <select
                 id="category"
                 value={selectedCategory}
-                onChange={event =>
-                    setSelectedCategory(event.target.value)
-                }
+                onChange={(event) => setSelectedCategory(event.target.value)}
                 disabled={!availableCategories.length || loading}
-                >
-                <option value="">
-                    Toutes les categories
-                </option>
-
-                {availableCategories.map(category => (
-                    <option
-                    key={category}
-                    value={category}
-                    >
+              >
+                <option value="">Toutes les categories</option>
+                {availableCategories.map((category) => (
+                  <option key={category} value={category}>
                     {category}
-                    </option>
+                  </option>
                 ))}
-                </select>
-            </div>
+              </select>
             </div>
           </div>
-        </nav>
-      <header>
-        <h1>Rapprochement SAA / Systeme Operant</h1>
-      </header>
+        </div>
+      </nav>
 
-      <section ref={sectionAccueilRef} className="source-grid">
-        <article className="source-card">
-          <span>Archive SAA</span>
-          <strong>{sources?.saa.name || "Chargement..."}</strong>
+      <main className="app">
+        <header ref={sectionAccueilRef} className="header">
+          <h1>
+            Rapprochement <span>SAA</span> / <span>Systeme Operant</span>
+          </h1>
+          {/* <p>
+            Analyse croisee entre l'archive SAA et les donnees du systeme operant.
+          </p> */}
+        </header>
 
-          <p className={sources?.saa.exists ? "ready" : "missing"}>
-            {sources?.saa.exists
-              ? "Fichier trouvé"
-              : "Fichier introuvable"}
-          </p>
-        </article>
+        <section className="source-grid">
+          <SourceCard
+            marker="SAA"
+            label="Archive SAA"
+            name={sources?.saa.name || "Chargement..."}
+            ready={sources?.saa.exists}
+            readyText="Fichier trouve"
+            missingText="Fichier introuvable"
+          />
 
-        <article className="source-card">
-          <span>Systeme Operant</span>
-          <strong>{sources?.d.name || "Chargement..."}</strong>
+          <SourceCard
+            marker="D"
+            label="Systeme Operant"
+            name={sources?.d.name || "Chargement..."}
+            ready={sources?.d.exists}
+            readyText={`${sources?.d.files || 0} fichier(s) trouve(s)`}
+            missingText="Dossier introuvable"
+          />
+        </section>
 
-          <p className={sources?.d.exists ? "ready" : "missing"}>
-            {sources?.d.exists
-              ? `${sources.d.files} fichier(s) trouvé(s)`
-              : "Dossier introuvable"}
-          </p>
-        </article>
-      </section>
-
-      <section className="actions">
-        <button
-          onClick={runComparison}
-          disabled={!sourcesAreReady || loading}
-        >
-          {loading
-            ? "Rapprochement en cours..."
-            : "Lancer le rapprochement"}
-        </button>
-
-        <button
-          className="secondary"
-          onClick={reloadSources}
-          disabled={loading}
-        >
-          Relire les fichiers
-        </button>
-      </section>
-
-      {error && <p className="error">{error}</p>}
-
-      {result && (
-        <>
-          <section ref={sectionSyntheseRef} className="kpi-grid">
-            <Kpi
-              label="Messages D"
-              value={result.summary.totalD}
-            />
-
-            <Kpi
-              label="Messages SAA"
-              value={result.summary.totalMessagesSaa}
-            />
-
-            <Kpi
-              label="DataBlocks SAA"
-              value={result.summary.totalDataBlocksSaa}
-            />
-
-            <Kpi
-              label="Doublons"
-              value={result.summary.duplicates}
-              color="orange"
-            />
-            <Kpi
-              label="Blocs SAA ayant trouvé un équivalent dans le système opérant"
-              value={result.summary.matched}
-              color="green"
-            />
-
-            <Kpi
-              label="Blocs absents"
-              value={result.summary.missing}
-              color="red"
-            />
-          </section>
-
-          <section ref={sectionEcartsRef} className="table-container">
-            <h2>Résultats par catégorie</h2>
-
-            <table>
-              <thead>
-                <tr>
-                  <th>Catégorie</th>
-                  <th>Messages SAA</th>
-                  <th>Blocs trouvés</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {result.categories.map((category) => (
-                  <tr key={category.name}>
-                    <td>{category.name}</td>
-                    <td>{category.messages}</td>
-                    <td>{category.matched}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </section>
-
-          <a
-            className="download"
-            href={`${API_URL}${result.reportUrl}`}
+        <section className="actions">
+          <button
+            className="btn btn--primary"
+            onClick={runComparison}
+            disabled={!sourcesAreReady || loading}
           >
-            Télécharger le rapport TXT
-          </a>
-        </>
-      )}
-    </main>
+            {loading ? (
+              <>
+                <span className="spinner"></span>
+                Analyse en cours...
+              </>
+            ) : (
+              "Lancer le rapprochement"
+            )}
+          </button>
+
+          <button
+            className="btn btn--secondary"
+            onClick={reloadSources}
+            disabled={loading}
+          >
+            Relire les fichiers
+          </button>
+        </section>
+
+        {error && <div className="error-banner">{error}</div>}
+
+        {result && (
+          <>
+            <section ref={sectionSyntheseRef} className="kpi-section">
+              <SectionHeader title="Synthese des resultats" />
+
+              <div className="kpi-grid">
+                <Kpi label="Messages D" value={result.summary.totalD} />
+                <Kpi label="Messages SAA" value={result.summary.totalMessagesSaa} />
+                <Kpi label="DataBlocks SAA" value={result.summary.totalDataBlocksSaa} />
+                <Kpi label="Doublons" value={result.summary.duplicates} color="orange" />
+                <Kpi
+                  label="Correspondances trouvees"
+                  value={result.summary.matched}
+                  color="green"
+                />
+                <Kpi label="Blocs absents" value={result.summary.missing} color="red" />
+              </div>
+            </section>
+
+            <section ref={sectionEcartsRef} className="table-section">
+              <SectionHeader title="Resultats par categorie" />
+
+              <div className="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Categorie</th>
+                      <th>Messages SAA</th>
+                      <th>Blocs trouves</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {result.categories.map((category) => (
+                      <tr key={category.name}>
+                        <td>
+                          <span className="category-badge">{category.name}</span>
+                        </td>
+                        <td>{category.messages}</td>
+                        <td className="td-success">{category.matched}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <a className="download-btn" href={`${API_URL}${result.reportUrl}`}>
+              Telecharger le rapport TXT
+            </a>
+          </>
+        )}
+      </main>
+    </div>
+  );
+}
+
+function SourceCard({ marker, label, name, ready, readyText, missingText }) {
+  return (
+    <article className="source-card">
+      <div className="source-card__marker">{marker}</div>
+      <div>
+        <span className="source-card__label">{label}</span>
+        <strong className="source-card__name">{name}</strong>
+        <p className={`source-card__status ${ready ? "ready" : "missing"}`}>
+          <span className="status-indicator"></span>
+          {ready ? readyText : missingText}
+        </p>
+      </div>
+    </article>
+  );
+}
+
+function SectionHeader({ title }) {
+  return (
+    <div className="section-header">
+      <h2>{title}</h2>
+      <div className="section-divider"></div>
+    </div>
   );
 }
 
