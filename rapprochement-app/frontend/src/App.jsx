@@ -78,7 +78,6 @@ export default function App() {
     <div className="app-wrapper">
       <nav className="navbar">
         <div className="navbar__content">
-
           <ul className="navbar__links">
             <li>
               <button className="nav-btn" onClick={() => defilerVers(sectionAccueilRef)}>
@@ -121,11 +120,8 @@ export default function App() {
       <main className="app">
         <header ref={sectionAccueilRef} className="header">
           <h1>
-            Rapprochement <span>SAA</span> / <span>Systeme Operant</span>
+            Rapprochement <span className="title-accent">SAA</span> / <span className="title-subtle">Systeme Operant</span>
           </h1>
-          {/* <p>
-            Analyse croisee entre l'archive SAA et les donnees du systeme operant.
-          </p> */}
         </header>
 
         <section className="source-grid">
@@ -235,7 +231,9 @@ export default function App() {
 function SourceCard({ marker, label, name, ready, readyText, missingText }) {
   return (
     <article className="source-card">
-      <div className="source-card__marker">{marker}</div>
+      <div className={`source-card__marker source-card__marker--${marker.toLowerCase()}`}>
+        {marker}
+      </div>
       <div>
         <span className="source-card__label">{label}</span>
         <strong className="source-card__name">{name}</strong>
