@@ -290,7 +290,7 @@ export default function App() {
               </div>
               <div className="kpi-grid">
                 <Kpi
-                  label="Messages D"
+                  label="Messages Système Opérant"
                   value={result.summary.totalD}
                   icon="database"
                   color="slate"

@@ -243,7 +243,7 @@ export default function App() {
               </div>
               <div className="kpi-grid">
                 <Kpi
-                  label="Messages D"
+                  label="Messages Système Opérant"
                   value={result.summary.totalD}
                   icon="database"
                   color="slate"
@@ -260,12 +260,15 @@ export default function App() {
                   icon="layers"
                   color="violet"
                 />
-                <Kpi
+                {result.summary.duplicates > 0 && (
+                  <Kpi
                   label="Doublons"
                   value={result.summary.duplicates}
                   icon="copy"
                   color="amber"
                 />
+                )}
+                
                 <Kpi
                   label="Correspondances trouvées"
                   value={result.summary.matched}
@@ -274,7 +277,7 @@ export default function App() {
                   highlight
                 />
                 <Kpi
-                  label="Écarts détectés"
+                  label="Écarts détectés entre SAA et le Système Opérant"
                   value={result.summary.missing}
                   icon="alert-triangle"
                   color="rose"
