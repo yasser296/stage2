@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./App.css";
 
 const API_URL = "http://localhost:8000";
@@ -8,6 +8,18 @@ export default function App() {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
+
+  const sectionAccueilRef = useRef(null);
+  const sectionSyntheseRef = useRef(null);
+  const sectionEcartsRef = useRef(null);
+
+  // 2. Fonction unique pour faire défiler vers la section demandée
+  const defilerVers = (referenceElement) => {
+    if (referenceElement.current) {
+      referenceElement.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   async function loadStatus() {
     try {
@@ -61,11 +73,64 @@ export default function App() {
 
   return (
     <main className="app">
+      <nav className="navbar">
+        <div className="navbar__content">
+            <ul className="navbar__links">
+              <li>
+                  <button onClick={() => defilerVers(sectionAccueilRef)}>
+                    Accueil
+                  </button>
+              </li>
+
+              <li>
+                  <button onClick={() => defilerVers(sectionSyntheseRef)}>
+                      Synthèse
+                  </button>
+              </li>
+
+              <li>
+                  <button onClick={() => defilerVers(sectionEcartsRef)}>
+                      Ecarts
+                  </button>
+              </li>
+            </ul>
+
+            <div className="category-select">
+            <label htmlFor="category">
+                Catégorie
+            </label>
+
+            <div className="category-select__wrapper">
+                <select
+                id="category"
+                value={selectedCategory}
+                onChange={event =>
+                    setSelectedCategory(event.target.value)
+                }
+                disabled={!result}
+                >
+                <option value="">
+                    Choisir une catégorie
+                </option>
+
+                {result?.categories.map(category => (
+                    <option
+                    key={category.name}
+                    value={category.name}
+                    >
+                    {category.name}
+                    </option>
+                ))}
+                </select>
+            </div>
+            </div>
+          </div>
+        </nav>
       <header>
         <h1>Rapprochement SAA / Systeme Operant</h1>
       </header>
 
-      <section className="source-grid">
+      <section ref={sectionAccueilRef} className="source-grid">
         <article className="source-card">
           <span>Archive SAA</span>
           <strong>{sources?.saa.name || "Chargement..."}</strong>
@@ -112,7 +177,7 @@ export default function App() {
 
       {result && (
         <>
-          <section className="kpi-grid">
+          <section ref={sectionSyntheseRef} className="kpi-grid">
             <Kpi
               label="Messages D"
               value={result.summary.totalD}
@@ -146,7 +211,7 @@ export default function App() {
             />
           </section>
 
-          <section className="table-container">
+          <section ref={sectionEcartsRef} className="table-container">
             <h2>Résultats par catégorie</h2>
 
             <table>
