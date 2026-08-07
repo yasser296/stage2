@@ -574,18 +574,29 @@ def compare_and_save(D_messages, S_messages, OUTPUT_DIR):
 
         f.write("=== RAPPORT DE RAPPROCHEMENT SAA OUTPUT VS D ===\n\n")
         f.write("=== Résumé ===\n\n")
-        f.write(f"Nombre total de DataBlocks output SAA : {nombre_blocs_saa}\n")
         f.write(f"Nombre de messages SAA OUTPUT : {len(S_messages)}\n")
-        f.write("Nombre de messages OUTPUT par categories : \n")
-        for cat in CATEGORIES:
-            f.write(f"{cat} : {messages_output_par_categorie[cat]}\n")
-        f.write("\n")
-        f.write(f"Nombre de messages D : {len(D_messages)}\n")
-        f.write(f"Nombre de blocs output SAA trouvés dans D : {len(blocs_trouves)}\n")
-        f.write("Nombre de block output presents dans SAA et le systeme operant par categorie : \n")
-        for cat in CATEGORIES:
-            f.write(f" {cat} : {categoriesMatcheCount[cat]} \n")
-        f.write("\n")
+        f.write(f"Nombre total de DataBlocks output SAA : {nombre_blocs_saa}\n") 
+        n = 0
+        for cat in CATEGORIES:  
+            if messages_output_par_categorie[cat] > 0:  
+                n += 1
+        if n > 1:
+            f.write("Nombre de messages OUTPUT par categories : \n")
+            for cat in CATEGORIES:  
+                f.write(f"{cat} : {messages_output_par_categorie[cat]}\n")
+            f.write("\n")
+        
+        f.write(f"Nombre de messages dans le systeme operant : {len(D_messages)}\n")
+        f.write(f"Nombre de blocs output SAA qui ont un match dans le systeme operant : {len(blocs_trouves)}\n")
+        c = 0
+        for cat in CATEGORIES:  
+            if categoriesMatcheCount[cat] > 0:  
+                c += 1
+        if c > 1:
+            f.write("Nombre de blocs output SAA qui ont un match dans le systeme operant par categorie : \n")
+            for cat in CATEGORIES:  
+                f.write(f"{cat} : {categoriesMatcheCount[cat]}\n")
+            f.write("\n")
         f.write(f"Nombre de DataBlocks SAA output dupliqués (presents dans plus qu'un seul message) ignorés : {doublons_saa}\n")
 
         # ========================================================
