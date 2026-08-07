@@ -6,3 +6,4 @@ dist/
 .pnpm-store/
 interface/
 runs/
+docs/
