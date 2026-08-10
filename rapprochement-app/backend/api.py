@@ -99,6 +99,11 @@ def compare(category: str | None = None):
 
     try:
         result = run_comparison(output_directory, selected_category)
+    except FileNotFoundError as error:
+        raise HTTPException(
+            status_code=404,
+            detail=str(error),
+        )
     except Exception as error:
         raise HTTPException(
             status_code=500,
@@ -135,13 +140,11 @@ def download_report(job_id: str):
             detail="Identifiant de rapport invalide.",
         )
 
-    report = (
-        RUNS_DIRECTORY
-        / job_id
-        / "Rapprochement_SAA_vs_D.txt"
-    )
+    report_directory = RUNS_DIRECTORY / job_id
+    reports = list(report_directory.glob("Rapprochement_SAA_vs_*.txt"))
+    report = reports[0] if len(reports) == 1 else None
 
-    if not report.is_file():
+    if report is None or not report.is_file():
         raise HTTPException(
             status_code=404,
             detail="Rapport introuvable.",
@@ -149,6 +152,6 @@ def download_report(job_id: str):
 
     return FileResponse(
         path=report,
-        filename="Rapprochement_SAA_vs_D.txt",
+        filename=report.name,
         media_type="text/plain",
     )

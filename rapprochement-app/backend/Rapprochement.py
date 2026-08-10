@@ -205,7 +205,7 @@ def parse_messages_D(directory):
                 all_messages.append((normalize_delta_bloc(body), "BODY", full_path))
     return all_messages
 
-def parse_messages_s(zip_path):
+def parse_messages_s(zip_path, selected_categorie=SELECTED_CATEGORIE):
     if not os.path.exists(zip_path):
         raise FileNotFoundError(f"Archive S introuvable : {zip_path}")
 
@@ -223,7 +223,7 @@ def parse_messages_s(zip_path):
                 categories = {}
 
                 for routing_point, categorie in categories_detectees.items():
-                    if categorie == SELECTED_CATEGORIE:
+                    if categorie == selected_categorie:
                         categories[routing_point] = categorie
                 if not categories:
                     continue
@@ -279,7 +279,12 @@ def convert_date_32A(date_raw):
     return f"20{date_raw[:2]}-{date_raw[2:4]}-{date_raw[4:]}"
 
 
-def compare_and_save(D_messages, S_messages, OUTPUT_DIR):
+def compare_and_save(
+    D_messages,
+    S_messages,
+    OUTPUT_DIR,
+    selected_categorie=SELECTED_CATEGORIE,
+):
     
     
     set_D = set(bloc4 for bloc4, bloc2, path in D_messages)
@@ -434,7 +439,7 @@ def compare_and_save(D_messages, S_messages, OUTPUT_DIR):
     missing_in_D = set_S - blocs_trouves
     
 
-    rapport_path = os.path.join(OUTPUT_DIR, f"Rapprochement_SAA_vs_{SELECTED_CATEGORIE}.txt")
+    rapport_path = os.path.join(OUTPUT_DIR, f"Rapprochement_SAA_vs_{selected_categorie}.txt")
 
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
@@ -444,7 +449,7 @@ def compare_and_save(D_messages, S_messages, OUTPUT_DIR):
         # RÉSUMÉ
         # ========================================================
 
-        f.write(f"=== RAPPORT DE RAPPROCHEMENT SAA OUTPUT VS {SELECTED_CATEGORIE} ===\n\n")
+        f.write(f"=== RAPPORT DE RAPPROCHEMENT SAA OUTPUT VS {selected_categorie} ===\n\n")
         f.write("=== Résumé ===\n\n")
         f.write(f"Nombre de messages SAA OUTPUT : {len(S_messages)}\n")
         f.write(f"Nombre total de DataBlocks output SAA uniques : {nombre_blocs_saa}\n") 
