@@ -484,6 +484,7 @@ def compare_and_save(D_messages, S_messages, OUTPUT_DIR):
         nombre_blocs_saa,
         len(blocs_trouves),
         len(missing_in_D),
+        doublons_saa
     )
 
 
@@ -498,7 +499,7 @@ if __name__ == "__main__":
 
     messages_S = parse_messages_s(CHEMIN_FICHIER_S)
     
-    (total_D, total_S, total_blocs_SAA, nb_blocs_trouves, nb_blocs_absents) = compare_and_save(messages_D, messages_S, OUTPUT_DIR)
+    (total_D, total_S, total_blocs_SAA, nb_blocs_trouves, nb_blocs_absents, doublons_saa) = compare_and_save(messages_D, messages_S, OUTPUT_DIR)
 
 
     # ============================================================
@@ -512,3 +513,5 @@ if __name__ == "__main__":
     print(f"Nombre de blocs output presents dans SAA mais absents dans le systeme operant {SELECTED_CATEGORIE} :", nb_blocs_absents)
     print(f"Nombre de blocs SAA OUTPUT qui ont un match dans le systeme operant {SELECTED_CATEGORIE} :", nb_blocs_trouves)
     print("Rapport de rapprochement :", os.path.join(OUTPUT_DIR, f"Rapprochement_SAA_vs_{SELECTED_CATEGORIE}.txt"))
+    if doublons_saa > 0:
+        print(f"Nombre de DataBlocks SAA dupliqués ignorés : {doublons_saa}")
