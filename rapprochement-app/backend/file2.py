@@ -555,11 +555,11 @@ def compare_and_save(D_messages, S_messages, OUTPUT_DIR):
     missing_in_D = set_S - blocs_trouves
     
     categoriesMatcheCount = defaultdict(int)
+    # on suppose qu'un bloc Saa ne peut pas être présent dans plus q'un seul message SAA.
     for block in blocs_trouves:
-        msgs = s_index[block]
-        for msg in msgs:
-            for cat in set(msg["categories_S"].values()):
-                categoriesMatcheCount[cat] += 1   
+        msg = s_index[block][0]
+        for cat in set(msg["categories_S"].values()):
+            categoriesMatcheCount[cat] += 1   
 
     doublons_saa = sum(len(msgs) - 1 for msgs in s_index.values() if len(msgs) > 1)
 
