@@ -5,6 +5,7 @@ import os
 import re
 import shutil
 import tempfile
+import tarfile
 import zipfile
 import glob
 
@@ -30,6 +31,8 @@ if os.path.isdir(chemin_d):
     REPERTOIRE_D = chemin_d
 elif os.path.isfile(chemin_d + ".zip"):
     REPERTOIRE_D = chemin_d + ".zip"
+elif os.path.isfile(chemin_d + ".tar"):
+    REPERTOIRE_D = chemin_d + ".tar"
 else:
     raise FileNotFoundError(
         f"Aucun dossier ou ZIP trouvé pour {SELECTED_CATEGORIE}"
@@ -167,7 +170,14 @@ def extract_files(path):
     if not os.path.exists(path):
         raise FileNotFoundError(f"Chemin introuvable : {path}")
 
-    if zipfile.is_zipfile(path):
+    if os.path.isdir(path):
+        for root, _, files in os.walk(path):
+            for fname in files:
+                full_path = os.path.join(root, fname)
+                with open(full_path, encoding="utf-8") as f:
+                    yield f.read(), fname, full_path
+    
+    elif zipfile.is_zipfile(path):
         temp_dir = tempfile.mkdtemp()
         try:
             with zipfile.ZipFile(path, "r") as archive:
@@ -180,14 +190,22 @@ def extract_files(path):
                         yield f.read(), fname, full_path
         finally:
             shutil.rmtree(temp_dir)
-
+    elif tarfile.is_tarfile(path):
+        temp_dir = tempfile.mkdtemp()
+        try:
+            with tarfile.open(path, "r") as tar:
+                tar.extractall(temp_dir, filter="data")
+            for root, _, files in os.walk(temp_dir):
+                for fname in files:
+                    full_path = os.path.join(root, fname)
+                    with open(full_path, encoding="utf-8") as f:
+                        yield f.read(), fname, full_path
+        finally:
+            shutil.rmtree(temp_dir)
     else:
-        for root, _, files in os.walk(path):
-            for fname in files:
-                full_path = os.path.join(root, fname)
-                with open(full_path, encoding="utf-8") as f:
-                    yield f.read(), fname, full_path
-
+        raise ValueError(
+            f"Le chemin n'est ni un dossier, ni un ZIP, ni un TAR : {path}"
+        )
 
 def parse_messages_D(directory):
     """Extrait tous les couples bloc2/bloc4 de tous les fichiers D."""
@@ -508,10 +526,8 @@ if __name__ == "__main__":
 
     
     print(f"Nombre total de messages SAA OUTPUT {SELECTED_CATEGORIE}:", total_S)
-    print(f"Nombre total de DataBlocks SAA uniques {SELECTED_CATEGORIE}:", total_blocs_SAA)
     print(f"Nombre total de messages du systeme operant {SELECTED_CATEGORIE} :", total_D)
     print(f"Nombre de blocs output presents dans SAA mais absents dans le systeme operant {SELECTED_CATEGORIE} :", nb_blocs_absents)
-    print(f"Nombre de blocs SAA OUTPUT qui ont un match dans le systeme operant {SELECTED_CATEGORIE} :", nb_blocs_trouves)
     print("Rapport de rapprochement :", os.path.join(OUTPUT_DIR, f"Rapprochement_SAA_vs_{SELECTED_CATEGORIE}.txt"))
     if doublons_saa > 0:
         print(f"Nombre de DataBlocks SAA dupliqués ignorés : {doublons_saa}")
