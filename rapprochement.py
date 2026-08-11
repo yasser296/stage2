@@ -38,7 +38,7 @@ else:
         f"Aucun dossier ou ZIP trouvé pour {SELECTED_CATEGORIE}"
     )
 
-CATEGORIES = ["KTP","AGI","delta v9","delta v10","SmartCash","gateway","FTI","openPay RTGS"]
+# CATEGORIES = ["KTP","AGI","delta v9","delta v10","SmartCash","gateway","FTI","openPay RTGS"]
 
 
 ROUTING_POINT_TO_CATEGORY = {
@@ -298,7 +298,6 @@ def convert_date_32A(date_raw):
 
 
 def compare_and_save(D_messages, S_messages, OUTPUT_DIR):
-    
     
     set_D = set(bloc4 for bloc4, bloc2, path in D_messages)
     set_S = {bloc for msg in S_messages for bloc in msg["blocs"]}
