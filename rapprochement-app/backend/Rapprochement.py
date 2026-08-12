@@ -4,6 +4,7 @@ import html
 import os
 import re
 import shutil
+import tarfile
 import tempfile
 import zipfile
 import glob
@@ -167,7 +168,14 @@ def extract_files(path):
     if not os.path.exists(path):
         raise FileNotFoundError(f"Chemin introuvable : {path}")
 
-    if zipfile.is_zipfile(path):
+    if os.path.isdir(path):
+        for root, _, files in os.walk(path):
+            for fname in files:
+                full_path = os.path.join(root, fname)
+                with open(full_path, encoding="utf-8") as f:
+                    yield f.read(), fname, full_path
+    
+    elif zipfile.is_zipfile(path):
         temp_dir = tempfile.mkdtemp()
         try:
             with zipfile.ZipFile(path, "r") as archive:
@@ -180,13 +188,22 @@ def extract_files(path):
                         yield f.read(), fname, full_path
         finally:
             shutil.rmtree(temp_dir)
-
+    elif tarfile.is_tarfile(path):
+        temp_dir = tempfile.mkdtemp()
+        try:
+            with tarfile.open(path, "r") as tar:
+                tar.extractall(temp_dir, filter="data")
+            for root, _, files in os.walk(temp_dir):
+                for fname in files:
+                    full_path = os.path.join(root, fname)
+                    with open(full_path, encoding="utf-8") as f:
+                        yield f.read(), fname, full_path
+        finally:
+            shutil.rmtree(temp_dir)
     else:
-        for root, _, files in os.walk(path):
-            for fname in files:
-                full_path = os.path.join(root, fname)
-                with open(full_path, encoding="utf-8") as f:
-                    yield f.read(), fname, full_path
+        raise ValueError(
+            f"Le chemin n'est ni un dossier, ni un ZIP, ni un TAR : {path}"
+        )
 
 
 def parse_messages_D(directory):

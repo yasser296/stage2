@@ -18,14 +18,15 @@ def load_global_sources():
 
 
 def find_category_source(category: str) -> Path:
-    """Retourne le dossier ou le ZIP D qui correspond à la catégorie."""
+    """Retourne le dossier ou l'archive D qui correspond à la catégorie."""
     directory = D_SOURCE / category
     if directory.is_dir():
         return directory
 
-    archive = Path(f"{directory}.zip")
-    if archive.is_file():
-        return archive
+    for suffix in [".zip", ".tar"]:
+        archive = D_SOURCE / f"{category}{suffix}"
+        if archive.is_file():
+            return archive
 
     raise FileNotFoundError(
         f"Aucun dossier ou ZIP trouvé pour la catégorie {category}"
