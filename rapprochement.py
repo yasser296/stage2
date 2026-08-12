@@ -422,9 +422,6 @@ def compare_and_save(D_messages, S_messages, OUTPUT_DIR):
                 # Il n'est pas nécessaire de tester ensuite le cas MT700.
                 continue
 
-            # ====================================================
-            # Cas FIN 700
-            # ====================================================
 
             cle_S_700 = (
                 tuple(re.findall(r":27:(.+)", bloc_S)),
@@ -457,10 +454,6 @@ def compare_and_save(D_messages, S_messages, OUTPUT_DIR):
 
     with open(rapport_path, "w", encoding="utf-8") as f:
 
-        # ========================================================
-        # RÉSUMÉ
-        # ========================================================
-
         f.write(f"=== RAPPORT DE RAPPROCHEMENT SAA OUTPUT VS {SELECTED_CATEGORIE} ===\n\n")
         f.write("=== Résumé ===\n\n")
         f.write(f"Nombre de messages SAA OUTPUT : {len(S_messages)}\n")
@@ -470,18 +463,12 @@ def compare_and_save(D_messages, S_messages, OUTPUT_DIR):
         if doublons_saa > 0:
             f.write(f"Nombre de DataBlocks SAA dupliqués ignorés : {doublons_saa}\n")
 
-        # ========================================================
-        # BLOCS ABSENTS
-        # ========================================================
-
         f.write("\n\n")
         f.write("=" * 100 + "\n")
         f.write("BLOCS SAA ABSENTS DANS D\n")
         f.write("=" * 100 + "\n\n")
-
         if not missing_in_D:
             f.write("Aucun bloc SAA absent dans D.\n")
-
         for bloc in missing_in_D:
             info = s_index[bloc][0]
             f.write("Statut : ABSENT_DANS_D\n")
@@ -508,22 +495,10 @@ def compare_and_save(D_messages, S_messages, OUTPUT_DIR):
 
 if __name__ == "__main__":
 
-    # ============================================================
-    # 1. Parsing
-    # ============================================================
-
     messages_D = parse_messages_D(REPERTOIRE_D)
-
     messages_S = parse_messages_s(CHEMIN_FICHIER_S)
-    
     (total_D, total_S, total_blocs_SAA, nb_blocs_trouves, nb_blocs_absents, doublons_saa) = compare_and_save(messages_D, messages_S, OUTPUT_DIR)
-
-
-    # ============================================================
-    # 4. Affichage
-    # ============================================================
-
-    
+ 
     print(f"Nombre total de messages SAA OUTPUT {SELECTED_CATEGORIE}:", total_S)
     print(f"Nombre total de messages du systeme operant {SELECTED_CATEGORIE} :", total_D)
     print(f"Nombre de blocs output presents dans SAA mais absents dans le systeme operant {SELECTED_CATEGORIE} :", nb_blocs_absents)

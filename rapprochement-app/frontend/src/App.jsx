@@ -254,12 +254,12 @@ export default function App() {
                   icon="archive"
                   color="indigo"
                 />
-                <Kpi
+                {/* <Kpi
                   label="DataBlocks SAA"
                   value={result.summary.totalDataBlocksSaa}
                   icon="layers"
                   color="violet"
-                />
+                /> */}
                 {result.summary.duplicates > 0 && (
                   <Kpi
                   label="Doublons"
@@ -269,13 +269,13 @@ export default function App() {
                 />
                 )}
                 
-                <Kpi
+                {/* <Kpi
                   label="Correspondances trouvées"
                   value={result.summary.matched}
                   icon="check-circle"
                   color="emerald"
                   highlight
-                />
+                /> */}
                 <Kpi
                   label="Écarts détectés entre SAA et le Système Opérant"
                   value={result.summary.missing}
