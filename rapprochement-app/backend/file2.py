@@ -572,7 +572,6 @@ def compare_and_save(D_messages, S_messages, OUTPUT_DIR):
     missing_in_D = set_S - blocs_trouves
     
     categoriesMatcheCount = defaultdict(int)
-    # on suppose qu'un bloc Saa ne peut pas être présent dans plus q'un seul message SAA.
     for block in blocs_trouves:
         msg = s_index[block][0]
         for cat in set(msg["categories_S"].values()):
