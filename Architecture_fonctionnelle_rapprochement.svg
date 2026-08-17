@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2000" height="760" viewBox="0 0 2000 760" role="img" aria-labelledby="title desc">
+  <title id="title">Architecture fonctionnelle du moteur de rapprochement</title>
+  <desc id="desc">Deux sources alimentent un traitement Python en sept étapes. Les sorties comprennent les correspondances, les absences, les anomalies, les indicateurs et les rapports. React est une interface complémentaire.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#385467"/>
+    </marker>
+    <style>
+      .title{font:700 34px Arial,sans-serif;fill:#183247}
+      .subtitle{font:600 22px Arial,sans-serif;fill:#2b8f9e}
+      .label{font:700 20px Arial,sans-serif;fill:#183247}
+      .small{font:400 17px Arial,sans-serif;fill:#385467}
+      .tiny{font:400 15px Arial,sans-serif;fill:#385467}
+      .arrow{stroke:#385467;stroke-width:4;fill:none;marker-end:url(#arrow)}
+      .dash{stroke:#2b8f9e;stroke-width:4;stroke-dasharray:12 10;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+
+  <rect width="2000" height="760" rx="28" fill="#ffffff"/>
+  <text x="1000" y="56" text-anchor="middle" class="title">Architecture fonctionnelle de la solution</text>
+
+  <text x="150" y="108" text-anchor="middle" class="subtitle">Sources de données</text>
+  <rect x="30" y="145" width="240" height="112" rx="18" fill="#eef7f8" stroke="#2b8f9e" stroke-width="3"/>
+  <text x="150" y="187" text-anchor="middle" class="label">Archive SAA</text>
+  <text x="150" y="220" text-anchor="middle" class="small">Fichier ZIP</text>
+  <rect x="30" y="310" width="240" height="128" rx="18" fill="#eef7f8" stroke="#2b8f9e" stroke-width="3"/>
+  <text x="150" y="350" text-anchor="middle" class="label">Système opérant</text>
+  <text x="150" y="382" text-anchor="middle" class="small">Dossier ou archive</text>
+  <text x="150" y="409" text-anchor="middle" class="small">ZIP / TAR</text>
+
+  <rect x="310" y="112" width="1370" height="380" rx="24" fill="#f7fafb" stroke="#183247" stroke-width="4"/>
+  <rect x="660" y="91" width="670" height="54" rx="14" fill="#183247"/>
+  <text x="995" y="127" text-anchor="middle" style="font:700 25px Arial,sans-serif;fill:#ffffff">Script Python — moteur de rapprochement</text>
+
+  <g>
+    <rect x="340" y="208" width="165" height="104" rx="16" fill="#ffffff" stroke="#2b8f9e" stroke-width="3"/>
+    <text x="422" y="251" text-anchor="middle" class="label">Extraction</text>
+    <text x="422" y="281" text-anchor="middle" class="tiny">archives et fichiers</text>
+
+    <rect x="530" y="208" width="165" height="104" rx="16" fill="#ffffff" stroke="#2b8f9e" stroke-width="3"/>
+    <text x="612" y="244" text-anchor="middle" class="label">Parsing et</text>
+    <text x="612" y="272" text-anchor="middle" class="label">filtrage</text>
+    <text x="612" y="296" text-anchor="middle" class="tiny">OUTPUT</text>
+
+    <rect x="720" y="208" width="165" height="104" rx="16" fill="#ffffff" stroke="#2b8f9e" stroke-width="3"/>
+    <text x="802" y="251" text-anchor="middle" class="label">Catégorisation</text>
+    <text x="802" y="281" text-anchor="middle" class="tiny">points de routage</text>
+
+    <rect x="910" y="208" width="165" height="104" rx="16" fill="#fff7eb" stroke="#d4972c" stroke-width="3"/>
+    <text x="992" y="244" text-anchor="middle" class="label">Détection</text>
+    <text x="992" y="274" text-anchor="middle" class="label">MT / MX</text>
+
+    <rect x="1100" y="208" width="165" height="104" rx="16" fill="#ffffff" stroke="#2b8f9e" stroke-width="3"/>
+    <text x="1182" y="251" text-anchor="middle" class="label">Normalisation</text>
+    <text x="1182" y="281" text-anchor="middle" class="tiny">texte et XML</text>
+
+    <rect x="1290" y="208" width="165" height="104" rx="16" fill="#ffffff" stroke="#2b8f9e" stroke-width="3"/>
+    <text x="1372" y="244" text-anchor="middle" class="label">Rapprochement</text>
+    <text x="1372" y="274" text-anchor="middle" class="tiny">exact ou par champs</text>
+
+    <rect x="1480" y="208" width="165" height="104" rx="16" fill="#ffffff" stroke="#2b8f9e" stroke-width="3"/>
+    <text x="1562" y="244" text-anchor="middle" class="label">Indicateurs</text>
+    <text x="1562" y="274" text-anchor="middle" class="label">et rapports</text>
+  </g>
+
+  <path class="arrow" d="M270 201 C290 201 292 235 330 252"/>
+  <path class="arrow" d="M270 374 C300 374 292 286 330 270"/>
+  <line class="arrow" x1="505" y1="260" x2="520" y2="260"/>
+  <line class="arrow" x1="695" y1="260" x2="710" y2="260"/>
+  <line class="arrow" x1="885" y1="260" x2="900" y2="260"/>
+  <line class="arrow" x1="1075" y1="260" x2="1090" y2="260"/>
+  <line class="arrow" x1="1265" y1="260" x2="1280" y2="260"/>
+  <line class="arrow" x1="1455" y1="260" x2="1470" y2="260"/>
+
+  <text x="1835" y="108" text-anchor="middle" class="subtitle">Sorties</text>
+  <rect x="1715" y="145" width="250" height="300" rx="18" fill="#eef7f8" stroke="#2b8f9e" stroke-width="3"/>
+  <text x="1840" y="190" text-anchor="middle" class="label">Résultats produits</text>
+  <text x="1745" y="235" class="small">✓ Correspondances</text>
+  <text x="1745" y="275" class="small">✓ Messages absents</text>
+  <text x="1745" y="315" class="small">✓ Anomalies</text>
+  <text x="1745" y="355" class="small">✓ Indicateurs</text>
+  <text x="1745" y="395" class="small">✓ Rapports générés</text>
+  <line class="arrow" x1="1645" y1="260" x2="1705" y2="260"/>
+
+  <rect x="610" y="590" width="780" height="102" rx="20" fill="#ffffff" stroke="#2b8f9e" stroke-width="3" stroke-dasharray="12 9"/>
+  <text x="1000" y="630" text-anchor="middle" class="label">React</text>
+  <text x="1000" y="665" text-anchor="middle" class="small">Interface complémentaire de lancement, de test et de visualisation</text>
+  <path class="dash" d="M1000 590 L1000 505"/>
+</svg>
