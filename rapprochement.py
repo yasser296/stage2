@@ -45,19 +45,19 @@ ROUTING_POINT_TO_CATEGORY = {
     "SGMB_KONDOR_EP":        "KTP",
     "KTP_MX_EP":             "KTP",
     "SGMB_CARTHAGO_EP":      "AGI",
-    "SGMB_OPENPAY_CONV_MX":  "delta v10", # convertisseur
-    "SGTG_OPENPAY_CONV_MX":  "delta v9", # convertisseur
-    "SGMB_OPENPAY_EP":       "openPay RTGS",
+    "SGTG101RECUEP":         "delta v9",
+    "SGTG_OPENPAY_CONV_MX":  "delta v9", 
+    "SGMB_OPENPAY_EP":       "openPay RTGS",  
+    "PRINTMT101EXPDEV_EP":   "gateway",
+    "SGMB_OPENPAY_CONV_MX":  "delta v10",
+    "PRINTMT101EXPMAD_EP":   "delta v10",
+    "FTI_EP":                "FTI",
     "SGMB_SMARTCASH_EP":     "SmartCash",
+    "NOSTRO_MX_EP":          "SmartCash",
     # "MATGTOPRINT_EP":        "Delta",
     # "MATGTOPRINT_MX_EP":     "Delta",
-    "PRINTMT101EXPDEV_EP":   "gateway",
-    "PRINTMT101EXPMAD_EP":   "delta v10",
-    "SGTG101RECUEP":         "delta v9",
     # "PRINTINC_EP":           "PRINTINC",
     # "PRTACK_EP":             "PRTRACK",
-    "FTI_EP":                "FTI",
-    "NOSTRO_MX_EP":          "SmartCash",
 }
 
 def normalize_delta_bloc(text):

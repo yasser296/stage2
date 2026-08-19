@@ -20,46 +20,46 @@ RAPPORT_DIR = os.path.join(OUTPUT_DIR, "rapport")
 CHEMIN_FICHIER_S = os.path.join(DATA_DIR, "EXTRACTION0306.zip")
 REPERTOIRE_D = os.path.join(DATA_DIR, "D")
 
-# CATEGORIES = ["KTP","AGI","delta v9","delta v10","SmartCash","gateway","FTI","openPay RTGS"]
-CATEGORIES = ["CAT1","CAT2","CAT3","CAT4","CAT5","CAT6","CAT7","CAT8"]
-
-# ROUTING_POINT_TO_CATEGORY = {
-#     "SGMB_KONDOR_EP":        "KTP",
-#     "KTP_MX_EP":             "KTP",
-#     "SGMB_CARTHAGO_EP":      "AGI",
-#     "SGMB_OPENPAY_CONV_MX":  "delta v10", # convertisseur
-#     "SGTG_OPENPAY_CONV_MX":  "delta v9", # convertisseur
-#     "SGMB_OPENPAY_EP":       "openPay RTGS",
-#     "SGMB_SMARTCASH_EP":     "SmartCash",
-#     # "MATGTOPRINT_EP":        "Delta",
-#     # "MATGTOPRINT_MX_EP":     "Delta",
-#     "PRINTMT101EXPDEV_EP":   "gateway",
-#     "PRINTMT101EXPMAD_EP":   "delta v10",
-#     "SGTG101RECUEP":         "delta v9",
-#     # "PRINTINC_EP":           "PRINTINC",
-#     # "PRTACK_EP":             "PRTRACK",
-#     "FTI_EP":                "FTI",
-#     "NOSTRO_MX_EP":          "SmartCash",
-# }
+CATEGORIES = ["KTP","AGI","delta v9","delta v10","SmartCash","gateway","FTI","openPay RTGS"]
+# CATEGORIES = ["CAT1","CAT2","CAT3","CAT4","CAT5","CAT6","CAT7","CAT8"]
 
 ROUTING_POINT_TO_CATEGORY = {
-    "SGMB_KONDOR_EP":        "CAT1",
-    "KTP_MX_EP":             "CAT1",
-    "SGMB_CARTHAGO_EP":      "CAT2",
-    "SGMB_OPENPAY_CONV_MX":  "CAT4", # convertisseur
-    "SGTG_OPENPAY_CONV_MX":  "CAT3", # convertisseur
-    "SGMB_OPENPAY_EP":       "CAT8",
-    "SGMB_SMARTCASH_EP":     "CAT5",
+    "SGMB_KONDOR_EP":        "KTP",
+    "KTP_MX_EP":             "KTP",
+    "SGMB_CARTHAGO_EP":      "AGI",
+    "SGMB_OPENPAY_CONV_MX":  "delta v10", # convertisseur
+    "SGTG_OPENPAY_CONV_MX":  "delta v9", # convertisseur
+    "SGMB_OPENPAY_EP":       "openPay RTGS",
+    "SGMB_SMARTCASH_EP":     "SmartCash",
     # "MATGTOPRINT_EP":        "Delta",
     # "MATGTOPRINT_MX_EP":     "Delta",
-    "PRINTMT101EXPDEV_EP":   "CAT6",
-    "PRINTMT101EXPMAD_EP":   "CAT10",
-    "SGTG101RECUEP":         "CAT9",
+    "PRINTMT101EXPDEV_EP":   "gateway",
+    "PRINTMT101EXPMAD_EP":   "delta v10",
+    "SGTG101RECUEP":         "delta v9",
     # "PRINTINC_EP":           "PRINTINC",
     # "PRTACK_EP":             "PRTRACK",
-    "FTI_EP":                "CAT7",
-    "NOSTRO_MX_EP":          "CAT5",
+    "FTI_EP":                "FTI",
+    "NOSTRO_MX_EP":          "SmartCash",
 }
+
+# ROUTING_POINT_TO_CATEGORY = {
+#     "SGMB_KONDOR_EP":        "CAT1",
+#     "KTP_MX_EP":             "CAT1",
+#     "SGMB_CARTHAGO_EP":      "CAT2",
+#     "SGMB_OPENPAY_CONV_MX":  "CAT4", # convertisseur
+#     "SGTG_OPENPAY_CONV_MX":  "CAT3", # convertisseur
+#     "SGMB_OPENPAY_EP":       "CAT8",
+#     "SGMB_SMARTCASH_EP":     "CAT5",
+#     # "MATGTOPRINT_EP":        "Delta",
+#     # "MATGTOPRINT_MX_EP":     "Delta",
+#     "PRINTMT101EXPDEV_EP":   "CAT6",
+#     "PRINTMT101EXPMAD_EP":   "CAT10",
+#     "SGTG101RECUEP":         "CAT9",
+#     # "PRINTINC_EP":           "PRINTINC",
+#     # "PRTACK_EP":             "PRTRACK",
+#     "FTI_EP":                "CAT7",
+#     "NOSTRO_MX_EP":          "CAT5",
+# }
 
 def normalize_delta_bloc(text):
     """Nettoie et normalise un bloc Swift pour comparaison champ par champ."""
